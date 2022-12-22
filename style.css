@@ -7,8 +7,10 @@ html, body {
     text-align: center;
 }
 
-#canvas {
-    object-fit: cover !important;
+#canvas, #video {
+    width: 480px;
+    height: 360px;
+    object-fit: cover;
 }
 
 #click {
@@ -18,10 +20,11 @@ html, body {
     font-size: 16px;
     border-radius: 20px;
     border: none;
+    margin: 10px;
     padding: 10px 20px;
     text-align: center;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2); 
-    position: fixed;
+    /* position: fixed;
     top: 400px;
-    left: calc(50% - 60px);
+    left: calc(50% - 60px); */
 }

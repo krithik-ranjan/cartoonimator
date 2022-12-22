@@ -8,8 +8,8 @@ function onLoad() {
     canvas = document.getElementById("canvas");
     context = canvas.getContext("2d");
 
-    canvas.width = parseInt(canvas.style.width);
-    canvas.height = parseInt(canvas.style.height);
+    // canvas.width = parseInt(canvas.style.width);
+    // canvas.height = parseInt(canvas.style.height);
 
     if (navigator.mediaDevices === undefined) {
         navigator.mediaDevices = {};
