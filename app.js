@@ -63,7 +63,13 @@ function tick() {
 }
 
 function snapshot() {
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    console.log(`Video aspect: ${video.videoWidth}, ${video.videoHeight}`);
+    // Scale video 
+    let width = canvas.width;
+    let height = width * (video.videoHeight / video.videoWidth);
+    console.log(`Scaled aspect: ${width}, ${height}`);
+
+    context.drawImage(video, 0, 0, width, height);
     imageData = context.getImageData(0, 0, canvas.width, canvas.height);
 }
 
