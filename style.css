@@ -6,3 +6,9 @@ html, body {
     font-family: monospace;
     text-align: center;
 }
+
+#canvas {
+    width: 320px;
+    height: 320px;
+    object-fit: contain;
+}
