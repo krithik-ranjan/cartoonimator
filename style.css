@@ -8,8 +8,6 @@ html, body {
 }
 
 #canvas {
-    width: 360px;
-    height: 270px;
     object-fit: cover;
 }
 
@@ -27,4 +25,9 @@ html, body {
     /* position: fixed;
     top: 400px;
     left: calc(50% - 60px); */
+}
+
+#gallery {
+    display: block;
+    width: 20%;
 }

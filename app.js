@@ -8,6 +8,10 @@ function onLoad() {
     canvas = document.getElementById("canvas");
     context = canvas.getContext("2d");
 
+    canvas.width = window.screen.width;
+    canvas.height = canvas.width * ((0.3 * window.screen.height) / window.screen.width);
+
+    console.log(`Canvas width = ${canvas.width}, ${canvas.height}`);
     // canvas.width = parseInt(canvas.style.width);
     // canvas.height = parseInt(canvas.style.height);
 
@@ -68,7 +72,7 @@ function snapshot() {
     let height = width * (video.videoHeight / video.videoWidth);
 
     context.drawImage(video, 0, 0, width, height);
-    imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    imageData = context.getImageData(0, 0, video.videoWidth, video.videoHeight);
 }
 
 function drawCorners(markers) {
