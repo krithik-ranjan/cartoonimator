@@ -30,4 +30,6 @@ html, body {
 .gallery canvas {
     display: block;
     height: 10%;
+    width: 80%;
+    margin: 10px;
 }

@@ -1,7 +1,7 @@
 var video, canvas, context, imageData, detector;
 
 // Set constraints for the video stream
-var constraints = { video: { facingMode: "environment" }, audio: false };
+var constraints = { video: { facingMode: {exact: "environment"}}, audio: false };
 
 
 function onLoad() {
