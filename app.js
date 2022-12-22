@@ -145,6 +145,9 @@ function captureInfo() {
 
         m_info.innerHTML = "Marker: " + markers[i].id;
     }
+
+    click.innerHTML = `${video.videoWidth}, ${video.videoHeight}`
+    console.log(`Video dimensions: ${video.videoWidth}, ${video.videoHeight}`)
 }
 
 function captureImg() {
