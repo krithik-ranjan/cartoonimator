@@ -3,6 +3,8 @@ var video, canvas, context, imageData, detector;
 // Set constraints for the video stream
 var constraints = { video: { facingMode: {exact: "environment"}}, audio: false };
 
+// Global object to track markers
+var markers;
 
 function onLoad() {
     console.log("Hellow?");
@@ -66,7 +68,7 @@ function tick() {
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
         snapshot();
 
-        var markers = detector.detect(imageData);
+        markers = detector.detect(imageData);
         drawCorners(markers);
         drawId(markers);
     }
@@ -135,7 +137,17 @@ function drawId(markers) {
 const gallery = document.querySelector('.gallery');
 const click = document.querySelector('#click');
 
-function capture() {
+function captureInfo() {
+    for (i = 0; i !== markers.length; ++ i) {
+        const m_info = document.createElement('p');
+        m_info.setAttribute('class', 'gallery');
+        gallery.appendChild(m_info);
+
+        m_info.innerHTML = "Marker: " + markers[i].id;
+    }
+}
+
+function captureImg() {
     const img = document.createElement('canvas');
     img.setAttribute('class', 'gallery');
     gallery.appendChild(img);
@@ -145,4 +157,4 @@ function capture() {
 }
 
 window.addEventListener("load", onLoad, false);
-click.addEventListener('click', capture);
+click.addEventListener('click', captureInfo);
