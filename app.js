@@ -40,7 +40,7 @@ function onLoad() {
     }
 
     navigator.mediaDevices
-        .getUserMedia({ video: true, audio: false })
+        .getUserMedia({ video: { facingMode: "environment" }, audio: false })
         .then(function(stream) {
             if ("srcObject" in video) {
                 video.srcObject = stream;
