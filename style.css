@@ -27,7 +27,7 @@ html, body {
     left: calc(50% - 60px); */
 }
 
-#gallery {
+.gallery canvas {
     display: block;
-    width: 20%;
+    height: 10%;
 }

@@ -1,5 +1,9 @@
 var video, canvas, context, imageData, detector;
 
+// Set constraints for the video stream
+var constraints = { video: { facingMode: "environment" }, audio: false };
+
+
 function onLoad() {
     console.log("Hellow?");
 
@@ -9,7 +13,9 @@ function onLoad() {
     context = canvas.getContext("2d");
 
     canvas.width = window.screen.width;
-    canvas.height = canvas.width * ((0.3 * window.screen.height) / window.screen.width);
+    canvas.height = canvas.width * ((0.25 * window.screen.height) / window.screen.width);
+    canvas.style.width = canvas.width;
+    canvas.style.height = canvas.height;
 
     console.log(`Canvas width = ${canvas.width}, ${canvas.height}`);
     // canvas.width = parseInt(canvas.style.width);
@@ -126,4 +132,17 @@ function drawId(markers) {
     }
 }
 
+const gallery = document.querySelector('.gallery');
+const click = document.querySelector('#click');
+
+function capture() {
+    const img = document.createElement('canvas');
+    img.setAttribute('class', 'gallery');
+    gallery.appendChild(img);
+
+    // img.getContext("2d").drawImage(imageData, 0, 0, 50, 30);
+    img.getContext("2d").putImageData(imageData, 0, 0);
+}
+
 window.addEventListener("load", onLoad, false);
+click.addEventListener('click', capture);
