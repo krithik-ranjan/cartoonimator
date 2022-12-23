@@ -3,8 +3,26 @@ html, body {
     padding: 0;
     height: 100%;
     width: 100%;
-    font-family: monospace;
+    font-family: 'Josefin Slab', serif;
     text-align: center;
+}
+
+#title {
+    position: fixed;
+    width: 100%;
+    margin: 0;
+    padding: 5px;
+    background-color: #222222;
+    color: #ffffff;
+    font-family: 'Crafty Girls', cursive;
+}
+
+#title h2 {
+    margin: 15px;
+}
+
+#camera {
+    display: none;
 }
 
 #canvas {
@@ -12,14 +30,14 @@ html, body {
 }
 
 #click {
-    width: 120px;
-    background-color: black;
-    color: white;
-    font-size: 16px;
-    border-radius: 20px;
+    width: 40px;
+    background-color: #222222;
+    /* color: white; */
+    /* font-size: 16px; */
+    border-radius: 50%;
     border: none;
     margin: 10px;
-    padding: 10px 20px;
+    padding: 10px;
     text-align: center;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2); 
     /* position: fixed;
@@ -27,9 +45,67 @@ html, body {
     left: calc(50% - 60px); */
 }
 
-.gallery canvas {
+#main {
     display: block;
-    height: 10%;
-    width: 80%;
+    position: fixed;
+    top: 75px;
+    left: 0px;
+    width: 100%;
+}
+
+#main hr {
+    width: 100%;
+    text-align: center;
+    color: #222222;
+}
+
+.frame-info {
+    display: block;
+    width: 50%;
+    float: left;
+    margin: 10px 0px;
+}
+
+.frame-img {
+    display: block;
+    width: 50%;
+    float: right;
+    margin: 10px 0px;
+    /* padding: 10px; */
+}
+
+.frame-info h2 {
+    color: #222222;
+    font-weight: 600;
+    font-size: x-large;
+    text-align: left;
+    /* vertical-align: middle; */
+    display: block;
     margin: 10px;
+    margin-left: 45px;
+}
+
+.frame img {
+    height: 30px;
+    width: 30px;
+    /* display: inline-block; */
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 10px;
+    /* vertical-align: middle; */
+
+    background-color: #cccccc;
+    border-radius: 50%;
+    border: none;
+    text-align: center;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2); 
+}
+
+.frame canvas {
+    /* display: inline-block;
+    /* position: fixed; 
+    float: right;
+    top: 80px;
+    right: 20px; */
+    background-color: aqua;
 }

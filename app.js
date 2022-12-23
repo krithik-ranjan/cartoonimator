@@ -15,7 +15,7 @@ function onLoad() {
     context = canvas.getContext("2d");
 
     canvas.width = window.screen.width;
-    canvas.height = canvas.width * ((0.25 * window.screen.height) / window.screen.width);
+    canvas.height = window.screen.height;// canvas.width * ((0.25 * window.screen.height) / window.screen.width);
     canvas.style.width = canvas.width;
     canvas.style.height = canvas.height;
 
@@ -61,6 +61,8 @@ function onLoad() {
 
     requestAnimationFrame(tick);
 }
+
+window.addEventListener("load", onLoad, false);
 
 function tick() {
     requestAnimationFrame(tick);
@@ -159,5 +161,19 @@ function captureImg() {
     img.getContext("2d").putImageData(imageData, 0, 0);
 }
 
-window.addEventListener("load", onLoad, false);
 click.addEventListener('click', captureInfo);
+
+// Functions to add a frame
+const mainPage = document.querySelector("#main");
+const capturePage = document.querySelector("#camera");
+const captureButton = document.querySelectorAll(".capture");
+
+function captureFrame() {
+    // Remove main page and show capture page
+    mainPage.style.display = "none";
+    capturePage.style.display = "block";
+}
+
+for (const button of captureButton){
+    button.addEventListener('click', captureFrame);
+}
