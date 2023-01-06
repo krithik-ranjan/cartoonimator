@@ -89,12 +89,15 @@ function cameraPreview() {
     // context.drawImage(video, 0, 0, width, height);
     if (video.videoHeight < video.videoWidth) {
         context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, canvas.width, canvas.height);
+        imageData = context.getImageData(0, 0, video.videoWidth, video.videoHeight);
+
     }
     else {
         context.drawImage(video, 0, 0, video.videoWidth, video.videoWidth * 0.75, 0, 0, canvas.width, canvas.height);
+        imageData = context.getImageData(0, 0, video.videoWidth, video.videoWidth * 0.75);
     }
     
-    imageData = context.getImageData(0, 0, video.videoWidth, video.videoHeight);
+    // imageData = context.getImageData(0, 0, video.videoWidth, video.videoHeight);
 }
 
 function drawCorners(markers) {
