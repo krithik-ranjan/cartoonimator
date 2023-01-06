@@ -68,7 +68,7 @@ function tick() {
     requestAnimationFrame(tick);
 
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
-        snapshot();
+        cameraPreview();
 
         markers = detector.detect(imageData);
         drawCorners(markers);
@@ -76,7 +76,7 @@ function tick() {
     }
 }
 
-function snapshot() {
+function cameraPreview() {
     // Scale video 
     let width = canvas.width;
     let height = canvas.height;

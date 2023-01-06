@@ -28,8 +28,8 @@ html, body {
 
 #canvas {
     margin-top: 60px;
-    height: 50%;
-    object-fit: cover;
+    /* height: 50%; */
+    object-fit: contain;
 }
 
 #click {
