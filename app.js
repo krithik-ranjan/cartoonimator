@@ -76,11 +76,15 @@ function tick() {
     }
 }
 
+let debugOut = document.getElementById('debug');
+
 function cameraPreview() {
     // Scale video 
     let width = canvas.width;
     let height = canvas.height;
     // let height = width * (video.videoHeight / video.videoWidth);
+
+    debugOut.innerHTML = `Canvas dimensions: ${canvas.width}, ${canvas.height} <br>Video dimensions: ${video.videoWidth}, ${video.videoHeight}`;
 
     context.drawImage(video, 0, 0, width, height);
     imageData = context.getImageData(0, 0, video.videoWidth, video.videoHeight);
