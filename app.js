@@ -136,44 +136,90 @@ function drawId(markers) {
     }
 }
 
-const gallery = document.querySelector('.gallery');
-const click = document.querySelector('#click');
+// const gallery = document.querySelector('.gallery');
 
-function captureInfo() {
-    for (i = 0; i !== markers.length; ++ i) {
-        const m_info = document.createElement('p');
-        m_info.setAttribute('class', 'gallery');
-        gallery.appendChild(m_info);
+// function captureInfo() {
+//     for (i = 0; i !== markers.length; ++ i) {
+//         const m_info = document.createElement('p');
+//         m_info.setAttribute('class', 'gallery');
+//         gallery.appendChild(m_info);
 
-        m_info.innerHTML = "Marker: " + markers[i].id;
-    }
+//         m_info.innerHTML = "Marker: " + markers[i].id;
+//     }
 
-    click.innerHTML = `${video.videoWidth}, ${video.videoHeight}`
-    console.log(`Video dimensions: ${video.videoWidth}, ${video.videoHeight}`)
-}
+//     click.innerHTML = `${video.videoWidth}, ${video.videoHeight}`
+//     console.log(`${this.parentElement}`)
+// }
 
-function captureImg() {
-    const img = document.createElement('canvas');
-    img.setAttribute('class', 'gallery');
-    gallery.appendChild(img);
+// function captureImg() {
+//     const img = document.createElement('canvas');
+//     img.setAttribute('class', 'gallery');
+//     gallery.appendChild(img);
 
-    // img.getContext("2d").drawImage(imageData, 0, 0, 50, 30);
-    img.getContext("2d").putImageData(imageData, 0, 0);
-}
-
-click.addEventListener('click', captureInfo);
+//     // img.getContext("2d").drawImage(imageData, 0, 0, 50, 30);
+//     img.getContext("2d").putImageData(imageData, 0, 0);
+// }
 
 // Functions to add a frame
 const mainPage = document.querySelector("#main");
 const capturePage = document.querySelector("#camera");
 const captureButton = document.querySelectorAll(".capture");
 
+// Variable for active frame
+let activeFrame;
+
 function captureFrame() {
     // Remove main page and show capture page
     mainPage.style.display = "none";
     capturePage.style.display = "block";
+
+    // Display parent 
+    activeFrame = this.parentNode.parentNode;
+    console.log(`Parent: ${this.parentNode.parentNode.id}`)
 }
 
 for (const button of captureButton){
     button.addEventListener('click', captureFrame);
+}
+
+const click = document.querySelector('#click');
+
+function saveFrame() {
+    // Obtain active canvas
+    var preview = activeFrame.querySelector('.preview');
+    var previewContext = preview.getContext('2d');
+
+    // Process image to display
+    let img = cv.matFromImageData(imageData);
+    let dst = new cv.Mat()
+    let dsize = new cv.Size(220, 165);
+    console.log(`${dsize}`);
+    // img.convertTo(dst, cv.CV_8U, 0.5, 0);
+    // cv.cvtColor(img, dst, cv.COLOR_RGBA2BGRA);
+    cv.resize(img, dst, dsize, 0, 0, cv.INTER_AREA);
+    // cv.imshow('hello', dst);
+
+    console.log(`Original size: ${img.cols}, ${img.rows}; Compressed size: ${dst.cols}, ${dst.rows}`);
+    let frame = new ImageData(new Uint8ClampedArray(dst.data),
+                        dst.cols,
+                        dst.rows);
+
+    previewContext.putImageData(frame, 0, 0);
+
+    // previewContext.scale(0.1, 0.1)
+
+
+    console.log('Added image');
+
+    capturePage.style.display = "none";
+    mainPage.style.display = "block";
+
+    img.delete();
+    dst.delete();
+}
+
+click.addEventListener('click', saveFrame);
+
+function onOpenCVReady() {
+    console.log("OpenCV Ready.");
 }
