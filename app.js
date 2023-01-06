@@ -15,7 +15,7 @@ function onLoad() {
     context = canvas.getContext("2d");
 
     canvas.width = window.screen.width;
-    canvas.height = window.screen.height;// canvas.width * ((0.25 * window.screen.height) / window.screen.width);
+    canvas.height = window.screen.width * 0.75;// canvas.width * ((0.25 * window.screen.height) / window.screen.width);
     canvas.style.width = canvas.width;
     canvas.style.height = canvas.height;
 
@@ -79,7 +79,8 @@ function tick() {
 function snapshot() {
     // Scale video 
     let width = canvas.width;
-    let height = width * (video.videoHeight / video.videoWidth);
+    let height = canvas.height;
+    // let height = width * (video.videoHeight / video.videoWidth);
 
     context.drawImage(video, 0, 0, width, height);
     imageData = context.getImageData(0, 0, video.videoWidth, video.videoHeight);
