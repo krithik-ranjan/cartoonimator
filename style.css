@@ -29,7 +29,7 @@ html, body {
 #canvas {
     margin-top: 60px;
     /* height: 50%; */
-    object-fit: contain;
+    object-fit: cover;
 }
 
 #click {

@@ -80,13 +80,20 @@ let debugOut = document.getElementById('debug');
 
 function cameraPreview() {
     // Scale video 
-    let width = canvas.width;
-    let height = canvas.height;
+    // let width = canvas.width;
+    // let height = canvas.height;
     // let height = width * (video.videoHeight / video.videoWidth);
 
     debugOut.innerHTML = `Canvas dimensions: ${canvas.width}, ${canvas.height} <br>Video dimensions: ${video.videoWidth}, ${video.videoHeight}`;
 
-    context.drawImage(video, 0, 0, width, height);
+    // context.drawImage(video, 0, 0, width, height);
+    if (video.videoHeight < video.videoWidth) {
+        context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, canvas.width, canvas.height);
+    }
+    else {
+        context.drawImage(video, 0, 0, video.videoWidth, video.videoWidth * 0.75, 0, 0, canvas.width, canvas.height);
+    }
+    
     imageData = context.getImageData(0, 0, video.videoWidth, video.videoHeight);
 }
 
