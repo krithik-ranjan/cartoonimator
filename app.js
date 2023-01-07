@@ -6,6 +6,9 @@ var constraints = { video: { facingMode: {exact: "environment"}}, audio: false }
 // Global object to track markers
 var markers;
 
+// Cartoonimator handler 
+let handler = new CartoonimatorHandler();
+
 function onLoad() {
     console.log("Hellow?");
 
@@ -144,7 +147,7 @@ function drawId(markers) {
             corner = corners[j];
 
             x = Math.min(x, corner.x);
-            y = Math.min(x, corner.x);
+            y = Math.min(y, corner.y);
         }
 
         context.strokeText(markers[i].id, x, y);
@@ -203,6 +206,9 @@ function saveFrame() {
     // Obtain active canvas
     var preview = activeFrame.querySelector('.preview');
     var previewContext = preview.getContext('2d');
+
+    // Add current frame 
+    handler.addFrame(imageData, activeFrame.id);
 
     // Process image to display
     let img = cv.matFromImageData(imageData);

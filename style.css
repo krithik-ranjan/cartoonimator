@@ -110,5 +110,6 @@ html, body {
     float: right;
     top: 80px;
     right: 20px; */
+    object-fit: cover;
     background-color: aqua;
 }
