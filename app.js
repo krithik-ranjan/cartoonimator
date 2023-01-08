@@ -240,7 +240,7 @@ function saveFrame() {
     // img.convertTo(dst, cv.CV_8U, 0.5, 0);
     // cv.cvtColor(img, dst, cv.COLOR_RGBA2BGRA);
     cv.resize(frameImg, dst, dsize, 0, 0, cv.INTER_AREA);
-    cv.imshow('hello', frameImg);
+    cv.imshow('hello', dst);
 
     console.log(`Original size: ${frameImg.cols}, ${frameImg.rows}; Compressed size: ${dst.cols}, ${dst.rows}`);
     let framePreview = new ImageData(new Uint8ClampedArray(dst.data),
