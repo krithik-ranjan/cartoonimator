@@ -248,6 +248,7 @@ function saveFrame() {
                         dst.rows);
 
     previewContext.putImageData(framePreview, 0, 0);
+    console.log(`ImageData size: ${framePreview.width}, ${framePreview.height}`);
 
     // previewContext.scale(0.1, 0.1)
 
