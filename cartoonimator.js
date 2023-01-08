@@ -30,7 +30,7 @@ class CartoonimatorHandler {
         }        
 
         if (topLeft === undefined || topRight === undefined || bottomRight === undefined || bottomLeft === undefined)
-            return -1;
+            return undefined;
 
         let dst = new cv.Mat();
         let dsize = new cv.Size(frame.rows, frame.cols);
@@ -40,7 +40,7 @@ class CartoonimatorHandler {
         cv.warpPerspective(frame, dst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
 
         // Result size 
-        console.log(`Warped size: ${dst.cols, dst.rows}`);
+        console.log(`Warped size: ${dst.cols}, ${dst.rows}`);
 
         cv.imshow('hello', dst);
         dst.delete();
