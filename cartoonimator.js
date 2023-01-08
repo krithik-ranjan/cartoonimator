@@ -10,24 +10,41 @@ class CartoonimatorHandler {
         let topLeft, topRight, bottomRight, bottomLeft;
 
         var i;
-        for (i = 0; i !== markers.length; i++) {
-            if (markers[i].id === 10) {
-                topLeft = markers[i].corners[0];
-                console.log(`Top left corner: ${topLeft.x}, ${topLeft.y}`);
-            }
-            else if (markers[i].id === 11) {
-                topRight = markers[i].corners[0];
-                console.log(`Top right corner: ${topRight.x}, ${topRight.y}`);
-            }
-            else if (markers[i].id === 12) {
-                bottomRight = markers[i].corners[0];
-                console.log(`Bottom right corner: ${bottomRight.x}, ${bottomRight.y}`);
-            }
-            else if (markers[i].id === 13) {
-                bottomLeft = markers[i].corners[0];
-                console.log(`Bottom left corner: ${bottomLeft.x}, ${bottomLeft.y}`);
-            }
-        }        
+        // for (i = 0; i !== markers.length; i++) {
+        //     if (markers[i].id === 10) {
+        //         topLeft = markers[i].corners[0];
+        //         console.log(`Top left corner: ${topLeft.x}, ${topLeft.y}`);
+        //     }
+        //     else if (markers[i].id === 11) {
+        //         topRight = markers[i].corners[0];
+        //         console.log(`Top right corner: ${topRight.x}, ${topRight.y}`);
+        //     }
+        //     else if (markers[i].id === 12) {
+        //         bottomRight = markers[i].corners[0];
+        //         console.log(`Bottom right corner: ${bottomRight.x}, ${bottomRight.y}`);
+        //     }
+        //     else if (markers[i].id === 13) {
+        //         bottomLeft = markers[i].corners[0];
+        //         console.log(`Bottom left corner: ${bottomLeft.x}, ${bottomLeft.y}`);
+        //     }
+        // } 
+        
+        if (markers.has(10)) {
+            topLeft = markers.get(10)[0];
+            console.log(`Top left corner: ${topLeft.x}, ${topLeft.y}`);
+        }
+        else if (markers.has(11)) {
+            topRight = markers.get(11)[0];
+            console.log(`Top right corner: ${topRight.x}, ${topRight.y}`);
+        }
+        else if (markers.has(12)) {
+            bottomRight = markers.get(12)[0];
+            console.log(`Bottom right corner: ${bottomRight.x}, ${bottomRight.y}`);
+        }
+        else if (markers.has(13)) {
+            bottomLeft = markers.get(13)[0];
+            console.log(`Bottom left corner: ${bottomLeft.x}, ${bottomLeft.y}`);
+        }
 
         if (topLeft === undefined || topRight === undefined || bottomRight === undefined || bottomLeft === undefined)
             return undefined;
@@ -48,9 +65,9 @@ class CartoonimatorHandler {
         return 0;
     }
 
-    addFrame(imageData, id) {
-        let markers = this.detector.detect(imageData);
-        console.log(`Number of markers found: ${markers.length}`);
+    addFrame(imageData, id, markers) {
+        // let markers = this.detector.detect(imageData);
+        // console.log(`Number of markers found: ${markers.length}`);
 
         let frame = cv.matFromImageData(imageData);
 

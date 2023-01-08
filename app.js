@@ -217,7 +217,7 @@ function saveFrame() {
 
     // Add current frame 
     console.log(`Markers found overall: ${markerMap.keys()}`);
-    handler.addFrame(imageData, activeFrame.id);
+    handler.addFrame(imageData, activeFrame.id, markerMap);
 
     // Process image to display
     let img = cv.matFromImageData(imageData);
