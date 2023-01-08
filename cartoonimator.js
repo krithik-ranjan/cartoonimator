@@ -47,7 +47,7 @@ class CartoonimatorHandler {
         }
 
         if (topLeft === undefined || topRight === undefined || bottomRight === undefined || bottomLeft === undefined)
-            return undefined;
+            return -1;
 
         let dst = new cv.Mat();
         let dsize = new cv.Size(frame.cols, frame.rows);
@@ -78,11 +78,11 @@ class CartoonimatorHandler {
 
         if (id === 'scene') {
             console.log('Adding to scene.');
-            this.scenes.push(frame);
+            this.scenes.push(frameImg);
         }
         else {
             console.log('Adding to step.');
-            this.steps.push(frame);
+            this.steps.push(frameImg);
         }
 
         return 0;

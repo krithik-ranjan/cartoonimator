@@ -97,7 +97,7 @@ function cameraPreview() {
     // let height = canvas.height;
     // let height = width * (video.videoHeight / video.videoWidth);
 
-    debugOut.innerHTML = `Canvas dimensions: ${canvas.width}, ${canvas.height} <br>Video dimensions: ${video.videoWidth}, ${video.videoHeight}`;
+    // debugOut.innerHTML = `Canvas dimensions: ${canvas.width}, ${canvas.height} <br>Video dimensions: ${video.videoWidth}, ${video.videoHeight}`;
 
     // context.drawImage(video, 0, 0, width, height);
     if (video.videoHeight < video.videoWidth) {
@@ -228,7 +228,7 @@ function saveFrame() {
     let frameImg = cv.matFromImageData(imageData);
     let res = handler.addFrame(frameImg, activeFrame.id, markerMap);
 
-    if (res == -1) {
+    if (res === -1) {
         debugOut.innerHTML = `Try again`;
         return;
     }
