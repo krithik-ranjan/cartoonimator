@@ -242,7 +242,7 @@ function saveFrame() {
                         dst.cols,
                         dst.rows);
 
-    previewContext.putImageData(frame, 0, 0);
+    // previewContext.putImageData(frame, 0, 0);
 
     // previewContext.scale(0.1, 0.1)
 

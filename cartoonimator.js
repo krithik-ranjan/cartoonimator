@@ -57,6 +57,8 @@ class CartoonimatorHandler {
         cv.warpPerspective(frame, dst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
 
         // Result size 
+        dsize = new cv.Size(128, 96);
+        cv.resize(dst, dst, dsize, 0, 0, cv.INTER_AREA);
         console.log(`Warped size: ${dst.cols}, ${dst.rows}`);
 
         cv.imshow('hello', dst);
