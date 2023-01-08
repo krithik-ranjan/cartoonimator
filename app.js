@@ -136,7 +136,7 @@ function drawId(markers) {
     context.lineWidth = 1;
 
     for (i = 0; i !== markers.length; ++ i) {
-        console.log("Found marker: ", markers[i].id);
+        // console.log("Found marker: ", markers[i].id);
 
         corners = markers[i].corners;
 
@@ -214,7 +214,7 @@ function saveFrame() {
     let img = cv.matFromImageData(imageData);
     let dst = new cv.Mat()
     let dsize = new cv.Size(220, 165);
-    console.log(`${dsize}`);
+    // console.log(`${dsize}`);
     // img.convertTo(dst, cv.CV_8U, 0.5, 0);
     // cv.cvtColor(img, dst, cv.COLOR_RGBA2BGRA);
     cv.resize(img, dst, dsize, 0, 0, cv.INTER_AREA);
@@ -230,7 +230,7 @@ function saveFrame() {
     // previewContext.scale(0.1, 0.1)
 
 
-    console.log('Added image');
+    // console.log('Added image');
 
     capturePage.style.display = "none";
     mainPage.style.display = "block";
