@@ -79,6 +79,7 @@ function tick() {
         // Add markers to map
         let i;
         for (i = 0; i !== markers.length; i++) {
+            console.log(`Updating marker ${markers[i].id}`);
             markerMap.set(markers[i].id, markers[i].corners);
         }
 
