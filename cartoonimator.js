@@ -50,7 +50,7 @@ class CartoonimatorHandler {
             return undefined;
 
         let dst = new cv.Mat();
-        let dsize = new cv.Size(frame.rows, frame.cols);
+        let dsize = new cv.Size(frame.cols, frame.rows);
         let srcTri = cv.matFromArray(4, 1, cv.CV_32FC2, [topLeft.x, topLeft.y, topRight.x, topRight.y, bottomRight.x, bottomRight.y, bottomLeft.x, bottomLeft.y]);
         let dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, 128, 0, 128, 96, 0, 96]);
         let M = cv.getPerspectiveTransform(srcTri, dstTri);
