@@ -33,15 +33,15 @@ class CartoonimatorHandler {
             topLeft = markers.get(10)[0];
             console.log(`Top left corner: ${topLeft.x}, ${topLeft.y}`);
         }
-        else if (markers.has(11)) {
+        if (markers.has(11)) {
             topRight = markers.get(11)[0];
             console.log(`Top right corner: ${topRight.x}, ${topRight.y}`);
         }
-        else if (markers.has(12)) {
+        if (markers.has(12)) {
             bottomRight = markers.get(12)[0];
             console.log(`Bottom right corner: ${bottomRight.x}, ${bottomRight.y}`);
         }
-        else if (markers.has(13)) {
+        if (markers.has(13)) {
             bottomLeft = markers.get(13)[0];
             console.log(`Bottom left corner: ${bottomLeft.x}, ${bottomLeft.y}`);
         }
