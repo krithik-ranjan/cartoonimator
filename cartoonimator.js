@@ -52,30 +52,29 @@ class CartoonimatorHandler {
         let dst = new cv.Mat();
         let dsize = new cv.Size(frame.cols, frame.rows);
         let srcTri = cv.matFromArray(4, 1, cv.CV_32FC2, [topLeft.x, topLeft.y, topRight.x, topRight.y, bottomRight.x, bottomRight.y, bottomLeft.x, bottomLeft.y]);
-        let dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, 128, 0, 128, 96, 0, 96]);
+        let dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, 480, 0, 480, 360, 0, 360]);
         let M = cv.getPerspectiveTransform(srcTri, dstTri);
         cv.warpPerspective(frame, dst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
 
-        // Result size 
-        dsize = new cv.Size(128, 96);
-        cv.resize(dst, dst, dsize, 0, 0, cv.INTER_AREA);
-        console.log(`Warped size: ${dst.cols}, ${dst.rows}`);
-
-        cv.imshow('hello', dst);
+        // Result copy 
+        dst.copyTo(frame);      
         dst.delete();
 
         return 0;
     }
 
-    addFrame(imageData, id, markers) {
+    addFrame(frameImg, id, markers) {
         // let markers = this.detector.detect(imageData);
         // console.log(`Number of markers found: ${markers.length}`);
 
-        let frame = cv.matFromImageData(imageData);
+        // let frame = cv.matFromImageData(imageData);
 
         // Flatten image
-        let res = this._flattenFrame(frame, markers);
-        if (res === -1) console.log('All markers not found.');
+        let res = this._flattenFrame(frameImg, markers);
+        if (res === -1) {
+            console.log("Could not find necessary markers.");
+            return -1;
+        }
 
         if (id === 'scene') {
             console.log('Adding to scene.');
@@ -85,5 +84,7 @@ class CartoonimatorHandler {
             console.log('Adding to step.');
             this.steps.push(frame);
         }
+
+        return 0;
     }
 }

@@ -225,27 +225,31 @@ function saveFrame() {
         console.log(markerId);
     }
 
-    handler.addFrame(imageData, activeFrame.id, markerMap);
+    let frameImg = cv.matFromImageData(imageData);
+    let res = handler.addFrame(frameImg, activeFrame.id, markerMap);
+
+    if (res == -1) {
+        debugOut.innerHTML = `Try again`;
+        return;
+    }
 
     // Process image to display
-    let img = cv.matFromImageData(imageData);
     let dst = new cv.Mat()
-    let dsize = new cv.Size(220, 165);
+    let dsize = new cv.Size(128, 96);
     // console.log(`${dsize}`);
     // img.convertTo(dst, cv.CV_8U, 0.5, 0);
     // cv.cvtColor(img, dst, cv.COLOR_RGBA2BGRA);
-    cv.resize(img, dst, dsize, 0, 0, cv.INTER_AREA);
+    cv.resize(frameImg, dst, dsize, 0, 0, cv.INTER_AREA);
     // cv.imshow('hello', dst);
 
-    console.log(`Original size: ${img.cols}, ${img.rows}; Compressed size: ${dst.cols}, ${dst.rows}`);
-    let frame = new ImageData(new Uint8ClampedArray(dst.data),
+    console.log(`Original size: ${frameImg.cols}, ${frameImg.rows}; Compressed size: ${dst.cols}, ${dst.rows}`);
+    let framePreview = new ImageData(new Uint8ClampedArray(dst.data),
                         dst.cols,
                         dst.rows);
 
-    // previewContext.putImageData(frame, 0, 0);
+    previewContext.putImageData(framePreview, 0, 0);
 
     // previewContext.scale(0.1, 0.1)
-
 
     // console.log('Added image');
 
@@ -254,7 +258,6 @@ function saveFrame() {
 
     cameraActive = false;
 
-    img.delete();
     dst.delete();
 }
 
