@@ -5,6 +5,7 @@ var constraints = { video: { facingMode: {exact: "environment"}}, audio: false }
 
 // Global object to track markers
 var markers;
+var markerMap = new Map();
 
 // Cartoonimator handler 
 let handler = new CartoonimatorHandler();
@@ -74,6 +75,13 @@ function tick() {
         cameraPreview();
 
         markers = detector.detect(imageData);
+        
+        // Add markers to map
+        let i;
+        for (i = 0; i !== markers.length; i++) {
+            markerMap.set(markers[i].id, markers[i].corners);
+        }
+
         drawCorners(markers);
         drawId(markers);
     }
@@ -208,6 +216,7 @@ function saveFrame() {
     var previewContext = preview.getContext('2d');
 
     // Add current frame 
+    console.log(`Markers found overall: ${markerMap.keys()}`);
     handler.addFrame(imageData, activeFrame.id);
 
     // Process image to display
