@@ -2,6 +2,7 @@ var video, canvas, context, imageData, detector;
 
 // Set constraints for the video stream
 var constraints = { video: { facingMode: {exact: "environment"}}, audio: false };
+var cameraActive = false;
 
 // Global object to track markers
 var markers;
@@ -71,7 +72,7 @@ window.addEventListener("load", onLoad, false);
 function tick() {
     requestAnimationFrame(tick);
 
-    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+    if (video.readyState === video.HAVE_ENOUGH_DATA && cameraActive) {
         cameraPreview();
 
         markers = detector.detect(imageData);
@@ -200,6 +201,8 @@ function captureFrame() {
     mainPage.style.display = "none";
     capturePage.style.display = "block";
 
+    cameraActive = true;
+
     // Display parent 
     activeFrame = this.parentNode.parentNode;
     console.log(`Parent: ${this.parentNode.parentNode.id}`)
@@ -244,6 +247,8 @@ function saveFrame() {
 
     capturePage.style.display = "none";
     mainPage.style.display = "block";
+
+    cameraActive = false;
 
     img.delete();
     dst.delete();
