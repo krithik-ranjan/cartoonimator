@@ -220,7 +220,11 @@ function saveFrame() {
     var previewContext = preview.getContext('2d');
 
     // Add current frame 
-    console.log(`Markers found overall: ${markerMap.keys()}`);
+    console.log(`Markers found overall: `);
+    for (const markerId of markerMap.keys()) {
+        console.log(markerId);
+    }
+
     handler.addFrame(imageData, activeFrame.id, markerMap);
 
     // Process image to display
