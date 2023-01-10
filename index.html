@@ -28,7 +28,7 @@
             <video id="video" autoplay="true" style="display: none;"></video>
         <!-- <canvas id="canvas" style="width: 480px; height: 360px;" width="480" height="360"></canvas> -->
             <canvas id="canvas"></canvas>
-            <p id="debug"></p>
+            <h3 id="debug"></h3>
             <img id="click" src="images/camera-white.png" alt="Capture button">
             <!-- <button id="click"><img src="images/camera.png" alt="Capture button"></button> -->
         </div>
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <hr>
-            <div class="frame" id="step">
+            <div class="frame" id="step1">
                 <div class="frame-info">
                     <h2>Step 1</h2>
                     <img class="capture" src="images/camera.png" alt="Capture button">
@@ -56,6 +56,38 @@
                 </div>
             </div>
             <hr>
+            <div class="frame" id="step2">
+                <div class="frame-info">
+                    <h2>Step 1</h2>
+                    <img class="capture" src="images/camera.png" alt="Capture button">
+                    <img class="delete" src="images/trash.png" alt="Delete button">    
+                </div>
+                <div class="frame-img">
+                    <canvas class="preview" width="128" height="96"></canvas>
+                </div>
+            </div>
+            <hr>
+            <div class="frame" id="step3">
+                <div class="frame-info">
+                    <h2>Step 1</h2>
+                    <img class="capture" src="images/camera.png" alt="Capture button">
+                    <img class="delete" src="images/trash.png" alt="Delete button">    
+                </div>
+                <div class="frame-img">
+                    <canvas class="preview" width="128" height="96"></canvas>
+                </div>
+            </div>
+            <hr>
+            <img id="playBtn" src="images/play.png" alt="Play button">
+            <!-- <canvas id="debug" width="360" height="270"></canvas> -->
+        </div>
+
+        <div id="play">
+            <!-- <video id="video" autoplay="true" style="display: none;"></video> -->
+        <!-- <canvas id="canvas" style="width: 480px; height: 360px;" width="480" height="360"></canvas> -->
+            <canvas id="playback"></canvas>
+            <img id="backBtn" src="images/back.png" alt="Back button">
+            <!-- <button id="click"><img src="images/camera.png" alt="Capture button"></button> -->
         </div>
     </body>
 </html>

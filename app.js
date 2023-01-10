@@ -1,4 +1,4 @@
-var video, canvas, context, imageData, detector;
+var video, canvas, context, imageData, detector, playback;
 
 // Set constraints for the video stream
 var constraints = { video: { facingMode: {exact: "environment"}}, audio: false };
@@ -9,11 +9,10 @@ var markers;
 var markerMap = new Map();
 
 // Cartoonimator handler 
-let handler = new CartoonimatorHandler();
+let handler; 
 
 function onLoad() {
     console.log("Hellow?");
-
 
     video = document.getElementById("video");
     canvas = document.getElementById("canvas");
@@ -27,6 +26,15 @@ function onLoad() {
     console.log(`Canvas width = ${canvas.width}, ${canvas.height}`);
     // canvas.width = parseInt(canvas.style.width);
     // canvas.height = parseInt(canvas.style.height);
+
+    // Setup for video playback
+    playback = document.getElementById("playback");
+    playback.width = window.screen.width;
+    playback.height = window.screen.width * 0.75;
+    playback.style.width = playback.width;
+    playback.style.height = playback.height;
+
+    handler = new CartoonimatorHandler(playback.width, playback.height);
 
     if (navigator.mediaDevices === undefined) {
         navigator.mediaDevices = {};
@@ -79,13 +87,22 @@ function tick() {
         
         // Add markers to map
         let i;
-        for (i = 0; i !== markers.length; i++) {
-            console.log(`Updating marker ${markers[i].id}`);
-            markerMap.set(markers[i].id, markers[i].corners);
-        }
-
+        
         drawCorners(markers);
         drawId(markers);
+
+        for (i = 0; i !== markers.length; i++) {
+            // console.log(`Updating marker ${markers[i].id}`);
+            // Check if valid marker 
+            if (Math.abs(markers[i].corners[0].x - markers[i].corners[2].x) <= 100 && 
+                    Math.abs(markers[i].corners[0].y - markers[i].corners[2].y) <= 100) {
+                markerMap.set(markers[i].id, markers[i].corners);
+                // markObjects(markers[i].id);
+            } 
+        }
+
+        // For debugging object detection
+        // markObjects();
     }
 }
 
@@ -113,12 +130,19 @@ function cameraPreview() {
     // imageData = context.getImageData(0, 0, video.videoWidth, video.videoHeight);
 }
 
+function checkValidMarker(id) {
+    return ((id >= 10) && (id < 14)) || ((id >= 100) && (id < 120));
+}
+
 function drawCorners(markers) {
     var corners, corner, i, j;
 
     context.lineWidth = 3;
 
     for (i = 0; i !== markers.length; ++ i) {
+        if (!checkValidMarker(markers[i].id))
+            continue;
+
         corners = markers[i].corners;
 
         context.strokeStyle = "red";
@@ -146,6 +170,8 @@ function drawId(markers) {
     context.lineWidth = 1;
 
     for (i = 0; i !== markers.length; ++ i) {
+        if (!checkValidMarker(markers[i].id))
+            continue;
         // console.log("Found marker: ", markers[i].id);
 
         corners = markers[i].corners;
@@ -161,6 +187,47 @@ function drawId(markers) {
         }
 
         context.strokeText(markers[i].id, x, y);
+    }
+}
+
+function markObjects(markerId) {
+    let i = markerId;
+    let topLeft, bottomLeft, topRight, bottomRight;
+    if (markerMap.has(i) && i >= 100 && i < 120) {
+        // console.log(`Found object ${i}`);
+
+        // Based on marker corners, find object corners
+        // Top left corner is the same as marker corner
+        topLeft = markerMap.get(i)[0];
+        // console.log(`Top left corner: ${topLeft.x}, ${topLeft.y}`)
+
+        bottomRight = markerMap.get(i)[2];
+        // console.log(`Bottom right marker corner: ${bottomRight.x}, ${bottomRight.y}`)
+
+        bottomRight.x = topLeft.x + (bottomRight.x - topLeft.x) * 4;
+        bottomRight.y = topLeft.y + (bottomRight.y - topLeft.y) * 4;
+        // console.log(`Bottom right corner: ${bottomRight.x}, ${bottomRight.y}`)
+
+        // Based on calculation from https://www.quora.com/Given-two-diagonally-opposite-points-of-a-square-how-can-I-find-out-the-other-two-points-in-terms-of-the-coordinates-of-the-known-points
+        topRight = markerMap.get(i)[1];
+        topRight.x = (topLeft.x + bottomRight.x + bottomRight.y - topLeft.y) / 2;
+        topRight.y = (topLeft.x - bottomRight.x + topLeft.y + bottomRight.y) / 2;
+
+        bottomLeft = markerMap.get(i)[3];
+        bottomLeft.x = (topLeft.x + bottomRight.x + topLeft.y - bottomRight.y) / 2;
+        bottomLeft.y = (bottomRight.x - topLeft.x + topLeft.y + bottomRight.y) / 2;
+
+        context.lineWidth = 3;
+        context.strokeStyle = 'yellow';
+
+        context.beginPath();
+        context.moveTo(topLeft.x, topLeft.y);
+        context.lineTo(topRight.x, topRight.y);
+        context.lineTo(bottomRight.x, bottomRight.y);
+        context.lineTo(bottomLeft.x, bottomLeft.y);
+        context.lineTo(topLeft.x, topLeft.y);
+        context.stroke();
+        context.closePath();
     }
 }
 
@@ -191,6 +258,7 @@ function drawId(markers) {
 // Functions to add a frame
 const mainPage = document.querySelector("#main");
 const capturePage = document.querySelector("#camera");
+const playPage = document.querySelector('#play');
 const captureButton = document.querySelectorAll(".capture");
 
 // Variable for active frame
@@ -226,12 +294,66 @@ function saveFrame() {
     }
 
     let frameImg = cv.matFromImageData(imageData);
-    let res = handler.addFrame(frameImg, activeFrame.id, markerMap);
+    let res;
 
-    if (res === -1) {
-        debugOut.innerHTML = `Try again`;
-        return;
+    // Process image based on whether it is a scene or not
+    if (activeFrame.id === 'scene') {
+        res = handler.flattenFrame(frameImg, markerMap, 0.0);
+
+        if (res === -1) {
+            debugOut.innerHTML = 'Scene not found. Try again.';
+            return;
+        }
     }
+    else if (activeFrame.id === 'step1') {
+        res = handler.flattenFrameWithObjects(frameImg, markerMap, 0.0);
+        if (res === -1) {
+            debugOut.innerHTML = 'No objects found. Try again.';
+            return;
+        }
+    }
+    else if (activeFrame.id === 'step2') {
+        res = handler.flattenFrameWithObjects(frameImg, markerMap, 2.0);
+        if (res === -1) {
+            debugOut.innerHTML = 'No objects found. Try again.';
+            return;
+        }
+    }
+    else if (activeFrame.id === 'step3') {
+        res = handler.flattenFrameWithObjects(frameImg, markerMap, 5.0);
+        if (res === -1) {
+            debugOut.innerHTML = 'No objects found. Try again.';
+            return;
+        }
+    }
+
+    // if (activeFrame.id === 'step') {
+    //     // Create flattened image data object to redetect markers 
+    //     let flattenImageData = new ImageData(new Uint8ClampedArray(frameImg.data), 
+    //                                 frameImg.cols, 
+    //                                 frameImg.rows);
+    //     markers = detector.detect(flattenImageData);
+    //     // Update marker map 
+    //     markerMap.clear();
+    //     for (i = 0; i !== markers.length; i++) {
+    //         // Check if valid marker 
+    //         if (Math.abs(markers[i].corners[0].x - markers[i].corners[2].x) <= 100 && 
+    //                 Math.abs(markers[i].corners[0].y - markers[i].corners[2].y) <= 100) {
+    //             markerMap.set(markers[i].id, markers[i].corners);
+    //             markObjects(markers[i].id);
+    //         } 
+    //     }
+    //     console.log(`Markers found in flattened: ${markers.length}`);
+    //     for (const markerId of markerMap.keys()) {
+    //         console.log(markerId);
+    //     }
+
+    //     // Find objects 
+    //     // handler.findObjects(frameImg, markerMap);
+    //     frameImg = cv.matFromImageData(flattenImageData);
+    // }
+
+    // res = handler.addFrame(frameImg, activeFrame.id, markerMap);
 
     // Process image to display
     let dst = new cv.Mat()
@@ -260,10 +382,36 @@ function saveFrame() {
     cameraActive = false;
     markerMap.clear();
 
+    frameImg.delete();
     dst.delete();
+
+    debugOut.innerHTML = '';
 }
 
 click.addEventListener('click', saveFrame);
+
+function playVideo() {
+    mainPage.style.display = "none";
+    playPage.style.display = "block";
+    
+    let playbackContext = playback.getContext('2d');
+    handler.playVideo(playbackContext);
+}
+
+const playButton = document.querySelector('#playBtn');
+playButton.addEventListener('click', playVideo);
+
+function backToMain() {
+    let playbackContext = playback.getContext('2d');
+    playbackContext.fillStyle = "#444444";
+    playbackContext.fillRect(0, 0, playback.width, playback.height);
+
+    mainPage.style.display = "block";
+    playPage.style.display = "none";
+}
+
+const backButton = document.querySelector('#backBtn');
+backButton.addEventListener('click', backToMain);
 
 function onOpenCVReady() {
     console.log("OpenCV Ready.");
