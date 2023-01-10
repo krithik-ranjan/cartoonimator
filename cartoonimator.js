@@ -269,7 +269,7 @@ class CartoonimatorHandler {
         // let fg = new cv.Mat(frame.rows, frame.cols, frame.type());
         let fg = new cv.Mat.zeros(frame.rows, frame.cols, frame.type());
         // cv.cvtColor(fg, fg, cv.COLOR_RGBA2RGB);
-        cv.threshold(imgGrey, fg, 155, 255, cv.THRESH_BINARY_INV);
+        cv.threshold(imgGrey, fg, 170, 255, cv.THRESH_BINARY_INV);
 
         // cv.cvtColor(fg, fg, cv.COLOR_RGB2RGBA);
 
