@@ -421,9 +421,9 @@ class CartoonimatorHandler {
         }, deltaTime, this);
 
         setTimeout(function(){
-            console.log('####### Finished Video ########');
+            console.log(`####### Finished Video ########`);
             clearInterval(timerID);
-        }, (this.maxTime / FRAME_RATE * 1000));
+        }, ((this.maxTime + 1) / FRAME_RATE * 1000));
     }
 
     // addFrame(frameImg, id, markers) {

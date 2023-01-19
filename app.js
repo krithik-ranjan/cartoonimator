@@ -291,6 +291,7 @@ function saveFrame() {
         return;
     }
     timestamp = parseInt(timestamp);
+    console.log(`Time: ${timestamp}`);
 
     // Obtain active canvas
     var preview = activeFrame.querySelector('.preview');
@@ -305,15 +306,15 @@ function saveFrame() {
     let frameImg = cv.matFromImageData(imageData);
     let res;
 
-    if (activeFrame.class === 'scene') {
-        res = handler.flattenFrame(frameImg, markerMap, timestamp);
+    if (activeFrame.className === 'scene') {
+        res = handler.flattenFrame(frameImg, markerMap, 0);
 
         if (res === -1) {
             debugOut.innerHTML = 'Scene not found. Try again.';
             return;
         }
     }
-    else if (activeFrame.class === 'step') {
+    else if (activeFrame.className === 'step') {
         res = handler.flattenFrameWithObjects(frameImg, markerMap, timestamp);
 
         if (res === -1) {
@@ -425,3 +426,46 @@ backButtonPlay.addEventListener('click', backToMainFromPlay);
 function onOpenCVReady() {
     console.log("OpenCV Ready.");
 }
+
+function addStep() {
+    const stepDiv = document.createElement('div');
+    stepDiv.className = 'step';
+    stepDiv.id = 'step4';
+    mainPage.appendChild(stepDiv);
+
+    const frameInfo = document.createElement('div');
+    frameInfo.className = 'frame-info';
+    stepDiv.appendChild(frameInfo);
+
+    const label = document.createElement('h2');
+    label.innerHTML = 'Step 4';
+    const capture = document.createElement('img');
+    capture.className = 'capture';
+    capture.src = 'images/camera.png';
+    capture.alt = 'Capture button';
+    const del = document.createElement('img');
+    del.className = 'delete';
+    del.src = 'images/trash.png';
+    del.alt = 'Delete button';
+    frameInfo.appendChild(label);
+    frameInfo.appendChild(capture);
+    frameInfo.appendChild(del);
+
+    const frameImg = document.createElement('div');
+    frameImg.className = 'frame-img';
+    stepDiv.appendChild(frameImg);
+
+    const preview = document.createElement('canvas');
+    preview.className = 'preview';
+    preview.width = '128';
+    preview.height = '96';
+    frameImg.appendChild(preview);
+
+    const line = document.createElement('hr');
+    stepDiv.appendChild(line);
+
+    // Added new step
+}
+
+const addButton = document.querySelector('#addBtn');
+addButton.addEventListener('click', addStep);
