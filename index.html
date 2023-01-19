@@ -21,20 +21,23 @@
     </head>
     <body>
         <div id="title">
-            <h2>Cartoonimator v1.2</h2>
+            <h2>Cartoonimator v1.3</h2>
         </div>
 
         <div id="camera">
             <video id="video" autoplay="true" style="display: none;"></video>
         <!-- <canvas id="canvas" style="width: 480px; height: 360px;" width="480" height="360"></canvas> -->
             <canvas id="canvas"></canvas>
+            <label for="timestamp">Time (in seconds): </label>
+            <input type="number" id="timestamp" min="0" max="60">
             <h3 id="debug"></h3>
-            <img id="click" src="images/camera-white.png" alt="Capture button">
+            <img id="clickBtn" src="images/camera-white.png" alt="Capture button">
+            <img id="backBtnCamera" src="images/back.png" alt="Back button">
             <!-- <button id="click"><img src="images/camera.png" alt="Capture button"></button> -->
         </div>
         
         <div id="main">
-            <div class="frame" id="scene">
+            <div class="scene" id="scene">
                 <div class="frame-info">
                     <h2>Scene</h2>
                     <img class="capture" src="images/camera.png" alt="Capture button">
@@ -45,7 +48,7 @@
                 </div>
             </div>
             <hr>
-            <div class="frame" id="step1">
+            <div class="step" id="step1">
                 <div class="frame-info">
                     <h2>Step 1</h2>
                     <img class="capture" src="images/camera.png" alt="Capture button">
@@ -58,7 +61,7 @@
             <hr>
             <div class="frame" id="step2">
                 <div class="frame-info">
-                    <h2>Step 1</h2>
+                    <h2>Step 2</h2>
                     <img class="capture" src="images/camera.png" alt="Capture button">
                     <img class="delete" src="images/trash.png" alt="Delete button">    
                 </div>
@@ -69,7 +72,7 @@
             <hr>
             <div class="frame" id="step3">
                 <div class="frame-info">
-                    <h2>Step 1</h2>
+                    <h2>Step 3</h2>
                     <img class="capture" src="images/camera.png" alt="Capture button">
                     <img class="delete" src="images/trash.png" alt="Delete button">    
                 </div>
@@ -86,7 +89,7 @@
             <!-- <video id="video" autoplay="true" style="display: none;"></video> -->
         <!-- <canvas id="canvas" style="width: 480px; height: 360px;" width="480" height="360"></canvas> -->
             <canvas id="playback"></canvas>
-            <img id="backBtn" src="images/back.png" alt="Back button">
+            <img id="backBtnPlay" src="images/back.png" alt="Back button">
             <!-- <button id="click"><img src="images/camera.png" alt="Capture button"></button> -->
         </div>
     </body>

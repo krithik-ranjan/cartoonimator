@@ -280,9 +280,18 @@ for (const button of captureButton){
     button.addEventListener('click', captureFrame);
 }
 
-const click = document.querySelector('#click');
+const clickBtn = document.querySelector('#clickBtn');
+const timeBlank = document.querySelector('#timestamp');
 
 function saveFrame() {
+    // Obtain timestamp
+    let timestamp = timeBlank.value;
+    if (timestamp.length === 0) {
+        debugOut.innerHTML = 'Please enter timestamp for this frame.'
+        return;
+    }
+    timestamp = parseInt(timestamp);
+
     // Obtain active canvas
     var preview = activeFrame.querySelector('.preview');
     var previewContext = preview.getContext('2d');
@@ -296,64 +305,53 @@ function saveFrame() {
     let frameImg = cv.matFromImageData(imageData);
     let res;
 
-    // Process image based on whether it is a scene or not
-    if (activeFrame.id === 'scene') {
-        res = handler.flattenFrame(frameImg, markerMap, 0.0);
+    if (activeFrame.class === 'scene') {
+        res = handler.flattenFrame(frameImg, markerMap, timestamp);
 
         if (res === -1) {
             debugOut.innerHTML = 'Scene not found. Try again.';
             return;
         }
     }
-    else if (activeFrame.id === 'step1') {
-        res = handler.flattenFrameWithObjects(frameImg, markerMap, 0.0);
-        if (res === -1) {
-            debugOut.innerHTML = 'No objects found. Try again.';
-            return;
-        }
-    }
-    else if (activeFrame.id === 'step2') {
-        res = handler.flattenFrameWithObjects(frameImg, markerMap, 2.0);
-        if (res === -1) {
-            debugOut.innerHTML = 'No objects found. Try again.';
-            return;
-        }
-    }
-    else if (activeFrame.id === 'step3') {
-        res = handler.flattenFrameWithObjects(frameImg, markerMap, 5.0);
+    else if (activeFrame.class === 'step') {
+        res = handler.flattenFrameWithObjects(frameImg, markerMap, timestamp);
+
         if (res === -1) {
             debugOut.innerHTML = 'No objects found. Try again.';
             return;
         }
     }
 
-    // if (activeFrame.id === 'step') {
-    //     // Create flattened image data object to redetect markers 
-    //     let flattenImageData = new ImageData(new Uint8ClampedArray(frameImg.data), 
-    //                                 frameImg.cols, 
-    //                                 frameImg.rows);
-    //     markers = detector.detect(flattenImageData);
-    //     // Update marker map 
-    //     markerMap.clear();
-    //     for (i = 0; i !== markers.length; i++) {
-    //         // Check if valid marker 
-    //         if (Math.abs(markers[i].corners[0].x - markers[i].corners[2].x) <= 100 && 
-    //                 Math.abs(markers[i].corners[0].y - markers[i].corners[2].y) <= 100) {
-    //             markerMap.set(markers[i].id, markers[i].corners);
-    //             markObjects(markers[i].id);
-    //         } 
-    //     }
-    //     console.log(`Markers found in flattened: ${markers.length}`);
-    //     for (const markerId of markerMap.keys()) {
-    //         console.log(markerId);
-    //     }
+    // Process image based on whether it is a scene or not
+    // if (activeFrame.id === 'scene') {
+    //     res = handler.flattenFrame(frameImg, markerMap, 0.0);
 
-    //     // Find objects 
-    //     // handler.findObjects(frameImg, markerMap);
-    //     frameImg = cv.matFromImageData(flattenImageData);
+    //     if (res === -1) {
+    //         debugOut.innerHTML = 'Scene not found. Try again.';
+    //         return;
+    //     }
     // }
-
-    // res = handler.addFrame(frameImg, activeFrame.id, markerMap);
+    // else if (activeFrame.id === 'step1') {
+    //     res = handler.flattenFrameWithObjects(frameImg, markerMap, 0.0);
+    //     if (res === -1) {
+    //         debugOut.innerHTML = 'No objects found. Try again.';
+    //         return;
+    //     }
+    // }
+    // else if (activeFrame.id === 'step2') {
+    //     res = handler.flattenFrameWithObjects(frameImg, markerMap, 2.0);
+    //     if (res === -1) {
+    //         debugOut.innerHTML = 'No objects found. Try again.';
+    //         return;
+    //     }
+    // }
+    // else if (activeFrame.id === 'step3') {
+    //     res = handler.flattenFrameWithObjects(frameImg, markerMap, 5.0);
+    //     if (res === -1) {
+    //         debugOut.innerHTML = 'No objects found. Try again.';
+    //         return;
+    //     }
+    // }
 
     // Process image to display
     let dst = new cv.Mat()
@@ -388,7 +386,18 @@ function saveFrame() {
     debugOut.innerHTML = '';
 }
 
-click.addEventListener('click', saveFrame);
+clickBtn.addEventListener('click', saveFrame);
+
+function backToMainFromCamera() {
+    capturePage.style.display = "none";
+    mainPage.style.display = "block";
+
+    cameraActive = false;
+    markerMap.clear();
+}
+
+const backButtonCamera = document.querySelector('#backBtnCamera');
+backButtonCamera.addEventListener('click', backToMainFromCamera);
 
 function playVideo() {
     mainPage.style.display = "none";
@@ -401,7 +410,7 @@ function playVideo() {
 const playButton = document.querySelector('#playBtn');
 playButton.addEventListener('click', playVideo);
 
-function backToMain() {
+function backToMainFromPlay() {
     let playbackContext = playback.getContext('2d');
     playbackContext.fillStyle = "#444444";
     playbackContext.fillRect(0, 0, playback.width, playback.height);
@@ -410,8 +419,8 @@ function backToMain() {
     playPage.style.display = "none";
 }
 
-const backButton = document.querySelector('#backBtn');
-backButton.addEventListener('click', backToMain);
+const backButtonPlay = document.querySelector('#backBtnPlay');
+backButtonPlay.addEventListener('click', backToMainFromPlay);
 
 function onOpenCVReady() {
     console.log("OpenCV Ready.");

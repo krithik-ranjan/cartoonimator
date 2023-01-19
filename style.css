@@ -36,7 +36,18 @@ html, body {
     object-fit: cover;
 }
 
-#click {
+#timestamp {
+    margin: 10px;
+    padding: 4px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
+
+#camera label {
+    font-weight: 600;
+}
+
+#clickBtn {
     width: 40px;
     background-color: #222222;
     /* color: white; */
@@ -49,7 +60,23 @@ html, body {
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2); 
     position: fixed;
     top: calc(100% - 120px);
-    left: calc(50% - 40px);
+    left: calc(65% - 40px);
+}
+
+#backBtnCamera {
+    width: 40px;
+    background-color: #222222;
+    /* color: white; */
+    /* font-size: 16px; */
+    border-radius: 50%;
+    border: none;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2); 
+    position: fixed;
+    top: calc(100% - 120px);
+    left: calc(35% - 40px);
 }
 
 #playBtn {
@@ -144,7 +171,7 @@ html, body {
     background-color: #444444;
 }
 
-#backBtn {
+#backBtnPlay {
     width: 40px;
     background-color: #222222;
     /* color: white; */
