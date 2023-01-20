@@ -16,6 +16,7 @@ html, body {
     background-color: #222222;
     color: #ffffff;
     font-family: 'Indie Flower', cursive;
+    z-index: 1;
 }
 
 #title h2 {
@@ -113,7 +114,7 @@ html, body {
 
 #main {
     display: block;
-    position: fixed;
+    position: absolute;
     top: 75px;
     left: 0px;
     width: 100%;
@@ -175,6 +176,11 @@ html, body {
     right: 20px; */
     object-fit: cover;
     background-color: aqua;
+}
+
+#footer {
+    display: block;
+    height: 120px;
 }
 
 #debug {

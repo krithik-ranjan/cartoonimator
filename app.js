@@ -12,8 +12,6 @@ var markerMap = new Map();
 let handler; 
 
 function onLoad() {
-    console.log("Hellow?");
-
     video = document.getElementById("video");
     canvas = document.getElementById("canvas");
     context = canvas.getContext("2d");
@@ -428,6 +426,10 @@ function onOpenCVReady() {
 }
 
 function addStep() {
+    // Remove footer
+    const footer = document.getElementById('footer');
+    footer.remove();
+
     const stepDiv = document.createElement('div');
     stepDiv.className = 'step';
     stepDiv.id = 'step4';
@@ -438,7 +440,7 @@ function addStep() {
     stepDiv.appendChild(frameInfo);
 
     const label = document.createElement('h2');
-    label.innerHTML = 'Step 4';
+    label.innerHTML = 'Step: ';
     const capture = document.createElement('img');
     capture.className = 'capture';
     capture.src = 'images/camera.png';
@@ -464,7 +466,8 @@ function addStep() {
     const line = document.createElement('hr');
     stepDiv.appendChild(line);
 
-    // Added new step
+    // Add footer
+    mainPage.appendChild(footer);
 }
 
 const addButton = document.querySelector('#addBtn');

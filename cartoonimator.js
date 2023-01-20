@@ -9,13 +9,24 @@ class SceneReel {
         let frame = new cv.Mat();
         sceneFrame.copyTo(frame);
 
-        console.log(`Adding scene at ${timestamp}`);
-        console.log(`Scene size: ${frame.cols}, ${frame.rows}`);
-        this.scenes.push({time: timestamp, frame: frame});
+        // console.log(`Adding scene at ${timestamp}`);
+        // console.log(`Scene size: ${frame.cols}, ${frame.rows}`);
+        // this.scenes.push({time: timestamp, frame: frame});
 
-        console.log(`Total scenes: ${this.scenes.length}`);
+        // console.log(`Total scenes: ${this.scenes.length}`);
 
         // TODO: Add sorted insert for scenes
+        if (this.scenes.length === 0) {
+            this.scenes.push({time: timestamp, frame: frame});
+        }
+        else {
+            let i;
+            for (i = 0; i < this.scenes.length; i++) {
+                if (this.scenes[i].time > timestamp) break;
+            }
+            console.log(`Adding scene at time ${timestamp} at index ${i}`);
+            this.scenes.splice(i, 0, {time: timestamp, frame: frame});
+        }
     }
 
     putSceneOnFrame(timestamp) {
@@ -46,15 +57,26 @@ class AnimationObject {
     constructor(id) {
         console.log(`Creating object [${id}]`);
         this.id = id;
-        this.forms = new Map();
+        // this.forms = new Map();
         this.transition = [];
     }
 
     addObjectInstance(objectImg, position, rotation, size, timestamp) {
-        console.log(`Adding instance of object [${this.id}] at time ${timestamp} at pos: (${position.x}, ${position.y}) with rotation: ${rotation} and size: ${size}`);
-        this.transition.push({time: timestamp, img: objectImg.clone(), pos: position, rot: rotation, size: size});
+        // console.log(`Adding instance of object [${this.id}] at time ${timestamp} at pos: (${position.x}, ${position.y}) with rotation: ${rotation} and size: ${size}`);
+        // this.transition.push({time: timestamp, img: objectImg.clone(), pos: position, rot: rotation, size: size});
 
         // TODO: Add sorted insert for object transitions
+        if (this.transition.length === 0) {
+            this.scenes.push({time: timestamp, img: objectImg.clone(), pos: position, rot: rotation, size: size});
+        }
+        else {
+            let i;
+            for (i = 0; i < this.transition.length; i++) {
+                if (this.transition[i].time > timestamp) break;
+            }
+            console.log(`Adding instance of object [${this.id}] at time ${timestamp} at pos: (${position.x}, ${position.y}) with rotation: ${rotation} and size: ${size} at index: ${i}`);
+            this.transition.splice(i, 0, {time: timestamp, img: objectImg.clone(), pos: position, rot: rotation, size: size});
+        }
     }
 
     _putImageData(frame, img, pos) {
