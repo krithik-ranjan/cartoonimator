@@ -29,6 +29,17 @@ class SceneReel {
         }
     }
 
+    deleteScene(timestamp) {
+        let i; 
+        for (i = 0; i < this.scenes.length; i++) {
+            if (this.scenes[i].time === timestamp) {
+                console.log(`[SceneReel] Deleting at time ${timestamp}`);
+                this.scenes.splice(i, 1);
+                break;
+            }
+        }
+    }
+
     putSceneOnFrame(timestamp) {
         let sceneIdx = 0;
         
@@ -67,7 +78,7 @@ class AnimationObject {
 
         // TODO: Add sorted insert for object transitions
         if (this.transition.length === 0) {
-            this.scenes.push({time: timestamp, img: objectImg.clone(), pos: position, rot: rotation, size: size});
+            this.transition.push({time: timestamp, img: objectImg.clone(), pos: position, rot: rotation, size: size});
         }
         else {
             let i;
@@ -76,6 +87,17 @@ class AnimationObject {
             }
             console.log(`Adding instance of object [${this.id}] at time ${timestamp} at pos: (${position.x}, ${position.y}) with rotation: ${rotation} and size: ${size} at index: ${i}`);
             this.transition.splice(i, 0, {time: timestamp, img: objectImg.clone(), pos: position, rot: rotation, size: size});
+        }
+    }
+
+    removeObjectInstance(timestamp) {
+        let i; 
+        for (i = 0; i < this.transition.length; i++) {
+            if (this.transition[i].time === timestamp) {
+                console.log(`[Object ${this.id}] Deleting instance at time ${timestamp}`);
+                this.transition.splice(i, 1);
+                break;
+            }
         }
     }
 
@@ -173,6 +195,22 @@ class CartoonimatorHandler {
         this.objectMarkerScale = 4;
         this.maxTime = 0;
         this.currTime = 0;
+    }
+
+    deleteScene(time) {
+        this.scenes.deleteScene(time * FRAME_RATE);
+    }
+
+    deleteStep(time) {
+        let timestamp = time * FRAME_RATE;
+        // Iterate over objects to delete their instances 
+        let i;
+        for (i = 100; i < 110; i++) {
+            if (this.objects.has(i)) {
+                console.log(`Deleting object ${i} at time ${time}`);
+                this.objects.get(i).removeObjectInstance(timestamp);
+            }
+        }   
     }
 
     flattenFrame(frame, markers, time) {

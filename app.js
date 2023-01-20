@@ -253,11 +253,18 @@ function markObjects(markerId) {
 //     img.getContext("2d").putImageData(imageData, 0, 0);
 // }
 
+// Data structure to store info about current frames
+let presentFrames = new Map();
+let numScenes = 1;
+let numSteps = 1;
+presentFrames.set('scene0', {active: false, timestamp: undefined});
+presentFrames.set('step0', {active: false, timestamp: undefined});
+
 // Functions to add a frame
 const mainPage = document.querySelector("#main");
 const capturePage = document.querySelector("#camera");
 const playPage = document.querySelector('#play');
-const captureButton = document.querySelectorAll(".capture");
+let captureButton = document.querySelectorAll(".capture");
 
 // Variable for active frame
 let activeFrame;
@@ -271,7 +278,6 @@ function captureFrame() {
 
     // Display parent 
     activeFrame = this.parentNode.parentNode;
-    console.log(`Parent: ${this.parentNode.parentNode.id}`)
 }
 
 for (const button of captureButton){
@@ -290,6 +296,7 @@ function saveFrame() {
     }
     timestamp = parseInt(timestamp);
     console.log(`Time: ${timestamp}`);
+    timeBlank.value = '';
 
     // Obtain active canvas
     var preview = activeFrame.querySelector('.preview');
@@ -305,12 +312,20 @@ function saveFrame() {
     let res;
 
     if (activeFrame.className === 'scene') {
-        res = handler.flattenFrame(frameImg, markerMap, 0);
+        res = handler.flattenFrame(frameImg, markerMap, timestamp);
 
         if (res === -1) {
             debugOut.innerHTML = 'Scene not found. Try again.';
             return;
         }
+
+        // Change timestamp in the preview
+        let frameLabel = activeFrame.getElementsByClassName('label');
+        frameLabel[0].innerHTML = `Scene at ${timestamp}s`;
+
+        // Add to frame map
+        console.log(`Updating [${activeFrame.id}]`);
+        presentFrames.set(activeFrame.id, {active: true, timestamp: timestamp});
     }
     else if (activeFrame.className === 'step') {
         res = handler.flattenFrameWithObjects(frameImg, markerMap, timestamp);
@@ -319,6 +334,13 @@ function saveFrame() {
             debugOut.innerHTML = 'No objects found. Try again.';
             return;
         }
+
+        // Change timestamp in the preview
+        let frameLabel = activeFrame.getElementsByClassName('label');
+        frameLabel[0].innerHTML = `Step at ${timestamp}s`;
+
+        console.log(`Updating [${activeFrame.id}]`);
+        presentFrames.set(activeFrame.id, {active: true, timestamp: timestamp});
     }
 
     // Process image based on whether it is a scene or not
@@ -387,6 +409,41 @@ function saveFrame() {
 
 clickBtn.addEventListener('click', saveFrame);
 
+function deleteFrame() {
+    // Display parent 
+    activeFrame = this.parentNode.parentNode;
+    console.log(`Deleting ${activeFrame.id}`)
+
+    if (presentFrames.get(activeFrame.id).active) {
+        var preview = activeFrame.querySelector('.preview');
+        var previewContext = preview.getContext('2d');
+        previewContext.fillStyle = '#cccccc';
+        previewContext.fillRect(0, 0, 128, 96);
+
+        if (activeFrame.className === 'scene') {
+            let frameLabel = activeFrame.getElementsByClassName('label');
+            frameLabel[0].innerHTML = `Scene at _`;
+            handler.deleteScene(presentFrames.get(activeFrame.id).timestamp);
+        }
+        else {
+            let frameLabel = activeFrame.getElementsByClassName('label');
+            frameLabel[0].innerHTML = `Step at _`;
+            handler.deleteStep(presentFrames.get(activeFrame.id).timestamp);
+        }
+
+        presentFrames.get(activeFrame.id).active = false;
+        presentFrames.get(activeFrame.id).timestamp = undefined;
+    }
+    else {
+        console.log('Already inactive');
+    }
+}
+
+let deleteButton = document.querySelectorAll(".delete");
+for (const button of deleteButton){
+    button.addEventListener('click', deleteFrame);
+}
+
 function backToMainFromCamera() {
     capturePage.style.display = "none";
     mainPage.style.display = "block";
@@ -432,7 +489,9 @@ function addStep() {
 
     const stepDiv = document.createElement('div');
     stepDiv.className = 'step';
-    stepDiv.id = 'step4';
+    stepDiv.id = `step${numSteps}`;
+    numSteps++;
+
     mainPage.appendChild(stepDiv);
 
     const frameInfo = document.createElement('div');
@@ -440,7 +499,8 @@ function addStep() {
     stepDiv.appendChild(frameInfo);
 
     const label = document.createElement('h2');
-    label.innerHTML = 'Step: ';
+    label.innerHTML = 'Step at _';
+    label.className = 'label';
     const capture = document.createElement('img');
     capture.className = 'capture';
     capture.src = 'images/camera.png';
@@ -468,6 +528,16 @@ function addStep() {
 
     // Add footer
     mainPage.appendChild(footer);
+
+    // Add event listeners
+    captureButton = document.querySelectorAll(".capture");
+    for (const button of captureButton){
+        button.addEventListener('click', captureFrame);
+    }
+    deleteButton = document.querySelectorAll(".delete");
+    for (const button of deleteButton){
+        button.addEventListener('click', deleteFrame);
+    }
 }
 
 const addButton = document.querySelector('#addBtn');
