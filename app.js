@@ -294,7 +294,7 @@ function saveFrame() {
         debugOut.innerHTML = 'Please enter timestamp for this frame.'
         return;
     }
-    timestamp = parseInt(timestamp);
+    timestamp = parseFloat(timestamp);
     console.log(`Time: ${timestamp}`);
     timeBlank.value = '';
 
