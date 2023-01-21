@@ -542,3 +542,64 @@ function addStep() {
 
 const addButton = document.querySelector('#addBtn');
 addButton.addEventListener('click', addStep);
+
+function addScene() {
+    // Remove footer
+    const footer = document.getElementById('footer');
+    footer.remove();
+
+    const sceneDiv = document.createElement('div');
+    sceneDiv.className = 'scene';
+    sceneDiv.id = `scene${numScenes}`;
+    numScenes++;
+
+    mainPage.appendChild(sceneDiv);
+
+    const frameInfo = document.createElement('div');
+    frameInfo.className = 'frame-info';
+    sceneDiv.appendChild(frameInfo);
+
+    const label = document.createElement('h2');
+    label.innerHTML = 'Scene at _';
+    label.className = 'label';
+    const capture = document.createElement('img');
+    capture.className = 'capture';
+    capture.src = 'images/camera.png';
+    capture.alt = 'Capture button';
+    const del = document.createElement('img');
+    del.className = 'delete';
+    del.src = 'images/trash.png';
+    del.alt = 'Delete button';
+    frameInfo.appendChild(label);
+    frameInfo.appendChild(capture);
+    frameInfo.appendChild(del);
+
+    const frameImg = document.createElement('div');
+    frameImg.className = 'frame-img';
+    sceneDiv.appendChild(frameImg);
+
+    const preview = document.createElement('canvas');
+    preview.className = 'preview';
+    preview.width = '128';
+    preview.height = '96';
+    frameImg.appendChild(preview);
+
+    const line = document.createElement('hr');
+    sceneDiv.appendChild(line);
+
+    // Add footer
+    mainPage.appendChild(footer);
+
+    // Add event listeners
+    captureButton = document.querySelectorAll(".capture");
+    for (const button of captureButton){
+        button.addEventListener('click', captureFrame);
+    }
+    deleteButton = document.querySelectorAll(".delete");
+    for (const button of deleteButton){
+        button.addEventListener('click', deleteFrame);
+    }
+}
+
+const addSceneButton = document.querySelector('#addSceneBtn');
+addSceneButton.addEventListener('click', addScene);

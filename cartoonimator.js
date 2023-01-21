@@ -40,7 +40,7 @@ class SceneReel {
         }
     }
 
-    putSceneOnFrame(timestamp) {
+    getSceneIdx(timestamp) {
         let sceneIdx = 0;
         
         if (timestamp === 0) {
@@ -53,7 +53,23 @@ class SceneReel {
                 sceneIdx = i - 1;
                 break;
             }
+            if (this.scenes[i].time === timestamp) {
+                sceneIdx = i;
+                break;
+            }
         }
+
+        if (timestamp > this.scenes[this.scenes.length - 1].time) {
+            sceneIdx = this.scenes.length - 1;
+        }
+
+        return sceneIdx;
+    }
+
+    putSceneOnFrame(timestamp) {
+        let sceneIdx = this.getSceneIdx(timestamp);
+
+        console.log(`\tScene: ${sceneIdx} starting at time: ${this.scenes[sceneIdx].time}`);
 
         // console.log(`\tScene: ${sceneIdx}, total scenes: ${this.scenes.length}`);
         // let sceneImageData = new ImageData(new Uint8ClampedArray(this.scenes[sceneIdx].frame.data), 
@@ -203,12 +219,14 @@ class CartoonimatorHandler {
 
     deleteStep(time) {
         let timestamp = time * FRAME_RATE;
+        let scene = this.scenes.getSceneIdx(timestamp);
+
         // Iterate over objects to delete their instances 
         let i;
         for (i = 100; i < 110; i++) {
-            if (this.objects.has(i)) {
+            if (this.objects.has(`${i}-${sceneIdx}`)) {
                 console.log(`Deleting object ${i} at time ${time}`);
-                this.objects.get(i).removeObjectInstance(timestamp);
+                this.objects.get(`${i}-${sceneIdx}`).removeObjectInstance(timestamp);
             }
         }   
     }
@@ -421,12 +439,15 @@ class CartoonimatorHandler {
                 if (timestamp > this.maxTime) this.maxTime = timestamp;
 
                 // Check if object already existing, else create 
-                if (this.objects.has(i)) {
-                    this.objects.get(i).addObjectInstance(roiObject, pos, rotation, side, timestamp);
+                let sceneIdx = this.scenes.getSceneIdx(timestamp);
+                let key = `${i}-${sceneIdx}`;
+                console.log(`Adding object ${key}`);
+                if (this.objects.has(key)) {
+                    this.objects.get(key).addObjectInstance(roiObject, pos, rotation, side, timestamp);
                 }
                 else {
-                    this.objects.set(i, new AnimationObject(i));
-                    this.objects.get(i).addObjectInstance(roiObject, pos, rotation, side, timestamp);
+                    this.objects.set(key, new AnimationObject(i));
+                    this.objects.get(key).addObjectInstance(roiObject, pos, rotation, side, timestamp);
                 }
 
                 // cv.add(frame, dst, frame);

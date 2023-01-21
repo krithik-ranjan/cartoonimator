@@ -93,7 +93,7 @@ html, body {
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2); 
     position: fixed;
     top: calc(100% - 120px);
-    left: calc(65% - 40px);
+    left: calc(50% - 40px);
 }
 
 #addBtn {
@@ -109,7 +109,23 @@ html, body {
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2); 
     position: fixed;
     top: calc(100% - 120px);
-    left: calc(35% - 40px);
+    left: calc(25% - 40px);
+}
+
+#addSceneBtn {
+    width: 40px;
+    background-color: #222222;
+    /* color: white; */
+    /* font-size: 16px; */
+    border-radius: 50%;
+    border: none;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2); 
+    position: fixed;
+    top: calc(100% - 120px);
+    left: calc(75% - 40px);
 }
 
 #main {
