@@ -4,9 +4,9 @@ Make movies out of your drawings!
 Access at [Cartoonimator](https://krithik-ranjan.github.io/cartoonimator).
 
 ### TODOs
-(***) High priority | (*) Medium priority | (~) Nice to have
-- Fix iPhone issue ***
-- Figure out saving the video sequence ***
+** High priority | * Medium priority | (~) Nice to have
+- Fix iPhone issue **
+- Figure out saving the video sequence **
 - Fix occasional crashes *
 - Decouple taking photo and capturing timestamp (by adding timestamp input box on the home page) *
 - Changing icons for adding frame/scene *
