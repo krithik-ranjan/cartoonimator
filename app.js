@@ -92,6 +92,7 @@ function onLoad() {
             else {
                 video.src = window.URL.createObjectURL(stream);
             }
+            video.play();
         })
         .catch(function(error) {
             console.error("Oops. Something is broken.", error);
@@ -260,30 +261,6 @@ function markObjects(markerId) {
     }
 }
 
-// const gallery = document.querySelector('.gallery');
-
-// function captureInfo() {
-//     for (i = 0; i !== markers.length; ++ i) {
-//         const m_info = document.createElement('p');
-//         m_info.setAttribute('class', 'gallery');
-//         gallery.appendChild(m_info);
-
-//         m_info.innerHTML = "Marker: " + markers[i].id;
-//     }
-
-//     click.innerHTML = `${video.videoWidth}, ${video.videoHeight}`
-//     console.log(`${this.parentElement}`)
-// }
-
-// function captureImg() {
-//     const img = document.createElement('canvas');
-//     img.setAttribute('class', 'gallery');
-//     gallery.appendChild(img);
-
-//     // img.getContext("2d").drawImage(imageData, 0, 0, 50, 30);
-//     img.getContext("2d").putImageData(imageData, 0, 0);
-// }
-
 // Data structure to store info about current frames
 let presentFrames = new Map();
 let numScenes = 1;
@@ -374,37 +351,6 @@ function saveFrame() {
         presentFrames.set(activeFrame.id, {active: true, timestamp: timestamp});
     }
 
-    // Process image based on whether it is a scene or not
-    // if (activeFrame.id === 'scene') {
-    //     res = handler.flattenFrame(frameImg, markerMap, 0.0);
-
-    //     if (res === -1) {
-    //         debugOut.innerHTML = 'Scene not found. Try again.';
-    //         return;
-    //     }
-    // }
-    // else if (activeFrame.id === 'step1') {
-    //     res = handler.flattenFrameWithObjects(frameImg, markerMap, 0.0);
-    //     if (res === -1) {
-    //         debugOut.innerHTML = 'No objects found. Try again.';
-    //         return;
-    //     }
-    // }
-    // else if (activeFrame.id === 'step2') {
-    //     res = handler.flattenFrameWithObjects(frameImg, markerMap, 2.0);
-    //     if (res === -1) {
-    //         debugOut.innerHTML = 'No objects found. Try again.';
-    //         return;
-    //     }
-    // }
-    // else if (activeFrame.id === 'step3') {
-    //     res = handler.flattenFrameWithObjects(frameImg, markerMap, 5.0);
-    //     if (res === -1) {
-    //         debugOut.innerHTML = 'No objects found. Try again.';
-    //         return;
-    //     }
-    // }
-
     // Process image to display
     let dst = new cv.Mat()
     let dsize = new cv.Size(128, 96);
@@ -421,10 +367,6 @@ function saveFrame() {
 
     previewContext.putImageData(framePreview, 0, 0);
     console.log(`ImageData size: ${framePreview.width}, ${framePreview.height}`);
-
-    // previewContext.scale(0.1, 0.1)
-
-    // console.log('Added image');
 
     capturePage.style.display = "none";
     mainPage.style.display = "block";
