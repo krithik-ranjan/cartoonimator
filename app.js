@@ -4,6 +4,10 @@ var video, canvas, context, imageData, detector, playback;
 var constraints = { video: { facingMode: {exact: "environment"}}, audio: false };
 var cameraActive = false;
 
+var videoStream;
+var mediaRecorder;
+var chunks = [];
+
 // Global object to track markers
 var markers;
 var markerMap = new Map();
@@ -31,6 +35,10 @@ function onLoad() {
     playback.height = window.screen.width * 0.75;
     playback.style.width = playback.width;
     playback.style.height = playback.height;
+
+    // Setup for video download 
+    videoStream = playback.captureStream(10);
+    mediaRecorder = new MediaRecorder(videoStream);
 
     handler = new CartoonimatorHandler(playback.width, playback.height);
 
@@ -102,6 +110,29 @@ function tick() {
         // For debugging object detection
         // markObjects();
     }
+}
+
+mediaRecorder.ondataavailable = function(e) {
+    chunks.push(e.data);
+}
+mediaRecorder.onstop = function(e) {
+    var blob = new Blob(chunks, { 'type' : 'video/mp4' });
+    chunks = [];
+
+    const recordingURL = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.style = "display: none;";
+    a.href = recordingURL;
+    a.download = "video.mp4";
+    document.body.appendChild(a);
+
+    a.click();
+
+    setTimeout(() => {
+        URL.revokeObjectURL(recordingURL);
+        document.body.removeChild(a);
+    }, 0);
 }
 
 let debugOut = document.getElementById('debug');
@@ -460,7 +491,10 @@ function playVideo() {
     playPage.style.display = "block";
     
     let playbackContext = playback.getContext('2d');
+
+    mediaRecorder.start();
     handler.playVideo(playbackContext);
+    mediaRecorder.stop();
 }
 
 const playButton = document.querySelector('#playBtn');
