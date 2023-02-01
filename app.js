@@ -281,6 +281,7 @@ function captureFrame() {
     // Remove main page and show capture page
     mainPage.style.display = "none";
     capturePage.style.display = "block";
+    video.play();
 
     cameraActive = true;
 
