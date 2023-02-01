@@ -488,7 +488,7 @@ class CartoonimatorHandler {
         this.currTime = this.currTime + 1;
     }
 
-    playVideo(context) {
+    playVideo(context, mediaRecorder) {
         console.log('####### Playing Video ########');
         console.log(`Total length: ${this.maxTime} frames, ${this.maxTime / FRAME_RATE} s`)
         let deltaTime = 1 / FRAME_RATE * 1000;
@@ -497,6 +497,8 @@ class CartoonimatorHandler {
         this.currTime = 0;
         // let t = 5;
 
+        mediaRecorder.start();
+
         let timerID = setInterval(function(handler) {
             handler._animationLoop(context);
         }, deltaTime, this);
@@ -504,6 +506,8 @@ class CartoonimatorHandler {
         setTimeout(function(){
             console.log(`####### Finished Video ########`);
             clearInterval(timerID);
+
+            mediaRecorder.stop();
         }, ((this.maxTime + 1) / FRAME_RATE * 1000));
     }
 

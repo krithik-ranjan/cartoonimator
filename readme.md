@@ -7,6 +7,8 @@ Access at [Cartoonimator](https://krithik-ranjan.github.io/cartoonimator).
 ** High priority | * Medium priority | (~) Nice to have
 - Fix iPhone issue **
 - Figure out saving the video sequence **
+    - ~~Test if possible to download using MediaRecorder~~
+    - Include download button on the play screen
 - Fix occasional crashes *
 - Decouple taking photo and capturing timestamp (by adding timestamp input box on the home page) *
 - Changing icons for adding frame/scene *
