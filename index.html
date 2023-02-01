@@ -16,25 +16,25 @@
         <script defer type="text/javascript" src="libs/aruco.js"></script>
         <script defer type="text/javascript" src="libs/cv.js"></script>
 
+        <script type="text/javascript" src="AnimationObject.js"></script>
+        <script type="text/javascript" src="SceneReel.js"></script>
         <script defer type="text/javascript" src="cartoonimator.js"></script>        
         <script defer type="text/javascript" src="app.js"></script>
         <script async src="https://docs.opencv.org/4.5.5/opencv.js" type="text/javascript" onload="onOpenCVReady()"></script>
     </head>
     <body>
         <div id="title">
-            <h1>Cartoonimator v1.8</h1>
+            <h1>Cartoonimator v1.9</h1>
         </div>
 
         <div id="camera">
             <video id="video" autoplay="true" style="display: none;"></video>
-        <!-- <canvas id="canvas" style="width: 480px; height: 360px;" width="480" height="360"></canvas> -->
             <canvas id="canvas"></canvas>
             <label for="timestamp">Time (in seconds): </label>
             <input type="number" id="timestamp" min="0" max="60">
             <h3 id="debug"></h3>
             <img id="clickBtn" src="images/camera-white.png" alt="Capture button">
             <img id="backBtnCamera" src="images/back.png" alt="Back button">
-            <!-- <button id="click"><img src="images/camera.png" alt="Capture button"></button> -->
         </div>
         
         <div id="main">
@@ -66,15 +66,11 @@
             <img id="addBtn" src="images/add-step.png" alt="Add step">
             <img id="playBtn" src="images/play.png" alt="Play button">
             <img id="addSceneBtn" src="images/add-scene.png" alt="Add scene">
-            <!-- <canvas id="debug" width="360" height="270"></canvas> -->
         </div>
 
         <div id="play">
-            <!-- <video id="video" autoplay="true" style="display: none;"></video> -->
-        <!-- <canvas id="canvas" style="width: 480px; height: 360px;" width="480" height="360"></canvas> -->
             <canvas id="playback"></canvas>
             <img id="backBtnPlay" src="images/back.png" alt="Back button">
-            <!-- <button id="click"><img src="images/camera.png" alt="Capture button"></button> -->
         </div>
     </body>
 </html>
