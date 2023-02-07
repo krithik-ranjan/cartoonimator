@@ -32,6 +32,8 @@ class CartoonimatorHandler {
         }   
     }
 
+    // Grabs the background frame from the image (eg check markers then homography)
+    // only for first scene
     flattenFrame(frame, markers, time) {
         let topLeft, topRight, bottomRight, bottomLeft;
        
@@ -84,6 +86,7 @@ class CartoonimatorHandler {
         return 0;
     }
 
+    // Flatten frame for everything else (steps)
     flattenFrameWithObjects(frame, markers, time) {
         let topLeft, topRight, bottomRight, bottomLeft;
        
@@ -133,6 +136,8 @@ class CartoonimatorHandler {
 
         return res;
     }
+
+    // _ means it's a helper function or private function sometimes
 
     _getPointTransform(point, M) {
         let x = (M.doubleAt(0, 0)*point.x + M.doubleAt(0, 1)*point.y + M.doubleAt(0, 2)) / (M.doubleAt(2, 0)*point.x + M.doubleAt(2, 1)*point.y + M.doubleAt(2, 2));
@@ -269,6 +274,7 @@ class CartoonimatorHandler {
         // cv.imshow('debug', frame);
     }
 
+    // shouldn't have underscore -.-
     _animationLoop(context) {
         console.log(`Frame: ${this.currTime}`);
         let t = this.currTime;
@@ -285,7 +291,6 @@ class CartoonimatorHandler {
                                 thisFrame.rows);
         context.putImageData(frameImageData, 0, 0);
 
-        // console.log(`Curr time: ${this.currTime}`);
         this.currTime = this.currTime + 1;
     }
 
@@ -296,7 +301,6 @@ class CartoonimatorHandler {
         console.log(`Animation delta time: ${deltaTime}`);
         
         this.currTime = 0;
-        // let t = 5;
 
         mediaRecorder.start();
 
@@ -311,26 +315,4 @@ class CartoonimatorHandler {
             mediaRecorder.stop();
         }, ((this.maxTime + 1) / FRAME_RATE * 1000));
     }
-
-    // addFrame(frameImg, id, markers) {
-    //     // Flatten image
-    //     let res = this._flattenFrame(frameImg, markers);
-    //     if (res === -1) {
-    //         console.log("Could not find necessary markers.");
-    //         return -1;
-    //     }
-
-    //     if (id === 'scene') {
-    //         console.log('Adding to scene.');
-    //         this.scenes.push(frameImg);
-    //     }
-    //     else {
-    //         console.log('Adding to step.');
-
-    //         this._findObjects(frameImg, markers);
-    //         this.steps.push(frameImg);
-    //     }
-
-    //     return 0;
-    // }
 }
