@@ -18,9 +18,17 @@
 
         <script type="text/javascript" src="AnimationObject.js"></script>
         <script type="text/javascript" src="SceneReel.js"></script>
-        <script defer type="text/javascript" src="cartoonimator.js"></script>        
-        <script defer type="text/javascript" src="app.js"></script>
+        <script defer type="text/javascript" src="cartoonimator.js"></script>     
+        
+        
+        <script type="module" src="./modules/Camera.js"></script>
+        <script defer type="module" src="app2.js"></script>
         <script async src="https://docs.opencv.org/4.5.5/opencv.js" type="text/javascript" onload="onOpenCVReady()"></script>
+        <script>
+            function onOpenCVReady() {
+                console.log("OpenCV Ready.");
+            }
+        </script>
     </head>
     <body>
         <div id="title">
@@ -30,43 +38,47 @@
         <div id="camera">
             <video id="video" autoplay="true" playsinline="true" style="display: none;"></video>
             <canvas id="canvas"></canvas>
-            <label for="timestamp">Time (in seconds): </label>
-            <input type="number" id="timestamp" min="0" max="60">
+            <!-- <label for="timestamp">Time (in seconds): </label> -->
+            <img id="markerCheck" src="images/check_green.png" width="40" height="40" style="display: none;">
             <h3 id="debug"></h3>
             <img id="clickBtn" src="images/camera-white.png" alt="Capture button">
             <img id="backBtnCamera" src="images/back.png" alt="Back button">
         </div>
         
         <div id="main">
-            <div class="scene" id="scene0">
+            <!-- <div class="scene" id="s0">
                 <div class="frame-info">
-                    <h2 class="label">Scene at 0s</h2>
+                    <h2 class="label">Scene at</h2>
+                    <input type="number" id="timestamp" min="0" max="60"><br>
                     <img class="capture" src="images/camera.png" alt="Capture button">
                     <img class="delete" src="images/trash.png" alt="Delete button">    
                 </div>
                 <div class="frame-img">
                     <canvas class="preview" id="hello" width="128" height="96"></canvas>
                 </div>
-            </div>
-            <hr>
-            <div class="step" id="step0">
-                <div class="frame-info">
-                    <h2 class="label">Step at _</h2>
-                    <img class="capture" src="images/camera.png" alt="Capture button">
-                    <img class="delete" src="images/trash.png" alt="Delete button">    
+                <div class="keyframe" id="kf0">
+                    <hr>
+                    <div class="frame-info">
+                        <h2 class="label">Step at <input type="number" id="timestamp" min="0" max="60">
+                        </h2>
+                        <img class="capture" src="images/camera.png" alt="Capture button">
+                        <img class="delete" src="images/trash.png" alt="Delete button">    
+                    </div>
+                    <div class="frame-img">
+                        <canvas class="preview" width="128" height="96"></canvas>
+                    </div>
                 </div>
-                <div class="frame-img">
-                    <canvas class="preview" width="128" height="96"></canvas>
-                </div>
-            </div>
-            <hr>
-           
-            <div id="footer"></div>
-          
-            <img id="addBtn" src="images/add-step.png" alt="Add step">
+                <button type="button" class="add-keyframe">Add Keyframe</button>
+                <hr>
+            </div> -->
+            <button type="button" class="add-scene">Add Scene</button>
+                  
+            <!-- <img id="addBtn" src="images/add-step.png" alt="Add step"> -->
             <img id="playBtn" src="images/play.png" alt="Play button">
-            <img id="addSceneBtn" src="images/add-scene.png" alt="Add scene">
+            <!-- <img id="addSceneBtn" src="images/add-scene.png" alt="Add scene"> -->
         </div>
+
+        <div id="footer"></div>
 
         <div id="play">
             <canvas id="playback"></canvas>

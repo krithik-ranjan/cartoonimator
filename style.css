@@ -38,8 +38,8 @@ html, body {
 }
 
 #timestamp {
-    margin: 10px;
-    padding: 4px;
+    margin: 5px;
+    padding: 2px;
     border: 1px solid #cccccc;
     border-radius: 4px;
 }
@@ -94,6 +94,28 @@ html, body {
     position: fixed;
     top: calc(100% - 120px);
     left: calc(50% - 40px);
+}
+
+.add-scene {
+    background-color: #222222;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Josefin Slab', cursive;
+    padding: 4px;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+}
+
+.add-keyframe {
+    background-color: #222222;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Josefin Slab', cursive;
+    padding: 4px;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
 
 #addBtn {
@@ -192,6 +214,10 @@ html, body {
     right: 20px; */
     object-fit: cover;
     background-color: #cccccc;
+}
+
+.keyframe {
+    padding-left: 10%;
 }
 
 #footer {
