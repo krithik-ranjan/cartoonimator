@@ -9,4 +9,9 @@ export const Sprite = class {
     deleteSprite() {
         this.img.delete();
     }
+
+    spriteInfo() {
+        return `pos (${this.pos.x}, ${this.pos.y}), rot ${this.rot}`;
+        // console.log(`\t\t- Sprite [${this.id} at (${this.pos.x}, ${this.pos.y}) with rot ${this.rot}]`);
+    }
 }

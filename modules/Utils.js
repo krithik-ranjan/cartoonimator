@@ -46,7 +46,7 @@ function _removeBackground(frame) {
 
     cv.cvtColor(fg, fg, cv.COLOR_GRAY2RGBA);
     // imgGrey.copyTo(frame);
-    console.log(`Og type: ${frame.type()}, fg type: ${fg.type()}`);
+    // console.log(`Og type: ${frame.type()}, fg type: ${fg.type()}`);
 
     cv.bitwise_and(frame, fg, frame);
 
@@ -61,7 +61,7 @@ function _removeBackground(frame) {
     cv.merge(imgPlanes, frame);
     // fg.copyTo(frame);
 
-    console.log(`Removed background`);
+    // console.log(`Removed background`);
 
     imgGrey.delete();
     fg.delete();
@@ -70,10 +70,10 @@ function _removeBackground(frame) {
 
 function findObjects(frame, markers, M) {
     let i, topLeft, bottomLeft, topRight, bottomRight;
-    let foundSprites = [];
+    let foundSprites = new Map();
     for (i = 100; i < 110; i++) {
         if (markers.has(i)) {
-            console.log(`Getting transformed points for marker ${i}`);
+            // console.log(`Getting transformed points for marker ${i}`);
             // Based on marker corners, find object corners
             // Top left corner is the same as marker corner
             topLeft = _getPointTransform(markers.get(i)[0], M);
@@ -96,7 +96,7 @@ function findObjects(frame, markers, M) {
 
             let center = new cv.Point((topLeft.x + bottomRight.x) / 2, (topLeft.y + bottomRight.y) / 2);
             let side = Math.hypot((topLeft.x - topRight.x), (topLeft.y - topRight.y));
-            console.log(`Circle mask at (${center.x}, ${center.y}) with side ${side}.`)
+            // console.log(`Circle mask at (${center.x}, ${center.y}) with side ${side}.`)
             cv.circle(mask, center, side / 2, new cv.Scalar(255, 255, 255, 255), cv.FILLED);
 
             // Extract object 
@@ -124,7 +124,8 @@ function findObjects(frame, markers, M) {
             roiObject = dst.roi(rect);
             let rot = (Math.atan2(topRight.y - topLeft.y, topRight.x - topLeft.x)) * (180 / Math.PI);
 
-            foundSprites.push(new Sprite(pos, rot, side, roiObject));
+            // foundSprites.push(new Sprite(pos, rot, side, roiObject));
+            foundSprites.set(i, new Sprite(pos, rot, side, roiObject));
 
             mask.delete();
             dst.delete();

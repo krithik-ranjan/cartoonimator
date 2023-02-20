@@ -11,12 +11,14 @@ Access at [Cartoonimator](https://krithik-ranjan.github.io/cartoonimator).
     - Include download button on the play screen
     - ~~Test if possible to download using MediaRecorder~~
 - Fix occasional crashes *
+    - ~~Fix crashes due to sprite card being out of bounds~~
 - Changing icons for adding frame/scene *
-- Deleting rows (and not just frames) when pressing the trash button *
+- ~~Deleting rows (and not just frames) when pressing the trash button *~~
+- Fix line dividers while adding and deleting frames 
 - Add replay button in play mode *
 - Turning play mode to horizontal *
 - Fix angle rotation to be circular *
-- Fix rgb inverted lol
+- ~~Fix rgb inverted lol~~ --> only an issue on Nothing phone (1)
 - Ability to create loops of frame sequences ~
 - Check and warn that objects cant be in the first scene ~
 - ~~Fix iPhone issue **~~

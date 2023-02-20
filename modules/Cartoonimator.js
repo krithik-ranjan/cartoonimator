@@ -36,6 +36,32 @@ export const Cartoonimator = class {
         }
     }
 
+    getNextSceneTimestamp() {
+        if (this.scenes.length === 0) return 0;
+
+        let lastTimestamp = 0;
+        let i;
+        for (i = 0; i < this.scenes.length; i++) {
+            if (this.scenes[i].getLastTimestamp() > lastTimestamp)
+                lastTimestamp = this.scenes[i].getLastTimestamp();
+        }
+
+        return (lastTimestamp + 1) / FRAME_RATE;
+    }
+
+    getNextKeyframeTimestamp(sceneId) {
+        let i;
+        let lastTimestamp = 0;
+        for (i = 0; i < this.scenes.length; i++) {
+            if (this.scenes[i].getId() === sceneId)
+                lastTimestamp = this.scenes[i].getLastTimestamp();
+        }
+
+        console.log(`[DEBUG] Last timestamp: ${lastTimestamp}`);
+
+        return (lastTimestamp + 1) / FRAME_RATE;
+    }
+
     detectMarkers(imageData) {
         if (Date.now() > this.lastMarkerDetectionTime + 2000){
             this.markers.clear();
@@ -117,5 +143,76 @@ export const Cartoonimator = class {
         else {
             return 0;
         }
+    }
+
+    deleteScene(id) {
+        let i;
+        for (i = 0; i < this.scenes.length; i++) {
+            if (this.scenes[i].getId() === id) {
+                this.scenes[i].clearScene();
+                this.scenes.splice(i, 1);
+                break;
+            }
+        }
+
+        console.log(`[DEBUG] Deleted scene ${id}, current number of scenes: ${this.scenes.length}`);
+    }
+
+    deleteKeyframe(id, sceneId) {
+        let i;
+        for (i = 0; i < this.scenes.length; i++) {
+            if (this.scenes[i].getId() === sceneId) {
+                this.scenes[i].deleteKeyframe(id);
+            }
+        }
+    }
+
+    updateSceneTimestamp(id, newTime) {
+        let i;
+        for (i = 0; i < this.scenes.length; i++) {
+            if (this.scenes[i].getId() === id) 
+                this.scenes[i].updateTimestamp(newTime * FRAME_RATE);
+        }
+    }
+
+    updateKeyframeTimestamp(id, sceneId, newTime) {
+        let i;
+        for (i = 0; i < this.scenes.length; i++) {
+            if (this.scenes[i].getId() === sceneId) 
+                this.scenes[i].updateKeyframeTimestamp(id, newTime * FRAME_RATE);
+        }
+    }
+
+    animationLoop(context) {
+
+    }
+
+    playVideo(context, mediaRecorder) {
+        console.log('#### PLAYING VIDEO ####');
+        
+        let deltaTime = 1 / FRAME_RATE * 1000;
+        let maxTime = this.getNextSceneTimestamp() * 1000;
+        console.log(`[DEBUG] Animation delta: ${deltaTime}ms, total time: ${maxTime}ms`);
+
+        this.currTime = 0;
+
+        // Print out scene and keyframe info for debugging
+        let i;
+        for (i = 0; i < this.scenes.length; i++) {
+            this.scenes[i].printSceneInfo();
+        }
+
+        // mediaRecorder.start();
+
+        // let timerId = setInterval( () => {
+        //     this.animationLoop(context);
+        // }, deltaTime);
+
+        // setTimeout( () => {
+        //     console.log('#### FINISHED VIDEO ####');
+        //     clearInterval(timerId);
+
+        //     // mediaRecorder.stop();
+        // }, maxTime);
     }
 }

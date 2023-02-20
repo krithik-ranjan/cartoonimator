@@ -125,6 +125,7 @@ let captureButton = document.querySelectorAll(".capture");
 
 // Variable for active frame
 let activeFrame;
+let activeFrameTime;
 
 function showCapturePage() {
     // Remove main page and show capture page
@@ -170,18 +171,22 @@ function saveFrame() {
             return;
         }
 
+        newHandler.updateSceneTimestamp(activeFrame.id, activeFrameTime);
+
         // Add to frame map
         console.log(`Updating [${activeFrame.id}]`);
         presentFrames.set(activeFrame.id, {active: true, timestamp: timestamp});
     }
     else if (activeFrame.className === 'keyframe') {
-        res = newHandler.addKeyframe(frameImg, activeFrame.id, activeFrame.parentNode.id);
+        res = newHandler.addKeyframe(frameImg, activeFrame.id, activeFrame.parentNode.id, activeFrameTime);
         // res = handler.flattenFrameWithObjects(frameImg, markerMap, timestamp);
 
         if (res === 0) {
             debugOut.innerHTML = 'No objects found. Try again.';
             return;
         };
+
+        newHandler.updateKeyframeTimestamp(activeFrame.id, activeFrame.parentNode.id, activeFrameTime);
 
         console.log(`Updating [${activeFrame.id}]`);
         presentFrames.set(activeFrame.id, {active: true, timestamp: timestamp});
@@ -228,6 +233,7 @@ backButtonCamera.addEventListener('click', backToMainFromCamera);
 function addKeyframe() {
     let activeScene = this.parentNode;
     let keyframeId = newHandler.getNewKeyframeId(activeScene.id);
+    activeFrameTime = newHandler.getNextKeyframeTimestamp(activeScene.id);
     // console.log(`[INFO] Adding keyframe [${keyframeId}] to scene [${activeScene.id}]`);
 
     const addKeyframeButton = activeScene.querySelector('.add-keyframe');
@@ -254,6 +260,8 @@ function addKeyframe() {
     textbox.id = 'timestamp';
     textbox.min = 0;
     textbox.max = 60;
+    textbox.value = activeFrameTime;
+    textbox.addEventListener('change', updateTimestamp);
     const capture = document.createElement('img');
     capture.className = 'capture';
     capture.src = 'images/camera.png';
@@ -282,15 +290,6 @@ function addKeyframe() {
 
     activeScene.appendChild(addKeyframeButton);
 
-    // captureButton = document.querySelectorAll(".capture");
-    // for (const button of captureButton){
-    //     button.addEventListener('click', showCapturePage);
-    // }
-    // deleteButton = document.querySelectorAll(".delete");
-    // for (const button of deleteButton){
-    //     button.addEventListener('click', deleteFrame);
-    // }
-
     // Show capture page to click scene
     mainPage.style.display = "none";
     capturePage.style.display = "block";
@@ -306,6 +305,7 @@ for (const button of addKeyframeButtons){
 
 function addScene() {
     let sceneId = newHandler.getNewSceneId();
+    activeFrameTime = newHandler.getNextSceneTimestamp();
     // console.log(`Adding new scene [${sceneId}]`);
 
     const addSceneButton = document.querySelector('.add-scene');
@@ -329,6 +329,8 @@ function addScene() {
     textbox.id = 'timestamp';
     textbox.min = 0;
     textbox.max = 60;
+    textbox.value = activeFrameTime;
+    textbox.addEventListener('change', updateTimestamp);
     const capture = document.createElement('img');
     capture.className = 'capture';
     capture.src = 'images/camera.png';
@@ -363,24 +365,9 @@ function addScene() {
     sceneDiv.appendChild(addKeyframeButton);
 
     const line = document.createElement('hr');
-    mainPage.appendChild(line);
+    sceneDiv.appendChild(line);
 
     mainPage.appendChild(addSceneButton);
-
-    // // Add event listeners
-    // captureButton = document.querySelectorAll(".capture");
-    // for (const button of captureButton){
-    //     button.addEventListener('click', showCapturePage);
-    // }
-    // deleteButton = document.querySelectorAll(".delete");
-    // for (const button of deleteButton){
-    //     button.addEventListener('click', deleteFrame);
-    // }
-
-    // addKeyframeButtons = document.querySelectorAll(".add-keyframe");
-    // for (const button of addKeyframeButtons){
-    //     button.addEventListener('click', addKeyframe);
-    // }
 
     // Show capture page to click scene
     mainPage.style.display = "none";
@@ -395,63 +382,31 @@ for (const button of addSceneButtons){
     button.addEventListener('click', addScene);
 }
 
+function updateTimestamp() {
+    let activeFrameType = this.parentNode.parentNode.className;
+    let activeFrameId = this.parentNode.parentNode.id;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    console.log(`[DEBUG] Updating timestamp of ${activeFrameType} [${activeFrameId}] to ${this.value}`);
+    
+    if (activeFrameType === 'scene') {
+        newHandler.updateSceneTimestamp(activeFrameId, this.value);
+    }
+    else {
+        newHandler.updateKeyframeTimestamp(activeFrameId, this.parentNode.parentNode.parentNode.id, this.value);
+    }
+}
 
 function deleteFrame() {
     // Display parent 
     activeFrame = this.parentNode.parentNode;
-    console.log(`Deleting ${activeFrame.id}`)
+    console.log(`[INFO] Deleting ${activeFrame.id}`);
 
-    if (presentFrames.get(activeFrame.id).active) {
-        var preview = activeFrame.querySelector('.preview');
-        var previewContext = preview.getContext('2d');
-        previewContext.fillStyle = '#cccccc';
-        previewContext.fillRect(0, 0, 128, 96);
+    if (activeFrame.className === 'scene')
+        newHandler.deleteScene(activeFrame.id);
+    else 
+        newHandler.deleteKeyframe(activeFrame.id, activeFrame.parentNode.id);
 
-        if (activeFrame.className === 'scene') {
-            let frameLabel = activeFrame.getElementsByClassName('label');
-            frameLabel[0].innerHTML = `Scene at _`;
-            handler.deleteScene(presentFrames.get(activeFrame.id).timestamp);
-        }
-        else {
-            let frameLabel = activeFrame.getElementsByClassName('label');
-            frameLabel[0].innerHTML = `Step at _`;
-            handler.deleteStep(presentFrames.get(activeFrame.id).timestamp);
-        }
-
-        presentFrames.get(activeFrame.id).active = false;
-        presentFrames.get(activeFrame.id).timestamp = undefined;
-    }
-    else {
-        console.log('Already inactive');
-    }
-}
-
-let deleteButton = document.querySelectorAll(".delete");
-for (const button of deleteButton){
-    button.addEventListener('click', deleteFrame);
+    activeFrame.remove();
 }
 
 function playVideo() {
@@ -460,7 +415,8 @@ function playVideo() {
     
     let playbackContext = playback.getContext('2d');
 
-    handler.playVideo(playbackContext, mediaRecorder);
+    // handler.playVideo(playbackContext, mediaRecorder);
+    newHandler.playVideo(playbackContext, mediaRecorder);
 }
 
 const playButton = document.querySelector('#playBtn');
@@ -477,6 +433,14 @@ function backToMainFromPlay() {
 
 const backButtonPlay = document.querySelector('#backBtnPlay');
 backButtonPlay.addEventListener('click', backToMainFromPlay);
+
+
+
+
+
+
+
+
 
 // function addStep() {
 //     // Remove footer
