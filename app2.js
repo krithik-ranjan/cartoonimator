@@ -86,7 +86,7 @@ function tick() {
         cameraPreview();
 
         let foundMarkers = newHandler.detectMarkers(imageData);
-        markerMap = newHandler.markers;
+        markerMap = newHandler.getMarkerMap();
 
         if (foundMarkers) {
             let checkImage = document.getElementById("markerCheck");
@@ -174,7 +174,7 @@ function saveFrame() {
         newHandler.updateSceneTimestamp(activeFrame.id, activeFrameTime);
 
         // Add to frame map
-        console.log(`Updating [${activeFrame.id}]`);
+        // console.log(`Updating [${activeFrame.id}]`);
         presentFrames.set(activeFrame.id, {active: true, timestamp: timestamp});
     }
     else if (activeFrame.className === 'keyframe') {
@@ -188,7 +188,7 @@ function saveFrame() {
 
         newHandler.updateKeyframeTimestamp(activeFrame.id, activeFrame.parentNode.id, activeFrameTime);
 
-        console.log(`Updating [${activeFrame.id}]`);
+        // console.log(`Updating [${activeFrame.id}]`);
         presentFrames.set(activeFrame.id, {active: true, timestamp: timestamp});
     }
 
@@ -386,7 +386,7 @@ function updateTimestamp() {
     let activeFrameType = this.parentNode.parentNode.className;
     let activeFrameId = this.parentNode.parentNode.id;
 
-    console.log(`[DEBUG] Updating timestamp of ${activeFrameType} [${activeFrameId}] to ${this.value}`);
+    console.log(`[INFO] Updating timestamp of ${activeFrameType} [${activeFrameId}] to ${this.value}`);
     
     if (activeFrameType === 'scene') {
         newHandler.updateSceneTimestamp(activeFrameId, this.value);

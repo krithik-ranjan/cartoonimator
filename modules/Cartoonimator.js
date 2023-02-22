@@ -53,13 +53,19 @@ export const Cartoonimator = class {
         let i;
         let lastTimestamp = 0;
         for (i = 0; i < this.scenes.length; i++) {
-            if (this.scenes[i].getId() === sceneId)
-                lastTimestamp = this.scenes[i].getLastTimestamp();
+            if (this.scenes[i].getId() === sceneId) {
+                if (this.scenes[i].keyframes.length === 0) return this.scenes[i].getTime() / FRAME_RATE;
+                else {
+                    lastTimestamp = this.scenes[i].getLastTimestamp();
+                    return (lastTimestamp + 1) / FRAME_RATE;
+                }
+            }
+                
         }
 
-        console.log(`[DEBUG] Last timestamp: ${lastTimestamp}`);
+        // console.log(`[DEBUG] Last timestamp: ${lastTimestamp}`);
 
-        return (lastTimestamp + 1) / FRAME_RATE;
+        // return (lastTimestamp + 1) / FRAME_RATE;
     }
 
     detectMarkers(imageData) {
@@ -82,11 +88,14 @@ export const Cartoonimator = class {
         return (this.markers.has(10) && this.markers.has(11) && this.markers.has(12) && this.markers.has(13))
     }
 
-    get markerMap() {
+    getMarkerMap() {
         return this.markers;
     }
 
     addScene(frameImg, id) {
+        console.log(`[DEBUG] Markers found:`);
+        for (const markerID of this.markers.keys()) console.log(`\t${markerID}`);
+
         if (this.markers.has(10) && this.markers.has(11) && this.markers.has(12) && this.markers.has(13)) {
             let _ = flattenFrame(frameImg, this.markers, this.width, this.height);
 
@@ -118,6 +127,9 @@ export const Cartoonimator = class {
     }
 
     addKeyframe(frameImg, id, sceneId) {
+        console.log(`[DEBUG] Markers found:`);
+        for (const markerID of this.markers.keys()) console.log(`\t${markerID}`);
+
         if (this.markers.has(10) && this.markers.has(11) && this.markers.has(12) && this.markers.has(13)) {
             let M = flattenFrame(frameImg, this.markers, this.width, this.height);
 
@@ -183,8 +195,45 @@ export const Cartoonimator = class {
         }
     }
 
-    animationLoop(context) {
+    _getSceneIdx(timestamp) {
+        let sceneIdx = 0; 
 
+        if (timestamp === 0) sceneIdx = 0;
+
+        let i;
+        for (i = 1; i < this.scenes.length; i++) {
+            if (this.scenes[i].getTime() > timestamp) {
+                sceneIdx = i - 1;
+                break;
+            }
+            else if (this.scenes[i].getTime() === timestamp) {
+                sceneIdx = i;
+                break;
+            }
+        }
+
+        if (timestamp > this.scenes[this.scenes.length - 1].getTime()) {
+            sceneIdx = this.scenes.length - 1;
+        }
+
+        return sceneIdx;
+    }
+
+    _animationLoop(context) {
+        let thisFrame = new cv.Mat();
+
+        let sceneIdx = this._getSceneIdx(this.currTime);
+
+        console.log(`[DEBUG] Scene [${this.scenes[sceneIdx].id}] at time ${this.currTime}`);
+        this.scenes[sceneIdx].animateScene(thisFrame, this.currTime);
+
+        // Add frame to canvas
+        let frameImageData = new ImageData(new Uint8ClampedArray(thisFrame.data), 
+                                thisFrame.cols,
+                                thisFrame.rows);
+        context.putImageData(frameImageData, 0, 0);
+
+        this.currTime = this.currTime + 1;
     }
 
     playVideo(context, mediaRecorder) {
@@ -204,15 +253,15 @@ export const Cartoonimator = class {
 
         // mediaRecorder.start();
 
-        // let timerId = setInterval( () => {
-        //     this.animationLoop(context);
-        // }, deltaTime);
+        let timerId = setInterval( () => {
+            this._animationLoop(context);
+        }, deltaTime);
 
-        // setTimeout( () => {
-        //     console.log('#### FINISHED VIDEO ####');
-        //     clearInterval(timerId);
+        setTimeout( () => {
+            console.log('#### FINISHED VIDEO ####');
+            clearInterval(timerId);
 
-        //     // mediaRecorder.stop();
-        // }, maxTime);
+            // mediaRecorder.stop();
+        }, maxTime);
     }
 }

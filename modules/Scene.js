@@ -35,6 +35,10 @@ export const Scene = class {
         return this.id;
     }
 
+    getTime() {
+        return this.time;
+    }
+
     updateImage(img) {
         img.copyTo(this.sceneImg);        
     }
@@ -42,7 +46,7 @@ export const Scene = class {
     updateTimestamp(newTime) {
         this.time = newTime;
 
-        console.log(`[DEBUG] Updated timestampt of scene [${this.id}] to ${this.time}`);
+        // console.log(`[DEBUG] Updated timestamp of scene [${this.id}] to ${this.time}`);
     }
 
     updateKeyframeTimestamp(id, newTime) {
@@ -62,8 +66,10 @@ export const Scene = class {
                 return;
             }
         }
+        console.log(`\t[INFO] Added keyframe [${id}] with sprites:`);
+        for (const sprite of sprites.keys()) console.log(`\t\t${sprite}`);
+
         this.keyframes.push(new Keyframe(id, sprites));
-        console.log(`\t[INFO] Added keyframe [${id}]`);
     }
 
     clearScene() {
@@ -93,6 +99,18 @@ export const Scene = class {
         let i;
         for (i = 0; i < this.keyframes.length; i++) {
             this.keyframes[i].printKeyframeInfo();
+        }
+    }
+
+    animateScene(frameImg, timestamp) {
+        this.sceneImg.copyTo(frameImg);
+
+        let i;
+        for (i = 0; i < this.keyframes.length - 1; i++) {
+            if (this.keyframes[i].getTime() === timestamp) this.keyframes[i].animateThisKeyframe(frameImg);
+            else if (this.keyframes[i].getTime() < timestamp && timestamp < this.keyframes[i+1].getTime()) {
+                this.keyframes[i].animateIntermediateKeyframe(frameImg, this.keyframes[i+1], timestamp);
+            }
         }
     }
 }

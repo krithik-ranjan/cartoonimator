@@ -124,7 +124,11 @@ function findObjects(frame, markers, M) {
             roiObject = dst.roi(rect);
             let rot = (Math.atan2(topRight.y - topLeft.y, topRight.x - topLeft.x)) * (180 / Math.PI);
 
+            pos.x = pos.x - 100;
+            pos.y = pos.y - 100;
+
             // foundSprites.push(new Sprite(pos, rot, side, roiObject));
+            console.log(`[DEBUG] Adding sprite ${i}`);
             foundSprites.set(i, new Sprite(pos, rot, side, roiObject));
 
             mask.delete();
