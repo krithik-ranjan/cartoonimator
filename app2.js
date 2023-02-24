@@ -232,12 +232,30 @@ backButtonCamera.addEventListener('click', backToMainFromCamera);
 
 function addKeyframe() {
     let activeScene = this.parentNode;
-    let keyframeId = newHandler.getNewKeyframeId(activeScene.id);
+    let keyframeId = activeScene.id + newHandler.getNewKeyframeId(activeScene.id);
     activeFrameTime = newHandler.getNextKeyframeTimestamp(activeScene.id);
     // console.log(`[INFO] Adding keyframe [${keyframeId}] to scene [${activeScene.id}]`);
 
     const addKeyframeButton = activeScene.querySelector('.add-keyframe');
     addKeyframeButton.remove();
+
+    const line = activeScene.querySelector('.scene-line');
+    line.remove();
+
+//     activeScene.innerHTML += `
+// <div class="keyframe" id="${keyframeId}">
+//     <hr>
+//     <div class="frame-info">
+//         <h2 class="label">Step at <input type="number" id="timestamp" min="0" max="60" value=${activeFrameTime}>
+//         </h2>
+//         <img class="capture" src="images/camera.png" alt="Capture button">
+//         <img class="delete" src="images/trash.png" alt="Delete button">    
+//     </div>
+//     <div class="frame-img">
+//         <canvas class="preview" width="128" height="96"></canvas>
+//     </div>
+// </div>
+// `;
 
     const keyframeDiv = document.createElement('div');
     keyframeDiv.className = 'keyframe';
@@ -245,71 +263,123 @@ function addKeyframe() {
 
     activeScene.appendChild(keyframeDiv);
 
-    const line = document.createElement('hr');
-    keyframeDiv.appendChild(line);
+    keyframeDiv.innerHTML = `
+    <hr>
+    <div class="frame-info">
+        <h2 class="label">Step at <input type="number" id="timestamp" min="0" max="60" value=${activeFrameTime}>
+        </h2>
+        <img class="capture" src="images/camera.png" alt="Capture button">
+        <img class="delete" src="images/trash.png" alt="Delete button">    
+    </div>
+    <div class="frame-img">
+        <canvas class="preview" width="128" height="96"></canvas>
+    </div>
+`;
 
-    const frameInfo = document.createElement('div');
-    frameInfo.className = 'frame-info';
-    keyframeDiv.appendChild(frameInfo);
+    // const line = document.createElement('hr');
+    // keyframeDiv.appendChild(line);
 
-    const label = document.createElement('h2');
-    label.innerHTML = 'Kf at';
-    label.className = 'label';
-    const textbox = document.createElement('input');
-    textbox.type = 'number';
-    textbox.id = 'timestamp';
-    textbox.min = 0;
-    textbox.max = 60;
-    textbox.value = activeFrameTime;
-    textbox.addEventListener('change', updateTimestamp);
-    const capture = document.createElement('img');
-    capture.className = 'capture';
-    capture.src = 'images/camera.png';
-    capture.alt = 'Capture button';
-    capture.addEventListener('click', showCapturePage);
-    const del = document.createElement('img');
-    del.className = 'delete';
-    del.src = 'images/trash.png';
-    del.alt = 'Delete button';
-    del.addEventListener('click', deleteFrame);
-    frameInfo.appendChild(label);
-    frameInfo.appendChild(textbox);
-    frameInfo.appendChild(document.createElement('br'));
-    frameInfo.appendChild(capture);
-    frameInfo.appendChild(del);
+    // const frameInfo = document.createElement('div');
+    // frameInfo.className = 'frame-info';
+    // keyframeDiv.appendChild(frameInfo);
 
-    const frameImg = document.createElement('div');
-    frameImg.className = 'frame-img';
-    keyframeDiv.appendChild(frameImg);
+    // const label = document.createElement('h2');
+    // label.innerHTML = 'Kf at';
+    // label.className = 'label';
+    // const textbox = document.createElement('input');
+    // textbox.type = 'number';
+    // textbox.id = 'timestamp';
+    // textbox.min = 0;
+    // textbox.max = 60;
+    // textbox.value = activeFrameTime;
+    // textbox.addEventListener('change', updateTimestamp);
+    // const capture = document.createElement('img');
+    // capture.className = 'capture';
+    // capture.src = 'images/camera.png';
+    // capture.alt = 'Capture button';
+    // capture.addEventListener('click', showCapturePage);
+    // const del = document.createElement('img');
+    // del.className = 'delete';
+    // del.src = 'images/trash.png';
+    // del.alt = 'Delete button';
+    // del.addEventListener('click', deleteFrame);
+    // frameInfo.appendChild(label);
+    // frameInfo.appendChild(textbox);
+    // frameInfo.appendChild(document.createElement('br'));
+    // frameInfo.appendChild(capture);
+    // frameInfo.appendChild(del);
 
-    const preview = document.createElement('canvas');
-    preview.className = 'preview';
-    preview.width = '128';
-    preview.height = '96';
-    frameImg.appendChild(preview);
+    // const frameImg = document.createElement('div');
+    // frameImg.className = 'frame-img';
+    // keyframeDiv.appendChild(frameImg);
+
+    // const preview = document.createElement('canvas');
+    // preview.className = 'preview';
+    // preview.width = '128';
+    // preview.height = '96';
+    // frameImg.appendChild(preview);
 
     activeScene.appendChild(addKeyframeButton);
+    activeScene.appendChild(line);
+
+    let addKeyframeButtons = document.querySelectorAll(".add-keyframe");
+    for (const button of addKeyframeButtons){
+        button.addEventListener('click', addKeyframe);
+    }
+
+    let timeTextbox = document.querySelectorAll('.timestamp');
+    for (const textbox of timeTextbox) {
+        textbox.addEventListener('change', updateTimestamp);
+    }
+
+    let captureButtons = document.querySelectorAll('.capture');
+    for (const button of captureButtons) {
+        button.addEventListener('click', showCapturePage);
+    }
+
+    let deleteButtons = document.querySelectorAll('.delete');
+    for (const button of deleteButtons) {
+        button.addEventListener('click', deleteFrame);
+    }
 
     // Show capture page to click scene
     mainPage.style.display = "none";
     capturePage.style.display = "block";
     video.play();
     cameraActive = true;
-    activeFrame = keyframeDiv;
+    activeFrame = document.getElementById(keyframeId);
 }
 
-let addKeyframeButtons = document.querySelectorAll(".add-keyframe");
-for (const button of addKeyframeButtons){
-    button.addEventListener('click', addKeyframe);
-}
+// let addKeyframeButtons = document.querySelectorAll(".add-keyframe");
+// for (const button of addKeyframeButtons){
+//     button.addEventListener('click', addKeyframe);
+// }
+
+let timestamp;
 
 function addScene() {
     let sceneId = newHandler.getNewSceneId();
     activeFrameTime = newHandler.getNextSceneTimestamp();
+    timestamp = activeFrameTime;
     // console.log(`Adding new scene [${sceneId}]`);
 
     const addSceneButton = document.querySelector('.add-scene');
     addSceneButton.remove();
+
+//     mainPage.innerHTML += `
+// <div class="scene" id="${sceneId}">
+//     <div class="frame-info">
+//         <h2 class="label">Scene at</h2>
+//         <img class="capture" src="images/camera.png" alt="Capture button">
+//         <img class="delete" src="images/trash.png" alt="Delete button">    
+//     </div>
+//     <div class="frame-img">
+//         <canvas class="preview" id="hello" width="128" height="96"></canvas>
+//     </div>
+//     <button type="button" class="add-keyframe">Add Keyframe</button>
+//     <hr class="scene-line">
+// </div>
+// `;
 
     const sceneDiv = document.createElement('div');
     sceneDiv.className = 'scene';
@@ -317,70 +387,104 @@ function addScene() {
 
     mainPage.appendChild(sceneDiv);
 
-    const frameInfo = document.createElement('div');
-    frameInfo.className = 'frame-info';
-    sceneDiv.appendChild(frameInfo);
+    sceneDiv.innerHTML = `
+    <div class="frame-info">
+        <h2 class="label">Scene</h2>
+        <img class="capture" src="images/camera.png" alt="Capture button">
+        <img class="delete" src="images/trash.png" alt="Delete button">    
+    </div>
+    <div class="frame-img">
+        <canvas class="preview" width="128" height="96"></canvas>
+    </div>
+    <button type="button" class="add-keyframe">Add Keyframe</button>
+    <hr class="scene-line">
+`;
 
-    const label = document.createElement('h2');
-    label.innerHTML = 'Scene at';
-    label.className = 'label';
-    const textbox = document.createElement('input');
-    textbox.type = 'number';
-    textbox.id = 'timestamp';
-    textbox.min = 0;
-    textbox.max = 60;
-    textbox.value = activeFrameTime;
-    textbox.addEventListener('change', updateTimestamp);
-    const capture = document.createElement('img');
-    capture.className = 'capture';
-    capture.src = 'images/camera.png';
-    capture.alt = 'Capture button';
-    capture.addEventListener('click', showCapturePage);
-    const del = document.createElement('img');
-    del.className = 'delete';
-    del.src = 'images/trash.png';
-    del.alt = 'Delete button';
-    del.addEventListener('click', deleteFrame);
-    frameInfo.appendChild(label);
-    frameInfo.appendChild(textbox);
-    frameInfo.appendChild(document.createElement('br'));
-    frameInfo.appendChild(capture);
-    frameInfo.appendChild(del);
+    // const frameInfo = document.createElement('div');
+    // frameInfo.className = 'frame-info';
+    // sceneDiv.appendChild(frameInfo);
 
-    const frameImg = document.createElement('div');
-    frameImg.className = 'frame-img';
-    sceneDiv.appendChild(frameImg);
+    // const label = document.createElement('h2');
+    // label.innerHTML = 'Scene at';
+    // label.className = 'label';
+    // const textbox = document.createElement('input');
+    // textbox.type = 'number';
+    // textbox.id = 'timestamp';
+    // textbox.min = 0;
+    // textbox.max = 60;
+    // textbox.value = activeFrameTime;
+    // textbox.addEventListener('change', updateTimestamp);
+    // const capture = document.createElement('img');
+    // capture.className = 'capture';
+    // capture.src = 'images/camera.png';
+    // capture.alt = 'Capture button';
+    // capture.addEventListener('click', showCapturePage);
+    // const del = document.createElement('img');
+    // del.className = 'delete';
+    // del.src = 'images/trash.png';
+    // del.alt = 'Delete button';
+    // del.addEventListener('click', deleteFrame);
+    // frameInfo.appendChild(label);
+    // frameInfo.appendChild(textbox);
+    // frameInfo.appendChild(document.createElement('br'));
+    // frameInfo.appendChild(capture);
+    // frameInfo.appendChild(del);
 
-    const preview = document.createElement('canvas');
-    preview.className = 'preview';
-    preview.width = '128';
-    preview.height = '96';
-    frameImg.appendChild(preview);
+    // const frameImg = document.createElement('div');
+    // frameImg.className = 'frame-img';
+    // sceneDiv.appendChild(frameImg);
 
-    const addKeyframeButton = document.createElement('button');
-    addKeyframeButton.type = 'button';
-    addKeyframeButton.className = 'add-keyframe';
-    addKeyframeButton.innerHTML = 'Add Keyframe';
-    addKeyframeButton.addEventListener('click', addKeyframe);
-    sceneDiv.appendChild(addKeyframeButton);
+    // const preview = document.createElement('canvas');
+    // preview.className = 'preview';
+    // preview.width = '128';
+    // preview.height = '96';
+    // frameImg.appendChild(preview);
 
-    const line = document.createElement('hr');
-    sceneDiv.appendChild(line);
+    // const addKeyframeButton = document.createElement('button');
+    // addKeyframeButton.type = 'button';
+    // addKeyframeButton.className = 'add-keyframe';
+    // addKeyframeButton.innerHTML = 'Add Keyframe';
+    // addKeyframeButton.addEventListener('click', addKeyframe);
+    // sceneDiv.appendChild(addKeyframeButton);
+
+    // const line = document.createElement('hr');
+    // sceneDiv.appendChild(line);
 
     mainPage.appendChild(addSceneButton);
+
+    let addKeyframeButtons = document.querySelectorAll(".add-keyframe");
+    for (const button of addKeyframeButtons){
+        button.addEventListener('click', addKeyframe);
+    }
+
+    let timeTextbox = document.querySelectorAll('.timestamp');
+    for (const textbox of timeTextbox) {
+        textbox.addEventListener('change', updateTimestamp);
+    }
+
+    let captureButtons = document.querySelectorAll('.capture');
+    for (const button of captureButtons) {
+        button.addEventListener('click', showCapturePage);
+    }
+
+    let deleteButtons = document.querySelectorAll('.delete');
+    for (const button of deleteButtons) {
+        button.addEventListener('click', deleteFrame);
+    }
 
     // Show capture page to click scene
     mainPage.style.display = "none";
     capturePage.style.display = "block";
     video.play();
     cameraActive = true;
-    activeFrame = sceneDiv;
+    activeFrame = document.getElementById(sceneId);
 }
 
-let addSceneButtons = document.querySelectorAll(".add-scene");
-for (const button of addSceneButtons){
-    button.addEventListener('click', addScene);
-}
+let addSceneButton = document.querySelector(".add-scene");
+addSceneButton.addEventListener('click', addScene);
+// for (const button of addSceneButtons){
+//     button.addEventListener('click', addScene);
+// }
 
 function updateTimestamp() {
     let activeFrameType = this.parentNode.parentNode.className;
