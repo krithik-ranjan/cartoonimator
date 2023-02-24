@@ -179,7 +179,7 @@ input[type=number] {
     display: block;
     margin: 0 auto;
     margin-top: 80px;
-    width: 90%;
+    width: 90vw;
     padding-bottom: 130px;
 }
 
@@ -192,17 +192,23 @@ input[type=number] {
 .frame-info {
     display: inline-flex;
     vertical-align: top;
-    width: 48%;
+    width: 45vw;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    row-gap: 20px;
+    row-gap: 12px;
 }
 
 .frame-info button {
     /* width: 80%; */
-    padding: 8px 10px;
+    padding: 6px 8px;
     width: 90px;
+}
+
+.scene-content, .frame-content {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .scene > h2 {
@@ -210,7 +216,7 @@ input[type=number] {
     margin-top: 30px;
     text-align: left;
 }
-.scene > .frame-info { height: 121px; }
+.scene > .frame-info { height: 33vw; }
 
 .frame-img {
     /* display: inline-block;
@@ -222,18 +228,23 @@ input[type=number] {
     /* float: left; */
     display: inline-block;
     vertical-align: top;
-    width: 50%;
+    width: 45vw;
     background-color: #cccccc;
+    border-radius: 8px;
 }
 
 .keyframe {
-    margin-left: 10%;
+    margin-left: 10vw;
     border-top: 1px solid black;
     padding-top: 0px;
     margin-top: 20px;
 }
 
-.keyframe > .frame-info { height: 109px; }
+.keyframe .frame-img {
+    width: 35vw;
+}
+
+.keyframe > .frame-info { height: 26vw; }
 
 .timestamp {
     margin: 5px;
