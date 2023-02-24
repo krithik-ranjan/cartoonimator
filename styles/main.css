@@ -13,6 +13,7 @@ html, body {
     height: 60px;
     margin: 0;
     padding: 5px;
+    top: 0;
     background-color: #222222;
     color: #ffffff;
     font-family: 'Indie Flower', cursive;
@@ -37,11 +38,14 @@ html, body {
     object-fit: cover;
 }
 
-#timestamp {
-    margin: 5px;
-    padding: 2px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
 }
 
 #camera label {
@@ -92,30 +96,20 @@ html, body {
     text-align: center;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2); 
     position: fixed;
-    top: calc(100% - 120px);
+    bottom: 20px;
     left: calc(50% - 40px);
 }
 
-.add-scene {
+.add-keyframe, .add-scene {
     background-color: #222222;
     color: #ffffff;
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 600;
     font-family: 'Josefin Slab', cursive;
-    padding: 4px;
+    padding: 8px;
     border-radius: 8px;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
-}
-
-.add-keyframe {
-    background-color: #222222;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: 'Josefin Slab', cursive;
-    padding: 4px;
-    border-radius: 8px;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+    margin: 30px 0 20px 0;
 }
 
 #addBtn {
@@ -150,76 +144,6 @@ html, body {
     left: calc(75% - 40px);
 }
 
-#main {
-    display: block;
-    position: absolute;
-    top: 75px;
-    left: 0px;
-    width: 100%;
-}
-
-#main hr {
-    width: 100%;
-    text-align: center;
-    color: #222222;
-}
-
-.frame-info {
-    display: block;
-    width: 50%;
-    float: left;
-    margin: 10px 0px;
-}
-
-.frame-img {
-    display: block;
-    width: 50%;
-    float: right;
-    margin: 10px 0px;
-    /* padding: 10px; */
-}
-
-.frame-info h2 {
-    color: #222222;
-    font-weight: 600;
-    font-size: x-large;
-    text-align: left;
-    /* vertical-align: middle; */
-    display: block;
-    margin: 10px;
-    margin-left: 45px;
-}
-
-.frame-info img {
-    height: 30px;
-    width: 30px;
-    /* display: inline-block; */
-    margin-left: 5px;
-    margin-right: 5px;
-    padding: 10px;
-    /* vertical-align: middle; */
-
-    background-color: #cccccc;
-    border-radius: 50%;
-    border: none;
-    text-align: center;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2); 
-}
-
-.frame-img canvas {
-    /* display: inline-block;
-    /* position: fixed; 
-    float: right;
-    top: 80px;
-    right: 20px; */
-    object-fit: cover;
-    background-color: #cccccc;
-}
-
-.keyframe {
-    padding-left: 10%;
-}
-
 #footer {
     display: block;
     height: 120px;
@@ -249,4 +173,77 @@ html, body {
     position: fixed;
     top: calc(100% - 120px);
     left: calc(50% - 40px);
+}
+
+#main {
+    display: block;
+    margin: 0 auto;
+    margin-top: 80px;
+    width: 90%;
+    padding-bottom: 130px;
+}
+
+#main hr {
+    width: 100%;
+    text-align: center;
+    color: #222222;
+}
+
+.frame-info {
+    display: inline-flex;
+    vertical-align: top;
+    width: 48%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 20px;
+}
+
+.frame-info button {
+    /* width: 80%; */
+    padding: 8px 10px;
+    width: 90px;
+}
+
+.scene > h2 {
+    margin-bottom: 8px;
+    margin-top: 30px;
+    text-align: left;
+}
+.scene > .frame-info { height: 121px; }
+
+.frame-img {
+    /* display: inline-block;
+    /* position: fixed; 
+    float: right;
+    top: 80px;
+    right: 20px; */
+    /* object-fit: cover; */
+    /* float: left; */
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+    background-color: #cccccc;
+}
+
+.keyframe {
+    margin-left: 10%;
+    border-top: 1px solid black;
+    padding-top: 0px;
+    margin-top: 20px;
+}
+
+.keyframe > .frame-info { height: 109px; }
+
+.timestamp {
+    margin: 5px;
+    padding: 2px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    width: 60px;
+}
+
+.keyframe h3 {
+    text-align: left;
+    margin-bottom: 10px;
 }

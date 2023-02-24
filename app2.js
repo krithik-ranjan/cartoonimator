@@ -264,15 +264,11 @@ function addKeyframe() {
     activeScene.appendChild(keyframeDiv);
 
     keyframeDiv.innerHTML = `
-    <hr>
+    <h3 class="frame-label">Keyframe <input type="number" class="timestamp" min="0" max="60" step="0.1" value=${activeFrameTime}></h3>
+    <canvas class="preview frame-img" width="128" height="96"></canvas>
     <div class="frame-info">
-        <h2 class="label">Step at <input type="number" id="timestamp" min="0" max="60" value=${activeFrameTime}>
-        </h2>
-        <img class="capture" src="images/camera.png" alt="Capture button">
-        <img class="delete" src="images/trash.png" alt="Delete button">    
-    </div>
-    <div class="frame-img">
-        <canvas class="preview" width="128" height="96"></canvas>
+        <button class="capture" alt="Capture button">CAPTURE</button>
+        <button class="delete" alt="Capture button">DELETE</button>   
     </div>
 `;
 
