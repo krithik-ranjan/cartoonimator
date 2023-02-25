@@ -88,6 +88,11 @@ function tick() {
         let foundMarkers = newHandler.detectMarkers(imageData);
         markerMap = newHandler.getMarkerMap();
 
+        debugOut.innerHTML = 'Markers found: ';
+        for (let markerId of markerMap.keys()) {
+            if (markerId >= 100 && markerId < 110) debugOut.innerHTML += `${markerId} `;
+        }
+
         if (foundMarkers) {
             let checkImage = document.getElementById("markerCheck");
             context.drawImage(checkImage, 20, 20, 80, 80);
@@ -111,11 +116,11 @@ function cameraPreview() {
 let debugOut = document.getElementById('debug');
 
 // Data structure to store info about current frames
-let presentFrames = new Map();
-let numScenes = 1;
-let numSteps = 1;
-presentFrames.set('s0', {active: false, timestamp: undefined});
-presentFrames.set('kf0', {active: false, timestamp: undefined});
+// let presentFrames = new Map();
+// let numScenes = 1;
+// let numSteps = 1;
+// presentFrames.set('s0', {active: false, timestamp: undefined});
+// presentFrames.set('kf0', {active: false, timestamp: undefined});
 
 // Functions to add a frame
 const mainPage = document.querySelector("#main");
@@ -136,7 +141,7 @@ function showCapturePage() {
     cameraActive = true;
 
     // Display parent 
-    activeFrame = this.parentNode.parentNode;
+    activeFrame = this.parentNode.parentNode.parentNode;
     console.log(`Active frame: ${activeFrame.className}`);
 }
 
@@ -175,10 +180,10 @@ function saveFrame() {
 
         // Add to frame map
         // console.log(`Updating [${activeFrame.id}]`);
-        presentFrames.set(activeFrame.id, {active: true, timestamp: timestamp});
+        // presentFrames.set(activeFrame.id, {active: true, timestamp: timestamp});
     }
     else if (activeFrame.className === 'keyframe') {
-        res = newHandler.addKeyframe(frameImg, activeFrame.id, activeFrame.parentNode.id, activeFrameTime);
+        res = newHandler.addKeyframe(frameImg, activeFrame.id, activeFrame.dataset.scene, activeFrameTime);
         // res = handler.flattenFrameWithObjects(frameImg, markerMap, timestamp);
 
         if (res === 0) {
@@ -186,10 +191,10 @@ function saveFrame() {
             return;
         };
 
-        newHandler.updateKeyframeTimestamp(activeFrame.id, activeFrame.parentNode.id, activeFrameTime);
+        newHandler.updateKeyframeTimestamp(activeFrame.id, activeFrame.dataset.scene, activeFrameTime);
 
         // console.log(`Updating [${activeFrame.id}]`);
-        presentFrames.set(activeFrame.id, {active: true, timestamp: timestamp});
+        // presentFrames.set(activeFrame.id, {active: true, timestamp: timestamp});
     }
 
     // Process image to display
@@ -234,13 +239,13 @@ function addKeyframe() {
     let activeScene = this.parentNode;
     let keyframeId = activeScene.id + newHandler.getNewKeyframeId(activeScene.id);
     activeFrameTime = newHandler.getNextKeyframeTimestamp(activeScene.id);
-    // console.log(`[INFO] Adding keyframe [${keyframeId}] to scene [${activeScene.id}]`);
+    console.log(`[DEBUG] Adding keyframe [${keyframeId}] to scene [${activeScene.id}] at time ${activeFrameTime}`);
 
     const addKeyframeButton = activeScene.querySelector('.add-keyframe');
     addKeyframeButton.remove();
 
-    const line = activeScene.querySelector('.scene-line');
-    line.remove();
+    // const line = activeScene.querySelector('.scene-line');
+    // line.remove();
 
 //     activeScene.innerHTML += `
 // <div class="keyframe" id="${keyframeId}">
@@ -260,8 +265,10 @@ function addKeyframe() {
     const keyframeDiv = document.createElement('div');
     keyframeDiv.className = 'keyframe';
     keyframeDiv.id = keyframeId;
+    keyframeDiv.dataset.scene = activeScene.id;
 
-    activeScene.appendChild(keyframeDiv);
+    let sceneFramesDiv = activeScene.querySelector('.scene-frames');
+    sceneFramesDiv.appendChild(keyframeDiv);
 
     keyframeDiv.innerHTML = `
     <h3 class="frame-label">Keyframe <input type="number" class="timestamp" min="0" max="60" step="0.1" value=${activeFrameTime}></h3>
@@ -318,7 +325,7 @@ function addKeyframe() {
     // frameImg.appendChild(preview);
 
     activeScene.appendChild(addKeyframeButton);
-    activeScene.appendChild(line);
+    // activeScene.appendChild(line);
 
     let addKeyframeButtons = document.querySelectorAll(".add-keyframe");
     for (const button of addKeyframeButtons){
@@ -353,13 +360,10 @@ function addKeyframe() {
 //     button.addEventListener('click', addKeyframe);
 // }
 
-let timestamp;
-
 function addScene() {
     let sceneId = newHandler.getNewSceneId();
     activeFrameTime = newHandler.getNextSceneTimestamp();
-    timestamp = activeFrameTime;
-    // console.log(`Adding new scene [${sceneId}]`);
+    console.log(`[DEBUG] Adding new scene [${sceneId}] at time ${activeFrameTime}`);
 
     const addSceneButton = document.querySelector('.add-scene');
     addSceneButton.remove();
@@ -385,17 +389,31 @@ function addScene() {
 
     mainPage.appendChild(sceneDiv);
 
+//     sceneDiv.innerHTML = `
+//     <div class="frame-info">
+//         <h2 class="label">Scene</h2>
+//         <img class="capture" src="images/camera.png" alt="Capture button">
+//         <img class="delete" src="images/trash.png" alt="Delete button">    
+//     </div>
+//     <div class="frame-img">
+//         <canvas class="preview" width="128" height="96"></canvas>
+//     </div>
+//     <button type="button" class="add-keyframe">Add Keyframe</button>
+//     <hr class="scene-line">
+// `;
+
     sceneDiv.innerHTML = `
-    <div class="frame-info">
-        <h2 class="label">Scene</h2>
-        <img class="capture" src="images/camera.png" alt="Capture button">
-        <img class="delete" src="images/trash.png" alt="Delete button">    
+    <h2 class="label">Scene 1</h2>
+    <div class="scene-content">
+        <canvas class="preview frame-img" id="hello" width="128" height="96"></canvas>
+
+        <div class="frame-info">
+            <button class="capture" alt="Capture button">CAPTURE</button>
+            <button class="delete" alt="Capture button">DELETE</button>
+        </div>
     </div>
-    <div class="frame-img">
-        <canvas class="preview" width="128" height="96"></canvas>
-    </div>
-    <button type="button" class="add-keyframe">Add Keyframe</button>
-    <hr class="scene-line">
+    <div class="scene-frames"></div>
+    <button class="add-keyframe">Add Keyframe</button>
 `;
 
     // const frameInfo = document.createElement('div');
@@ -494,19 +512,19 @@ function updateTimestamp() {
         newHandler.updateSceneTimestamp(activeFrameId, this.value);
     }
     else {
-        newHandler.updateKeyframeTimestamp(activeFrameId, this.parentNode.parentNode.parentNode.id, this.value);
+        newHandler.updateKeyframeTimestamp(activeFrameId, activeFrame.dataset.scene, this.value);
     }
 }
 
 function deleteFrame() {
     // Display parent 
-    activeFrame = this.parentNode.parentNode;
+    activeFrame = this.parentNode.parentNode.parentNode;
     console.log(`[INFO] Deleting ${activeFrame.id}`);
 
     if (activeFrame.className === 'scene')
         newHandler.deleteScene(activeFrame.id);
     else 
-        newHandler.deleteKeyframe(activeFrame.id, activeFrame.parentNode.id);
+        newHandler.deleteKeyframe(activeFrame.id, activeFrame.dataset.scene);
 
     activeFrame.remove();
 }
@@ -523,6 +541,19 @@ function playVideo() {
 
 const playButton = document.querySelector('#playBtn');
 playButton.addEventListener('click', playVideo);
+
+function downloadVideo() {
+    mainPage.style.display = "none";
+    playPage.style.display = "block";
+    
+    let playbackContext = playback.getContext('2d');
+
+    // handler.playVideo(playbackContext, mediaRecorder);
+    newHandler.downloadVideo(playbackContext, mediaRecorder);
+}
+
+const downloadButton = document.querySelector('#downloadBtn');
+downloadButton.addEventListener('click', downloadVideo);
 
 function backToMainFromPlay() {
     let playbackContext = playback.getContext('2d');

@@ -39,26 +39,30 @@ export const Cartoonimator = class {
     getNextSceneTimestamp() {
         if (this.scenes.length === 0) return 0;
 
-        let lastTimestamp = 0;
-        let i;
-        for (i = 0; i < this.scenes.length; i++) {
-            if (this.scenes[i].getLastTimestamp() > lastTimestamp)
-                lastTimestamp = this.scenes[i].getLastTimestamp();
-        }
+        let lastTimestamp = this.scenes[this.scenes.length - 1].getLastTimestamp();
+        // let lastTimestamp = 0;
+        // let i;
+        // for (i = 0; i < this.scenes.length; i++) {
+        //     if (this.scenes[i].getLastTimestamp() > lastTimestamp)
+        //         lastTimestamp = this.scenes[i].getLastTimestamp();
+        // }
 
         return (lastTimestamp + 1) / FRAME_RATE;
     }
 
     getNextKeyframeTimestamp(sceneId) {
         let i;
-        let lastTimestamp = 0;
         for (i = 0; i < this.scenes.length; i++) {
             if (this.scenes[i].getId() === sceneId) {
-                if (this.scenes[i].keyframes.length === 0) return this.scenes[i].getTime() / FRAME_RATE;
-                else {
-                    lastTimestamp = this.scenes[i].getLastTimestamp();
-                    return (lastTimestamp + 1) / FRAME_RATE;
-                }
+                // if (this.scenes[i].keyframes.length === 0) return this.scenes[i].getTime() / FRAME_RATE;
+                // else {
+                //     lastTimestamp = this.scenes[i].getLastTimestamp();
+                //     return (lastTimestamp + 1) / FRAME_RATE;
+                // }
+                let lastTimestamp = this.scenes[i].getLastTimestamp();
+                console.log(`[DEBUG] Last timestamp: ${lastTimestamp}`);
+                if (this.scenes[i].keyframes.length === 0) return lastTimestamp / FRAME_RATE;
+                else return (lastTimestamp + 1) / FRAME_RATE;
             }
                 
         }
@@ -66,6 +70,22 @@ export const Cartoonimator = class {
         // console.log(`[DEBUG] Last timestamp: ${lastTimestamp}`);
 
         // return (lastTimestamp + 1) / FRAME_RATE;
+    }
+
+    updateSceneTimestamp(id, newTime) {
+        let i;
+        for (i = 0; i < this.scenes.length; i++) {
+            if (this.scenes[i].getId() === id) 
+                this.scenes[i].updateTimestamp(newTime * FRAME_RATE);
+        }
+    }
+
+    updateKeyframeTimestamp(id, sceneId, newTime) {
+        let i;
+        for (i = 0; i < this.scenes.length; i++) {
+            if (this.scenes[i].getId() === sceneId) 
+                this.scenes[i].updateKeyframeTimestamp(id, newTime * FRAME_RATE);
+        }
     }
 
     detectMarkers(imageData) {
@@ -179,22 +199,6 @@ export const Cartoonimator = class {
         }
     }
 
-    updateSceneTimestamp(id, newTime) {
-        let i;
-        for (i = 0; i < this.scenes.length; i++) {
-            if (this.scenes[i].getId() === id) 
-                this.scenes[i].updateTimestamp(newTime * FRAME_RATE);
-        }
-    }
-
-    updateKeyframeTimestamp(id, sceneId, newTime) {
-        let i;
-        for (i = 0; i < this.scenes.length; i++) {
-            if (this.scenes[i].getId() === sceneId) 
-                this.scenes[i].updateKeyframeTimestamp(id, newTime * FRAME_RATE);
-        }
-    }
-
     _getSceneIdx(timestamp) {
         let sceneIdx = 0; 
 
@@ -236,7 +240,7 @@ export const Cartoonimator = class {
         this.currTime = this.currTime + 1;
     }
 
-    playVideo(context, mediaRecorder) {
+    playVideo(context) {
         console.log('#### PLAYING VIDEO ####');
         
         let deltaTime = 1 / FRAME_RATE * 1000;
@@ -262,6 +266,35 @@ export const Cartoonimator = class {
             clearInterval(timerId);
 
             // mediaRecorder.stop();
+        }, maxTime);
+    }
+
+    downloadVideo(context, mediaRecorder) {
+        console.log('#### PLAYING VIDEO ####');
+        
+        let deltaTime = 1 / FRAME_RATE * 1000;
+        let maxTime = this.getNextSceneTimestamp() * 1000;
+        console.log(`[DEBUG] Animation delta: ${deltaTime}ms, total time: ${maxTime}ms`);
+
+        this.currTime = 0;
+
+        // Print out scene and keyframe info for debugging
+        let i;
+        for (i = 0; i < this.scenes.length; i++) {
+            this.scenes[i].printSceneInfo();
+        }
+
+        mediaRecorder.start();
+
+        let timerId = setInterval( () => {
+            this._animationLoop(context);
+        }, deltaTime);
+
+        setTimeout( () => {
+            console.log('#### FINISHED VIDEO ####');
+            clearInterval(timerId);
+
+            mediaRecorder.stop();
         }, maxTime);
     }
 }

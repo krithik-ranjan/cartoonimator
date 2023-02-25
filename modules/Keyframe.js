@@ -28,7 +28,7 @@ export const Keyframe = class {
     updateTimestamp(newTime) {
         this.time = newTime;
 
-        // console.log(`[DEBUG] Updated timestamp of keyframe [${this.id}] to ${this.time}`);
+        console.log(`[DEBUG] Updated timestamp of keyframe [${this.id}] to ${this.time}`);
     }
 
     clearKeyframe() {

@@ -64,7 +64,8 @@ input[type=number] {
     text-align: center;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2); 
     position: fixed;
-    top: calc(100% - 120px);
+    /* top: calc(100% - 120px); */
+    bottom: 20px;
     left: calc(65% - 40px);
 }
 
@@ -80,7 +81,8 @@ input[type=number] {
     text-align: center;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2); 
     position: fixed;
-    top: calc(100% - 120px);
+    /* top: calc(100% - 120px); */
+    bottom: 20px;
     left: calc(35% - 40px);
 }
 
@@ -171,8 +173,25 @@ input[type=number] {
     text-align: center;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2); 
     position: fixed;
-    top: calc(100% - 120px);
-    left: calc(50% - 40px);
+    /* top: calc(100% - 120px); */
+    bottom: 20px;
+    left: calc(35% - 40px);
+}
+
+#downloadBtn {
+    width: 40px;
+    background-color: #222222;
+    /* color: white; */
+    /* font-size: 16px; */
+    border-radius: 50%;
+    border: none;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2); 
+    position: fixed;
+    bottom: 20px;
+    left: calc(65% - 40px);
 }
 
 #main {
@@ -218,6 +237,8 @@ input[type=number] {
 }
 .scene > .frame-info { height: 33vw; }
 
+.scene {border-bottom: 1px solid #444444;}
+
 .frame-img {
     /* display: inline-block;
     /* position: fixed; 
@@ -230,12 +251,12 @@ input[type=number] {
     vertical-align: top;
     width: 45vw;
     background-color: #cccccc;
-    border-radius: 8px;
+    border-radius: 4px;
 }
 
 .keyframe {
     margin-left: 10vw;
-    border-top: 1px solid black;
+    border-top: 1px dotted #444444;
     padding-top: 0px;
     margin-top: 20px;
 }

@@ -20,15 +20,18 @@ export const Scene = class {
     }
 
     getLastTimestamp() {
-        let lastTimestamp = this.time;
+        if (this.keyframes.length === 0) return this.time;
+        return this.keyframes[this.keyframes.length - 1].getTime();
 
-        let i; 
-        for (i = 0; i < this.keyframes.length; i++) {
-            if (this.keyframes[i].time !== undefined && this.keyframes[i].time > lastTimestamp)
-                lastTimestamp = this.keyframes[i].time;
-        }
+        // let lastTimestamp = this.time;
 
-        return lastTimestamp;
+        // let i; 
+        // for (i = 0; i < this.keyframes.length; i++) {
+        //     if (this.keyframes[i].time !== undefined && this.keyframes[i].time > lastTimestamp)
+        //         lastTimestamp = this.keyframes[i].time;
+        // }
+
+        // return lastTimestamp;
     }
 
     getId() {
@@ -52,8 +55,13 @@ export const Scene = class {
     updateKeyframeTimestamp(id, newTime) {
         let i;
         for (i = 0; i < this.keyframes.length; i++) {
-            if (this.keyframes[i].getId() === id) 
+            if (this.keyframes[i].getId() === id) {
+                if (this.keyframes[i].getTime() === this.time) {
+                    console.log(`[DEBUG] Updating [${this.id}] starting time to ${newTime}`);
+                    this.time = newTime;
+                }
                 this.keyframes[i].updateTimestamp(newTime);
+            }
         }
     }
 
