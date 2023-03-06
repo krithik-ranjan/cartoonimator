@@ -66,7 +66,7 @@ function onLoad() {
         }, 0);
     }
 
-    handler = new CartoonimatorHandler(playback.width, playback.height);
+    // handler = new CartoonimatorHandler(playback.width, playback.height);
     newHandler = new Cartoonimator(playback.width, playback.height);
     
     detector = new AR.Detector({
@@ -88,10 +88,12 @@ function tick() {
         let foundMarkers = newHandler.detectMarkers(imageData);
         markerMap = newHandler.getMarkerMap();
 
-        debugOut.innerHTML = 'Markers found: ';
+        debugOut.innerHTML = 'Objects found: ';
+        let numObjects = 0;
         for (let markerId of markerMap.keys()) {
-            if (markerId >= 100 && markerId < 110) debugOut.innerHTML += `${markerId} `;
+            if (markerId >= 100 && markerId < 110) numObjects++;
         }
+        debugOut.innerHTML += `${numObjects} `;
 
         if (foundMarkers) {
             let checkImage = document.getElementById("markerCheck");
