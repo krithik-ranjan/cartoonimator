@@ -536,7 +536,7 @@ function playVideo() {
     let playbackContext = playback.getContext('2d');
 
     // handler.playVideo(playbackContext, mediaRecorder);
-    newHandler.playVideo(playbackContext, mediaRecorder);
+    newHandler.playVideo(playbackContext);
 }
 
 const playButton = document.querySelector('#playBtn');
