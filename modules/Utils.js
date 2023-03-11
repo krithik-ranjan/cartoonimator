@@ -13,7 +13,7 @@ function flattenFrame(frame, markers, width, height) {
     let dst = new cv.Mat();
     let dsize = new cv.Size(frame.cols, frame.rows);
     let srcTri = cv.matFromArray(4, 1, cv.CV_32FC2, [topLeft.x, topLeft.y, topRight.x, topRight.y, bottomRight.x, bottomRight.y, bottomLeft.x, bottomLeft.y]);
-    let dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [100, 100, width + 100, 100, width + 100, height + 100, 100, height + 100]);
+    let dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [50, 50, width + 50, 50, width + 50, height + 50, 50, height + 50]);
     let M = cv.getPerspectiveTransform(srcTri, dstTri);
     cv.warpPerspective(frame, dst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
 
@@ -124,8 +124,8 @@ function findObjects(frame, markers, M) {
             roiObject = dst.roi(rect);
             let rot = (Math.atan2(topRight.y - topLeft.y, topRight.x - topLeft.x)) * (180 / Math.PI);
 
-            pos.x = pos.x - 100;
-            pos.y = pos.y - 100;
+            pos.x = pos.x - 50;
+            pos.y = pos.y - 50;
 
             // foundSprites.push(new Sprite(pos, rot, side, roiObject));
             console.log(`[DEBUG] Adding sprite ${i}`);
