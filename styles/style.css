@@ -1,0 +1,89 @@
+body {
+    padding: 0;
+    margin-top: 5%;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-bottom: 0;
+    /* background: #fafafa; */
+    background-image: url("../page-images/bg.png");
+    background-repeat: repeat;
+    text-align: center;
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.row {
+	margin-bottom: 30px;
+}
+
+.title {
+    margin: 0;
+    padding: 5px;
+    top: 0;
+    color: #222222;
+    font-family: 'Indie Flower', cursive;
+    font-weight: 600;
+    font-size: 500%;
+}
+
+.subtitle {
+    color: #444444;
+    font-weight: 300;
+}
+
+.landing a {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-weight: 600;
+    font-size: larger;
+    color: #222222;
+}
+
+.landing a:hover {
+    text-decoration: none;
+    color: #666666;
+}
+
+.instructions {
+    text-align: left;
+}
+
+h1 {
+    margin: 0;
+    padding: 5px;
+    top: 0;
+    color: #222222;
+    font-family: 'Indie Flower', cursive;
+    font-weight: 600;
+    text-align: center;
+}
+
+h4 {
+    color: #222222;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-weight: 600;
+    padding-bottom: 10px;
+}
+
+figure {
+    text-align: center;
+}
+
+img {
+    width: 80%;
+}
+
+figcaption {
+    color: #444444;
+    /* font-weight: 200; */
+    font-size: smaller;
+}
+
+.footer {
+    /* position: fixed; */
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    font-family: "IBM Plex Sans", sans-serif;
+    color: #444444;
+    text-align: center;
+    font-weight: 300;
+}

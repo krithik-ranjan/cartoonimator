@@ -1,60 +1,123 @@
-<!doctype html>
-<html lang="en">    
+<!DOCTYPE html>
+<html lang="en">
     <head>
+ 
+        <title>Cartoonimator</title>
         <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Cartoonimator App</title>
-
-        <!-- <link rel="stylesheet" href="style.css"> -->
-        <link rel="stylesheet" href="styles/main.css">
-
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="styles/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
         <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Crafty+Girls&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
-        <script defer type="text/javascript" src="libs/aruco.js"></script>
-        <script defer type="text/javascript" src="libs/cv.js"></script>        
-        
-        <!-- <script type="module" src="./modules/Camera.js"></script> -->
-        <script defer type="module" src="app2.js"></script>
-        <script async src="https://docs.opencv.org/4.5.5/opencv.js" type="text/javascript" onload="onOpenCVReady()"></script>
-        <script>
-            function onOpenCVReady() {
-                console.log("OpenCV Ready.");
-            }
-        </script>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@100;200;300;400;500;600;700&family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+        <!-- <link rel="shortcut icon" type="image/png" href="icon.png">
+        <link rel="icon" type="image/png" href="icon.png"> -->
     </head>
     <body>
-        <div id="title">
-            <h1>Cartoonimator v1.10</h1>
+        <div class="container-fluid landing">
+            <div class="row align-items-center row-eq-height">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h1 class="title">Cartoonimator</h1>
+                    <h4 class="subtitle">Create animations with your drawings!</h4>
+                </div>
+            </div>
+            <div class="row align-items-center row-eq-height">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="Cartoonimator_Print_Template.pdf">
+                        <figure>
+                            <img src="page-images/template.png">
+                        </figure>
+                        DOWNLOAD TEMPLATE
+                        <img src="page-images/download.png" style="height: 25px; width: 25px; display: inline-block; vertical-align: middle;">
+                    </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <a href="app.html">START APP</a>
+                    <img src="page-images/export.png" style="height: 25px; width: 25px; display: inline-block; vertical-align: middle;">
+                </div>
+            </div>
         </div>
 
-        <div id="camera">
-            <video id="video" autoplay="true" playsinline="true" style="display: none;"></video>
-            <canvas id="canvas"></canvas>
-            <!-- <label for="timestamp">Time (in seconds): </label> -->
-            <img id="markerCheck" src="images/check_green.png" width="40" height="40" style="display: none;">
-            <h3 id="debug"></h3>
-            <img id="clickBtn" src="images/camera-white.png" alt="Capture button">
-            <img id="backBtnCamera" src="images/back.png" alt="Back button">
-        </div>
+        <div class="container-fluid instructions">
+            <div class="row align-items-center row-eq-height">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h1>Instructions</h1>
+                </div>
+            </div>
+
+            <div class="row align-items-center row-eq-height">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <figure>
+                        <img src="page-images/instructions-main.png">
+                        <figcaption>Figure: Creating an animation with Cartoonimator: (A) Drawing the scene background and characters; (B) Capturing the scene and keyframes, shown in the app in (C); (D) Playing the video</figcaption>
+                    </figure>
+                    <h4>MATERIALS</h4>
+                    <h5>Scene Drawing Sheets</h5>
+                    <p>These full-page sheets with four AR markers on the corners are for drawing the background scene of a movie. They have a certain orientation (labeled with arrows).</p>
+                    <figure>
+                        <img src="page-images/scene.png">
+                        <figcaption>Figure: Scene drawing sheets: empty (left), complete (right)</figcaption>
+                    </figure>
+                    <h5>Object Cards</h5>
+                    <p>The object cards are smaller paper cut-outs for drawing the dynamic characters of the movie. They can be of different types (differentiated with colored boundaries) for each character in the movie. Each character can also have different forms, which should be drawn on the same card type (color).</p>
+                    <figure>
+                        <img src="page-images/object-empty.png">
+                        <figcaption>Figure: Three types of object cards for different characters</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="page-images/object-full.png">
+                        <figcaption>Figure: Three forms of the same object</figcaption>
+                    </figure>
+                    <h5>Mobile Web App</h5>
+                    <p>Open <a href="">https://krithik-ranjan.github.io/cartoonimator/</a> or <a href="">https://tinyurl.com/cartoonimator</a>.</p>
+                    <figure>
+                        <img src="page-images/screenshot.jpg" style="width: 30%; border: 1px solid #222222;">
+                        <figcaption>Figure: Home page of the mobile app</figcaption>
+                    </figure>
+
+                    <h4>STEP 1: DRAW</h4>
+                    <p>The first step of creating your movie with Cartoonimator is to draw! We can begin by conceptualizing the movie and drawing backgrounds on the scene sheets and characters and their variations on the object cards. The example below shows scenes for a skiing movie and a skier on the object card with one variant, as well as a snowball on another object card. </p>
+                    <figure>
+                        <img src="page-images/drawing.png">
+                        <figcaption>Figure: Two scenes in the animation (top); two forms of one object (bottom left); second object (bottom right)</figcaption>
+                    </figure>
+
+                    <h4>STEP 2: CAPTURE SCENE</h4>
+                    <p>Once we have completed drawing some parts of the movie, it’s time to take pictures! Start with placing your first scene on a surface and tapping the “Add Scene” button on the app to take a picture of the scene. We’ll see a camera view, in which we can capture the scene sheet from any angle, once a green check mark appears on the top-left. On clicking the camera icon, the first scene will be added to the animation starting at 0s.</p>
+
+                    <h4>STEP 3: ADD KEYFRAMES</h4>
+                    <p>Every movie created with Cartoonimator is made up of “Keyframes”, which define a few intermediate frames of the movie. For example, we can have one keyframe can specify the position and rotation of the characters at 0s, while another could specify at 1s – Cartoonimator will fill all the frames in between using interpolation (see figure below). Each Keyframe can have multiple different characters at varying positions and orientations, which can be defined simply by placing the object card on top of the scene as shown below. </p>
+                    <p>Each scene should have its own keyframes that describe the animation on top of that scene’s background. To add a keyframe, press the “Add Keyframe” button under the scene, and we will be able to capture the keyframe similar to capturing the scene when the green check mark appears.</p>
+
+                    <h4>STEP 4: SETTING TIMESTAMPS</h4>
+                    <p>Since a keyframe defines the animation at a point in time, each keyframe has an associated time at which the keyframe appears (called its timestamp). After capturing the keyframe, we’ll find that its timestamp has been set automatically in the box next to the “Keyframe” label. We can modify the timestamp of each keyframe to make different parts of the animation appear faster/slower. The timestamp of the last keyframe determines the length of the animation!</p>
+
+                    <h4>STEP 5: PLAYING AND DOWNLOADING YOUR MOVIE</h4>
+                    <p>After adding at least two keyframes, we can play the progress of the animation by pressing the play button in the bottom center. The app will move to a new page and show your animation! You can also download it to your phone by pressing the download button on the bottom right.</p>
+
+                    <h4>MULTIPLE OBJECTS</h4>
+                    <p>Cartoonimator system is designed to have up to 10 different objects in a movie. Each keyframe can describe the position and rotation of one or more of these objects, as shown below.</p>
+
+                    <h4>MULTIPLE SCENES</h4>
+                    <p>Your movie doesn’t have to be limited to one background scene! As you grow the movie, you can add different scenes, each of which serves as a part of the overall movie. Just like for the first scene, we can add more using the “Add Scene” button, and then add one or more keyframes for the scene. </p>
+                </div>
+            </div>
         
-        <div id="main">
-            <button type="button" class="add-scene">Add Scene</button>
-                  
-            <!-- <img id="addBtn" src="images/add-step.png" alt="Add step"> -->
-            <img id="playBtn" src="images/play.png" alt="Play button">
-            <!-- <img id="addSceneBtn" src="images/add-scene.png" alt="Add scene"> -->
         </div>
 
-        <div id="play">
-            <canvas id="playback"></canvas>
-            <canvas id="debug"></canvas>
-            
-            <img id="backBtnPlay" src="images/back.png" alt="Back button">
-            <img id="downloadBtn" src="images/download.png" alt="Download button">
-        </div>
+        <footer class="footer mt-auto py-3">
+            <div class="container">
+                <hr>
+                <p class="contact">krithik.ranjan[at]gmail.com</p>
+            </div>
+        </footer>
     </body>
-</html>
