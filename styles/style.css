@@ -1,8 +1,6 @@
 body {
     padding: 0;
-    margin-top: 5%;
-    margin-left: 25%;
-    margin-right: 25%;
+    margin: 5%;
     margin-bottom: 0;
     /* background: #fafafa; */
     background-image: url("../page-images/bg.png");
@@ -22,7 +20,9 @@ body {
     color: #222222;
     font-family: 'Indie Flower', cursive;
     font-weight: 600;
-    font-size: 500%;
+    font-size: 300%;
+    /* font-size: 400%; */
+    /* font-size: 8vw; */
 }
 
 .subtitle {
@@ -46,7 +46,7 @@ body {
     text-align: left;
 }
 
-h1 {
+h2 {
     margin: 0;
     padding: 5px;
     top: 0;
