@@ -47,7 +47,7 @@ export const Cartoonimator = class {
         //         lastTimestamp = this.scenes[i].getLastTimestamp();
         // }
 
-        return (lastTimestamp + 1);
+        return (lastTimestamp + 1) / FRAME_RATE;
     }
 
     getNextKeyframeTimestamp(sceneId) {
@@ -61,8 +61,8 @@ export const Cartoonimator = class {
                 // }
                 let lastTimestamp = this.scenes[i].getLastTimestamp();
                 console.log(`[DEBUG] Last timestamp: ${lastTimestamp}`);
-                if (this.scenes[i].keyframes.length === 0) return lastTimestamp;
-                else return (lastTimestamp + 1);
+                if (this.scenes[i].keyframes.length === 0) return lastTimestamp / FRAME_RATE;
+                else return (lastTimestamp + 1) / FRAME_RATE;
             }
                 
         }
@@ -76,7 +76,7 @@ export const Cartoonimator = class {
         let i;
         for (i = 0; i < this.scenes.length; i++) {
             if (this.scenes[i].getId() === id) 
-                this.scenes[i].updateTimestamp(newTime);
+                this.scenes[i].updateTimestamp(newTime * FRAME_RATE);
         }
     }
 
@@ -84,7 +84,7 @@ export const Cartoonimator = class {
         let i;
         for (i = 0; i < this.scenes.length; i++) {
             if (this.scenes[i].getId() === sceneId) 
-                this.scenes[i].updateKeyframeTimestamp(id, newTime);
+                this.scenes[i].updateKeyframeTimestamp(id, newTime * FRAME_RATE);
         }
     }
 
@@ -252,7 +252,7 @@ export const Cartoonimator = class {
         console.log('#### PLAYING VIDEO ####');
         
         let deltaTime = 1 / FRAME_RATE * 1000;
-        let maxTime = this.getNextSceneTimestamp() / FRAME_RATE;
+        let maxTime = this.getNextSceneTimestamp() * 1000;
         console.log(`[DEBUG] Animation delta: ${deltaTime}ms, total time: ${maxTime}ms`);
 
         this.currTime = 0;
@@ -281,7 +281,7 @@ export const Cartoonimator = class {
         console.log('#### PLAYING VIDEO ####');
         
         let deltaTime = 1 / FRAME_RATE * 1000;
-        let maxTime = this.getNextSceneTimestamp() / FRAME_RATE;
+        let maxTime = this.getNextSceneTimestamp() * 1000;
         console.log(`[DEBUG] Animation delta: ${deltaTime}ms, total time: ${maxTime}ms`);
 
         this.currTime = 0;
