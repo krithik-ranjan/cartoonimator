@@ -47,7 +47,7 @@ export const Cartoonimator = class {
         //         lastTimestamp = this.scenes[i].getLastTimestamp();
         // }
 
-        return (lastTimestamp + 1) / FRAME_RATE;
+        return (lastTimestamp + 5) / FRAME_RATE; // ## TEMP FIX ## Add 5 to the last timestamp to make the next happen after 0.5s (10 FPS)
     }
 
     getNextKeyframeTimestamp(sceneId) {
@@ -62,7 +62,7 @@ export const Cartoonimator = class {
                 let lastTimestamp = this.scenes[i].getLastTimestamp();
                 console.log(`[DEBUG] Last timestamp: ${lastTimestamp}`);
                 if (this.scenes[i].keyframes.length === 0) return lastTimestamp / FRAME_RATE;
-                else return (lastTimestamp + 1) / FRAME_RATE;
+                else return (lastTimestamp + 5) / FRAME_RATE;   // ## TEMP FIX ## Add 5 to the last timestamp to make the next happen after 0.5s (10 FPS)
             }
                 
         }
