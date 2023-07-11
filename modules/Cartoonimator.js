@@ -19,6 +19,25 @@ export const Cartoonimator = class {
 
         this.numScenes = 0;
         this.scenes = [];
+
+        this.startTime = new Date();
+    }
+
+    getJSON() {
+        let sceneArr = []
+        for (let i = 0; i < this.scenes.length; i++) {
+            sceneArr.push(this.scenes[i].getJSON());
+        }
+
+        let currTime = new Date();
+
+        let jsonObj = {
+            elapsedTimeSeconds: (currTime.getTime() - this.startTime.getTime()) / 1000,
+            numScenes: this.numScenes,
+            scenes: sceneArr
+        };
+
+        return jsonObj;
     }
 
     getNewSceneId() {

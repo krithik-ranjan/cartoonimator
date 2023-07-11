@@ -12,6 +12,22 @@ export const Scene = class {
         this.keyframes = [];
     }
 
+    getJSON() {
+        let kfArr = [];
+        for (let i = 0; i < this.keyframes.length; i++) {
+            kfArr.push(this.keyframes[i].getJSON());
+        }
+
+        let jsonObj = {
+            id: this.id,
+            time: this.time,
+            numKeyframes: this.numKeyframes,
+            keyframes: kfArr
+        }
+
+        return jsonObj;
+    }
+
     getNewKeyframeId() {
         let id = `kf${this.numKeyframes}`;
         this.numKeyframes++;

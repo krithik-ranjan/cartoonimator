@@ -8,6 +8,15 @@ export const Keyframe = class {
         this.time = undefined;
     }
 
+    getJSON() {
+        let jsonObj = {
+            id: this.id,
+            time: this.time
+        }
+
+        return jsonObj;
+    }
+
     getId() {
         return this.id;
     }

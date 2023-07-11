@@ -18,6 +18,9 @@ var markerMap = new Map();
 // Cartoonimator handler 
 let handler, newHandler;
 
+// Global variable to record current time string
+var currTimeString
+
 function onLoad() {
     video = document.getElementById("video");
     canvas = document.getElementById("canvas");
@@ -55,7 +58,10 @@ function onLoad() {
         const a = document.createElement('a');
         a.style = "display: none;";
         a.href = recordingURL;
-        a.download = "video.mp4";
+
+        a.download = currTimeString;
+
+        // a.download = "video.mp4";
         document.body.appendChild(a);
     
         a.click();
@@ -544,9 +550,25 @@ function playVideo() {
 const playButton = document.querySelector('#playBtn');
 playButton.addEventListener('click', playVideo);
 
+// Download JSON button
+// var downloadJSON = document.getElementById('downloadJSON');
+
 function downloadVideo() {
-    mainPage.style.display = "none";
-    playPage.style.display = "block";
+    // Get current timestamp to name the file
+    const currDate = new Date();
+    currTimeString = `${currDate.getFullYear()}-${currDate.getMonth()+1}-${currDate.getDate()}_${currDate.getHours()}-${currDate.getMinutes()}-${currDate.getSeconds()}`
+
+    // Download JSON before downloading video
+    var jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(newHandler.getJSON()));
+
+    const a = document.createElement('a');
+    a.style = "display: none;";
+    a.href = jsonStr;
+
+    a.download = currTimeString + '.json';
+
+    document.body.appendChild(a);
+    a.click();
     
     let playbackContext = playback.getContext('2d');
 
