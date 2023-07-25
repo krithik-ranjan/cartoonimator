@@ -26,14 +26,25 @@ export const Sprite = class {
         let spTheta = (nextSprite.rot - this.rot) / (nextTime - thisTime);
         let currRot = (-1) * spTheta * (currTime - thisTime);
 
+        // Testing size interpolation
+        let spSize = (nextSprite.size - this.size) / (nextTime - thisTime);
+        let currSize = spSize * (currTime - thisTime) + this.size;
+
         console.log(`\t\t [DEBUG] Putting intermediate sprite at ${this.pos.x}, ${this.pos.y} with rot ${this.rot}`);
 
         // Rotate object image
         let center = new cv.Point((this.size / 2), (this.size / 2));
         let M = cv.getRotationMatrix2D(center, currRot, 1);
         let dst = new cv.Mat();
+        
+        // console.log(`\t\t\t [TEST] currSize: ${currSize}, while img size: (${this.img.rows}, ${this.img.cols})`); 
+        // let dsize = new cv.Size(currSize, currSize);
+
         let dsize = new cv.Size(this.img.rows, this.img.cols);
         cv.warpAffine(this.img, dst, M, dsize, cv.INTER_LINEAR);
+
+        let newSize = new cv.Size(currSize, currSize);
+        cv.resize(dst, dst, newSize, 0, 0, cv.INTER_AREA);
 
         // Put onto context
         for (let i = 0; i < dst.rows; i++) {
