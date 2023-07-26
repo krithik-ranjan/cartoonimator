@@ -65,7 +65,7 @@ export const Keyframe = class {
         for (let [id, sprite] of this.sprites.entries()) {
             // Check if this sprite is in next keyframe 
             if (nextKeyframe.sprites.has(id)) {
-                console.log(`[DEBUG] Finding intermediate for sprite [${id}] between ${this.id} and ${nextKeyframe.id}`);
+                // console.log(`[DEBUG] Finding intermediate for sprite [${id}] between ${this.id} and ${nextKeyframe.id}`);
 
                 sprite.addIntermediateToFrame(frameImg, nextKeyframe.sprites.get(id), currTime, this.time, nextKeyframe.time);
             }

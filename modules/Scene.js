@@ -131,10 +131,15 @@ export const Scene = class {
 
         let i;
         for (i = 0; i < this.keyframes.length - 1; i++) {
+            console.log(`\t\t[DEBUG] Frame at ${timestamp} (${this.keyframes[i].getId()})`);
             if (this.keyframes[i].getTime() === timestamp) this.keyframes[i].animateThisKeyframe(frameImg);
             else if (this.keyframes[i].getTime() < timestamp && timestamp < this.keyframes[i+1].getTime()) {
                 this.keyframes[i].animateIntermediateKeyframe(frameImg, this.keyframes[i+1], timestamp);
             }
         }
+
+        // Check with last keyframe
+        let lastKf = this.keyframes.length-1;
+        if (this.keyframes[lastKf].getTime() === timestamp) this.keyframes[lastKf].animateThisKeyframe(frameImg);
     }
 }

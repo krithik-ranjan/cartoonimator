@@ -66,7 +66,7 @@ export const Cartoonimator = class {
         //         lastTimestamp = this.scenes[i].getLastTimestamp();
         // }
 
-        return (lastTimestamp + 5) / FRAME_RATE; // ## TEMP FIX ## Add 5 to the last timestamp to make the next happen after 0.5s (10 FPS)
+        return (lastTimestamp + 1) / FRAME_RATE; // ## TEMP FIX ## Add 5 to the last timestamp to make the next happen after 0.5s (10 FPS)
     }
 
     getNextKeyframeTimestamp(sceneId) {
@@ -138,21 +138,21 @@ export const Cartoonimator = class {
         if (this.markers.has(10) && this.markers.has(11) && this.markers.has(12) && this.markers.has(13)) {
             let _ = flattenFrame(frameImg, this.markers, this.width, this.height);
 
-            console.log('[DEBUG] Frame Flattened');
-            console.log(`[DEBUG] Width: ${this.width}, Height: ${this.height}`);
-            console.log(`[DEBUG] Image size: ${frameImg.cols}, ${frameImg.rows}`);
+            // console.log('[DEBUG] Frame Flattened');
+            // console.log(`[DEBUG] Width: ${this.width}, Height: ${this.height}`);
+            // console.log(`[DEBUG] Image size: ${frameImg.cols}, ${frameImg.rows}`);
 
             // Crop to frame area
             let rect = new cv.Rect(50, 50, this.width, this.height);
             let temp = new cv.Mat();
-            console.log('[DEBUG] Image Extracted');
+            // console.log('[DEBUG] Image Extracted');
 
             temp = frameImg.roi(rect);
 
             temp.copyTo(frameImg);
 
             temp.delete();
-            console.log('[DEBUG] Image Extracted');
+            // console.log('[DEBUG] Image Extracted');
 
             // Check if scene already present
             let i;
@@ -255,7 +255,7 @@ export const Cartoonimator = class {
 
         let sceneIdx = this._getSceneIdx(this.currTime);
 
-        console.log(`[DEBUG] Scene [${this.scenes[sceneIdx].id}] at time ${this.currTime}`);
+        console.log(`\t[DEBUG] Scene [${this.scenes[sceneIdx].id}] at time ${this.currTime}`);
         this.scenes[sceneIdx].animateScene(thisFrame, this.currTime);
 
         // Add frame to canvas

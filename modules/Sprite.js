@@ -30,7 +30,7 @@ export const Sprite = class {
         let spSize = (nextSprite.size - this.size) / (nextTime - thisTime);
         let currSize = spSize * (currTime - thisTime) + this.size;
 
-        console.log(`\t\t [DEBUG] Putting intermediate sprite at ${this.pos.x}, ${this.pos.y} with rot ${this.rot}`);
+        console.log(`\t\t\t[DEBUG] Putting intermediate sprite at ${currX}, ${currY} with rot ${currRot}`);
 
         // Rotate object image
         let center = new cv.Point((this.size / 2), (this.size / 2));
@@ -61,7 +61,7 @@ export const Sprite = class {
     }
 
     addToFrame(frame) {
-        console.log(`\t\t [DEBUG] Putting sprite at ${this.pos.x}, ${this.pos.y}`);
+        console.log(`\t\t\t[DEBUG] Putting sprite at ${this.pos.x}, ${this.pos.y}`);
         for (let i = 0; i < this.img.rows; i++) {
             for (let j = 0; j < this.img.cols; j++) {
                 if (this.img.ucharPtr(i, j)[3] === 255) {
