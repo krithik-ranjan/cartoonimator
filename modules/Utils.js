@@ -97,7 +97,9 @@ function findObjects(frame, markers, M) {
             let center = new cv.Point((topLeft.x + bottomRight.x) / 2, (topLeft.y + bottomRight.y) / 2);
             let side = Math.hypot((topLeft.x - topRight.x), (topLeft.y - topRight.y));
             // console.log(`Circle mask at (${center.x}, ${center.y}) with side ${side}.`)
-            cv.circle(mask, center, side / 2, new cv.Scalar(255, 255, 255, 255), cv.FILLED);
+            // cv.circle(mask, center, side / 2, new cv.Scalar(255, 255, 255, 255), cv.FILLED);
+            cv.circle(mask, center, side * 0.4, new cv.Scalar(255, 255, 255, 255), cv.FILLED);
+
 
             // Extract object 
             let dst = new cv.Mat(frame.rows, frame.cols, frame.type());
