@@ -10,6 +10,8 @@ export const Scene = class {
 
         this.numKeyframes = 0;
         this.keyframes = [];
+
+        this.numRepeats = 1;
     }
 
     getJSON() {
@@ -58,6 +60,31 @@ export const Scene = class {
         return this.time;
     }
 
+    getCopy(newTime, newId) {
+
+        let newScene = new Scene(newId, this.sceneImg);
+
+        // Update properties
+        newScene.updateTimestamp(newTime);
+
+        // Add all the keyframes
+        let i = 0;
+        for (i = 0; i < this.keyframes.length; i++) {
+            let newKf = newScene.getNewKeyframeId();
+            newScene.keyframes.push(this.keyframes[i].getCopy(newKf));
+
+            let kfTime = newTime + (this.keyframes[i].getTime() - this.time);
+            newScene.keyframes[i].updateTimestamp(kfTime);
+        }
+
+        newScene.numKeyframes = this.numKeyframes;
+
+        console.log("[DEBUG] Created repeat scene");
+        newScene.printSceneInfo();
+
+        return newScene;
+    }
+
     updateImage(img) {
         img.copyTo(this.sceneImg);        
     }
@@ -79,6 +106,29 @@ export const Scene = class {
                 this.keyframes[i].updateTimestamp(newTime);
             }
         }
+    }
+
+    updateAllTimestamps(newSceneTime) {
+        console.log(`[DEBUG] Updating all timestamps of scene ${this.id} to start at ${newSceneTime}`);
+        let i; 
+        for (i = 0; i < this.keyframes.length; i++) {
+            let newKfTime = newSceneTime + (this.keyframes[i].getTime() - this.time);
+            this.keyframes[i].updateTimestamp(newKfTime);
+        }
+
+        this.time = newSceneTime;
+    }
+
+    addRepeat() { 
+        this.numRepeats++;
+
+        return this.numRepeats;
+    }
+
+    removeRepeat() {
+        this.numRepeats--;
+
+        return this.numRepeats;
     }
 
     addKeyframe(id, sprites) {

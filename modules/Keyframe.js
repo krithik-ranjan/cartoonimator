@@ -25,6 +25,16 @@ export const Keyframe = class {
         return this.time;
     }
 
+    getCopy(newId) {
+        // Create a new sprite map 
+        let sprites = new Map();
+        this.sprites.forEach((val, key, map) => {
+            sprites.set(key, val.getCopy());
+        }); 
+
+        return new Keyframe(newId, sprites);
+    }
+
     updateSprites(sprites) {
         // let i;
         // for (i = 0; i < this.sprites.length; i++) 

@@ -16,7 +16,7 @@ var markers;
 var markerMap = new Map();
 
 // Cartoonimator handler 
-let handler, newHandler;
+let newHandler;
 
 // Global variable to record current time string
 var currTimeString
@@ -28,12 +28,12 @@ function onLoad() {
 
     canvas.width = window.screen.width;
     canvas.height = window.screen.width * 0.75;// canvas.width * ((0.25 * window.screen.height) / window.screen.width);
-    canvas.style.width = canvas.width;
-    canvas.style.height = canvas.height;
+    // canvas.width = 720;
+    // canvas.height = 540;
+    canvas.style.width = window.screen.width;
+    canvas.style.height = window.screen.width * 0.75;
 
     console.log(`Canvas width = ${canvas.width}, ${canvas.height}`);
-    // canvas.width = parseInt(canvas.style.width);
-    // canvas.height = parseInt(canvas.style.height);
 
     // Setup for video playback
     playback = document.getElementById("playback");
@@ -60,8 +60,6 @@ function onLoad() {
         a.href = recordingURL;
 
         a.download = currTimeString;
-
-        // a.download = "video.mp4";
         document.body.appendChild(a);
     
         a.click();
@@ -123,13 +121,6 @@ function cameraPreview() {
 
 let debugOut = document.getElementById('debug');
 
-// Data structure to store info about current frames
-// let presentFrames = new Map();
-// let numScenes = 1;
-// let numSteps = 1;
-// presentFrames.set('s0', {active: false, timestamp: undefined});
-// presentFrames.set('kf0', {active: false, timestamp: undefined});
-
 // Functions to add a frame
 const mainPage = document.querySelector("#main");
 const capturePage = document.querySelector("#camera");
@@ -166,12 +157,6 @@ function saveFrame() {
     var preview = activeFrame.querySelector('.preview');
     var previewContext = preview.getContext('2d');
 
-    // // Add current frame 
-    // console.log(`Markers found overall: `);
-    // for (const markerId of markerMap.keys()) {
-    //     console.log(markerId);
-    // }
-
     let frameImg = cv.matFromImageData(imageData);
     let res;
 
@@ -185,10 +170,6 @@ function saveFrame() {
         }
 
         newHandler.updateSceneTimestamp(activeFrame.id, activeFrameTime);
-
-        // Add to frame map
-        // console.log(`Updating [${activeFrame.id}]`);
-        // presentFrames.set(activeFrame.id, {active: true, timestamp: timestamp});
     }
     else if (activeFrame.className === 'keyframe') {
         res = newHandler.addKeyframe(frameImg, activeFrame.id, activeFrame.dataset.scene, activeFrameTime);
@@ -200,9 +181,6 @@ function saveFrame() {
         };
 
         newHandler.updateKeyframeTimestamp(activeFrame.id, activeFrame.dataset.scene, activeFrameTime);
-
-        // console.log(`Updating [${activeFrame.id}]`);
-        // presentFrames.set(activeFrame.id, {active: true, timestamp: timestamp});
     }
 
     // Process image to display
@@ -411,17 +389,24 @@ function addScene() {
 // `;
 
     sceneDiv.innerHTML = `
-    <h2 class="label">Scene 1</h2>
+    <h3 class="label">Scene</h3>
     <div class="scene-content">
         <canvas class="preview frame-img" id="hello" width="128" height="96"></canvas>
 
         <div class="frame-info">
+            <div class="loop">
+                <span class="label">Loop: </span>
+                <span class="remove">-</span>
+                <span class="value">1</span>
+                <span class="add">+</span>
+            </div>
             <button class="capture" alt="Capture button">CAPTURE</button>
             <button class="delete" alt="Capture button">DELETE</button>
+            <!-- <button class="repeat" alt="Repeat scene">REPEAT</button> -->
         </div>
     </div>
     <div class="scene-frames"></div>
-    <button class="add-keyframe">Add Keyframe</button>
+    <button class="add-keyframe">ADD KEYFRAME</button>
 `;
 
     // const frameInfo = document.createElement('div');
@@ -496,6 +481,16 @@ function addScene() {
         button.addEventListener('click', deleteFrame);
     }
 
+    let addRepeat = document.querySelectorAll('.add');
+    for (const button of addRepeat) { 
+        button.addEventListener('click', repeatScene);
+    }
+
+    let removeRepeat = document.querySelectorAll('.remove');
+    for (const button of removeRepeat) { 
+        button.addEventListener('click', removeRepeatScene);
+    }
+
     // Show capture page to click scene
     mainPage.style.display = "none";
     capturePage.style.display = "block";
@@ -529,12 +524,44 @@ function deleteFrame() {
     activeFrame = this.parentNode.parentNode.parentNode;
     console.log(`[INFO] Deleting ${activeFrame.id}`);
 
-    if (activeFrame.className === 'scene')
-        newHandler.deleteScene(activeFrame.id);
-    else 
-        newHandler.deleteKeyframe(activeFrame.id, activeFrame.dataset.scene);
+    if (activeFrame.className === 'scene') {
+        let numRepeats = newHandler.deleteScene(activeFrame.id);
 
-    activeFrame.remove();
+        if (numRepeats === 0)
+            activeFrame.remove();
+        else {
+            // Update button text
+            let repeatBtn = activeFrame.querySelector('.value');
+            repeatBtn.innerHTML = `${numRepeats}`;
+        }
+    }
+    else {
+        newHandler.deleteKeyframe(activeFrame.id, activeFrame.dataset.scene);
+        activeFrame.remove();
+    }
+}
+
+function repeatScene() { 
+    console.log('[DEBUG] Adding repeat');
+    activeFrame = this.parentNode.parentNode.parentNode.parentNode;
+    let numRepeats = newHandler.repeatScene(activeFrame.id);
+
+    // // Update button text
+    let repeatBtn = activeFrame.querySelector('.value');
+    repeatBtn.innerHTML = `${numRepeats}`;
+}
+
+function removeRepeatScene() { 
+    console.log('[DEBUG] Removing repeat');
+    activeFrame = this.parentNode.parentNode.parentNode.parentNode;
+
+    let numRepeats = newHandler.deleteScene(activeFrame.id);
+    if (numRepeats === 0)
+        activeFrame.remove();
+    else {
+        let repeatBtn = activeFrame.querySelector('.value');
+        repeatBtn.innerHTML = `${numRepeats}`;
+    }
 }
 
 function playVideo() {
@@ -590,6 +617,20 @@ function backToMainFromPlay() {
 
 const backButtonPlay = document.querySelector('#backBtnPlay');
 backButtonPlay.addEventListener('click', backToMainFromPlay);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

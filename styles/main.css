@@ -3,7 +3,7 @@ html, body {
     padding: 0;
     height: 100%;
     width: 100%;
-    font-family: 'Josefin Slab', serif;
+    font-family: 'Roboto', sans-serif;
     text-align: center;
 }
 
@@ -105,12 +105,15 @@ input[type=number] {
 .add-keyframe, .add-scene {
     background-color: #222222;
     color: #ffffff;
-    font-size: 20px;
-    font-weight: 600;
-    font-family: 'Josefin Slab', cursive;
+    /* font-size: 20px; */
+    font-size: small;
+    font-weight: 500;
+    /* font-family: 'Josefin Slab', cursive; */
     padding: 8px;
-    border-radius: 8px;
+    border: 1px solid #222222;
+    border-radius: 12px;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+    padding: 8px 12px;
     margin: 30px 0 20px 0;
 }
 
@@ -153,7 +156,7 @@ input[type=number] {
 
 #debug {
     color: #444444;
-    font-weight: 800;
+    font-weight: 500;
 }
 
 #playback {
@@ -222,6 +225,11 @@ input[type=number] {
     /* width: 80%; */
     padding: 6px 8px;
     width: 90px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #ddd;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
 }
 
 .scene-content, .frame-content {
@@ -230,10 +238,11 @@ input[type=number] {
     justify-content: space-between;
 }
 
-.scene > h2 {
+.scene > h3 {
     margin-bottom: 8px;
     margin-top: 30px;
     text-align: left;
+    font-weight: 600;
 }
 .scene > .frame-info { height: 33vw; }
 
@@ -253,6 +262,38 @@ input[type=number] {
     background-color: #cccccc;
     border-radius: 4px;
 }
+
+.loop {
+    font-weight: 500;
+    font-size: large;
+}
+
+.loop .remove, .add, .value {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 4px 4px 4px 4px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.loop .remove, .add {
+    background-color: #ddd;
+}
+
+/* .scene-frames {
+    border-left: 1px solid #444444;
+    display: inline-flex;
+    width: 90vw;
+
+} */
+
+/* .scene-repeat {
+    display: inline-block;
+    width: 10vw;
+} */
 
 .keyframe {
     margin-left: 10vw;
@@ -279,4 +320,5 @@ input[type=number] {
 .keyframe h3 {
     text-align: left;
     margin-bottom: 10px;
+    font-weight: 600;
 }

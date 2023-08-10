@@ -15,6 +15,10 @@ export const Sprite = class {
         // console.log(`\t\t- Sprite [${this.id} at (${this.pos.x}, ${this.pos.y}) with rot ${this.rot}]`);
     }
 
+    getCopy() {
+        return new Sprite(this.pos, this.rot, this.size, this.img);
+    }
+
     addIntermediateToFrame(frame, nextSprite, currTime, thisTime, nextTime) {
         // Find intermediate position
         let spX = (nextSprite.pos.x - this.pos.x) / (nextTime - thisTime);

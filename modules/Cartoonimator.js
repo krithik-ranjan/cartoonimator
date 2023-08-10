@@ -66,7 +66,7 @@ export const Cartoonimator = class {
         //         lastTimestamp = this.scenes[i].getLastTimestamp();
         // }
 
-        return (lastTimestamp + 1) / FRAME_RATE; // ## TEMP FIX ## Add 5 to the last timestamp to make the next happen after 0.5s (10 FPS)
+        return (lastTimestamp + 1) / FRAME_RATE; 
     }
 
     getNextKeyframeTimestamp(sceneId) {
@@ -205,15 +205,39 @@ export const Cartoonimator = class {
     }
 
     deleteScene(id) {
-        let i;
+        let i, removeIdx;
         for (i = 0; i < this.scenes.length; i++) {
             if (this.scenes[i].getId() === id) {
-                this.scenes[i].clearScene();
-                this.scenes.splice(i, 1);
-                break;
+                // Check if the scene has repeats, delete those
+                let numRepeats = this.scenes[i].removeRepeat();
+                if (numRepeats > 0) {
+                    // Repeats found, remove the first
+                    removeIdx = i+1;
+                }
+                else {
+                    removeIdx = i;
+                }
+
+                this.scenes[removeIdx].clearScene();
+                this.scenes.splice(removeIdx, 1);
+
+                // Update timestamps of all the remaining scenes
+                let j;
+                for (j = removeIdx; j < this.scenes.length; j++) {
+                    if (j === 0) {
+                        this.scenes[j].updateAllTimestamps(0);
+                    }
+                    else {
+                        let newTime = this.scenes[j-1].getLastTimestamp() + 1;
+                        this.scenes[j].updateAllTimestamps(newTime);
+                    }
+                }
+                
+                return numRepeats;
             }
         }
 
+        return 0;
         console.log(`[DEBUG] Deleted scene ${id}, current number of scenes: ${this.scenes.length}`);
     }
 
@@ -224,6 +248,55 @@ export const Cartoonimator = class {
                 this.scenes[i].deleteKeyframe(id);
             }
         }
+    }
+
+    repeatScene(id) {
+        // Find the timestamp and id of repeated scene
+        let i;
+        for (i = 0; i < this.scenes.length; i++) {
+            if (this.scenes[i].getId() === id) {
+                let nextTime = this.scenes[i].getLastTimestamp() + 1;
+                let nextId = this.getNewSceneId();
+
+                let newScene = this.scenes[i].getCopy(nextTime, nextId);
+
+                if (i === this.scenes.length - 1) {
+                    this.scenes.push(newScene);
+                }
+                else {
+                    this.scenes.splice(i+1, 0, newScene);
+                    
+                    // Update the timestamps of the scenes after the new one
+                    let j;
+                    for (j = i + 2; j < this.scenes.length; j++) {
+                        let newTime = this.scenes[j-1].getLastTimestamp() + 1;
+                        this.scenes[j].updateAllTimestamps(newTime);
+                    }
+                }
+
+                return this.scenes[i].addRepeat();
+            }
+        }
+
+        return 0;
+
+        // Debug prints
+        console.log(`### [DEBUG] ###`);
+        for (i = 0; i < this.scenes.length; i++) {
+            this.scenes[i].printSceneInfo();
+        }
+
+        // // Check if the scene to be repeated is the last one, and add it again
+        // if (id === this.scenes[this.scenes.length - 1].getId()) {
+        //     // Find timestamp of next scene
+        //     let nextTime = this.getNextSceneTimestamp() * FRAME_RATE;
+        //     let nextId = this.getNewSceneId();
+
+        //     console.log(`[DEBUG] Repeating Scene ${id} to be ${nextId} at ${nextTime}`);
+
+        //     let newScene = this.scenes[this.scenes.length - 1].getCopy(nextTime, nextId);
+        //     this.scenes.push(newScene);
+        // }
     }
 
     _getSceneIdx(timestamp) {
@@ -246,7 +319,6 @@ export const Cartoonimator = class {
         if (timestamp > this.scenes[this.scenes.length - 1].getTime()) {
             sceneIdx = this.scenes.length - 1;
         }
-
         return sceneIdx;
     }
 
