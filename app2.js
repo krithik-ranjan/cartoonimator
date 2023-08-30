@@ -257,12 +257,16 @@ function addKeyframe() {
     sceneFramesDiv.appendChild(keyframeDiv);
 
     keyframeDiv.innerHTML = `
-    <h3 class="frame-label">Keyframe <input type="number" class="timestamp" min="0" max="60" step="0.1" value=${activeFrameTime}></h3>
+    <span class="label">Keyframe</span>
+    <div class="timestamp">
+        <span class="label">Time: </span>
+        <input type="number" class="time-input" min="0" max="60" step="0.1" value=${activeFrameTime}>
+    </div>
     <div class="frame-content">
         <canvas class="preview frame-img" width="128" height="96"></canvas>
         <div class="frame-info">
-            <button class="capture" alt="Capture button">CAPTURE</button>
-            <button class="delete" alt="Capture button">DELETE</button>   
+            <button class="capture" alt="Capture button">RETAKE</button>
+            <button class="delete" alt="Capture button">REMOVE</button>   
         </div>
     </div>
 `;
@@ -318,7 +322,7 @@ function addKeyframe() {
         button.addEventListener('click', addKeyframe);
     }
 
-    let timeTextbox = document.querySelectorAll('.timestamp');
+    let timeTextbox = document.querySelectorAll('.time-input');
     for (const textbox of timeTextbox) {
         textbox.addEventListener('change', updateTimestamp);
     }
@@ -353,6 +357,9 @@ function addScene() {
 
     const addSceneButton = document.querySelector('.add-scene');
     addSceneButton.remove();
+
+    const enableTimestampDiv = document.querySelector('.enable-time');
+    enableTimestampDiv.remove();
 
 //     mainPage.innerHTML += `
 // <div class="scene" id="${sceneId}">
@@ -389,20 +396,19 @@ function addScene() {
 // `;
 
     sceneDiv.innerHTML = `
-    <h3 class="label">Scene</h3>
+    <span class="label">Scene</span>
+    <div class="loop">
+        <span class="label">Loop: </span>
+        <img class="remove" src="images/remove-loop.png">
+        <span class="value">1</span>
+        <img class="add" src="images/add-loop.png">
+    </div>
     <div class="scene-content">
         <canvas class="preview frame-img" id="hello" width="128" height="96"></canvas>
 
         <div class="frame-info">
-            <div class="loop">
-                <span class="label">Loop: </span>
-                <span class="remove">-</span>
-                <span class="value">1</span>
-                <span class="add">+</span>
-            </div>
-            <button class="capture" alt="Capture button">CAPTURE</button>
-            <button class="delete" alt="Capture button">DELETE</button>
-            <!-- <button class="repeat" alt="Repeat scene">REPEAT</button> -->
+            <button class="capture" alt="Capture button">RETAKE</button>
+            <button class="delete" alt="Capture button">REMOVE</button>
         </div>
     </div>
     <div class="scene-frames"></div>
@@ -460,6 +466,7 @@ function addScene() {
     // sceneDiv.appendChild(line);
 
     mainPage.appendChild(addSceneButton);
+    mainPage.appendChild(enableTimestampDiv);
 
     let addKeyframeButtons = document.querySelectorAll(".add-keyframe");
     for (const button of addKeyframeButtons){
@@ -505,6 +512,21 @@ addSceneButton.addEventListener('click', addScene);
 //     button.addEventListener('click', addScene);
 // }
 
+let enableTimestampCheck = document.querySelector("#time-check");
+enableTimestampCheck.addEventListener('change', enableTimestamps);
+
+function enableTimestamps() {
+    let timeBoxes = document.querySelectorAll('.timestamp');
+    for (const timeBox of timeBoxes) {
+        if (enableTimestampCheck.checked === true) {
+            timeBox.style.display = "block";
+        }
+        else {
+            timeBox.style.display = "none";
+        }
+    }
+}
+
 function updateTimestamp() {
     let activeFrameType = this.parentNode.parentNode.className;
     let activeFrameId = this.parentNode.parentNode.id;
@@ -543,7 +565,7 @@ function deleteFrame() {
 
 function repeatScene() { 
     console.log('[DEBUG] Adding repeat');
-    activeFrame = this.parentNode.parentNode.parentNode.parentNode;
+    activeFrame = this.parentNode.parentNode;
     let numRepeats = newHandler.repeatScene(activeFrame.id);
 
     // // Update button text
@@ -553,7 +575,7 @@ function repeatScene() {
 
 function removeRepeatScene() { 
     console.log('[DEBUG] Removing repeat');
-    activeFrame = this.parentNode.parentNode.parentNode.parentNode;
+    activeFrame = this.parentNode.parentNode;
 
     let numRepeats = newHandler.deleteScene(activeFrame.id);
     if (numRepeats === 0)
