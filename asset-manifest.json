@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/cartoonimator/static/css/main.fdae51df.css",
+    "main.js": "/cartoonimator/static/js/main.5e897a77.js",
+    "static/media/bg-video.gif": "/cartoonimator/static/media/bg-video.ddd2d78e7e452011d1c4.gif",
+    "static/media/homunculus.gif": "/cartoonimator/static/media/homunculus.c6e5589b94a693344701.gif",
+    "static/media/spidey.gif": "/cartoonimator/static/media/spidey.7fe961ed21761ac1f91f.gif",
+    "static/media/mitosis.gif": "/cartoonimator/static/media/mitosis.0f19280a3650acbf3239.gif",
+    "static/media/skater.gif": "/cartoonimator/static/media/skater.505b1091bc26555b7d1d.gif",
+    "static/media/hiker.gif": "/cartoonimator/static/media/hiker.ad1b057cba56ad691188.gif",
+    "static/media/instructions.jpg": "/cartoonimator/static/media/instructions.955090e814d32174c85f.jpg",
+    "static/media/skier.gif": "/cartoonimator/static/media/skier.e9bdff927714c976965d.gif",
+    "static/media/fishcar.gif": "/cartoonimator/static/media/fishcar.06ec264dda2b046600f4.gif",
+    "static/media/bounce.gif": "/cartoonimator/static/media/bounce.b020fae4d7955aec7674.gif",
+    "static/media/qrcode.png": "/cartoonimator/static/media/qrcode.a8870b8df4913245ea7f.png",
+    "static/media/template.png": "/cartoonimator/static/media/template.acac1ca069e23b28eb0e.png",
+    "index.html": "/cartoonimator/index.html",
+    "main.fdae51df.css.map": "/cartoonimator/static/css/main.fdae51df.css.map",
+    "main.5e897a77.js.map": "/cartoonimator/static/js/main.5e897a77.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fdae51df.css",
+    "static/js/main.5e897a77.js"
+  ]
+}
