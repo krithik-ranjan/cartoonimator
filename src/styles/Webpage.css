@@ -1,0 +1,397 @@
+body {
+    font-family: 'Nunito', serif;
+}
+
+.Webpage {
+    text-align: center;
+}
+
+.Bg {
+    /* display: flex; */
+    position: absolute;
+    top: 0px;
+    /* left: 0; */
+    width: 90vw;
+    height: 100vh;
+    z-index: -1;
+    justify-content: center;
+}
+
+.BgVideo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.5;
+    text-align: center;
+    object-fit: cover;
+}
+
+.Titlebar {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    width: 100vw;
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    background-color: #ffffffaf;
+
+}
+
+.Navbar {
+    /* display: flex; */
+    /* justify-content: center; */
+    gap: 40px;
+    padding: 20px;
+}
+
+.Navlink {
+    text-decoration: none;
+    font-family: 'Nunito', serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: #1f1f1f;
+    padding: 20px 20px
+}
+
+.Navlink:hover {
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.Logo {
+    width: 300px;
+}
+
+.Content {
+    /* padding: 60px; */
+    padding-top: 18vh;
+    padding-left: 20%;
+    padding-right: 20%;
+    height: 80vh;
+
+    /* display: flex; */
+    justify-content: center;
+}
+
+.AppLinks {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 160px;
+    padding: 20px;
+}
+
+.AppLinkCol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    text-align: center;
+}
+
+.AppLinkImg {
+    height: 200px;
+    width: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.AppLinkBtn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #E4F7FF;
+    color: #1f1f1f;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Nunito', serif;
+    font-weight: 700;
+}
+
+.InstrImg-Desktop {
+    display: flex;
+    width: 100%;
+    padding-bottom: 5vh;
+}
+
+.InstrImg-Mobile {
+    display: none;
+}
+.InstrVideo {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    margin: auto;
+    aspect-ratio: 16 / 9;
+    /* padding-bottom: 30%; */
+    /* height: 0; */
+    overflow: hidden;
+}
+
+.InstrVideo iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: none;
+}
+
+.GalleryGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 20px;
+    padding: 20px;
+    max-width: 80vw;
+}
+
+.GalleryItem {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.GalleryItem img {
+    width: 100%;
+    height: auto;
+    max-width: 240px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+}
+
+.PaperList {
+    font-size: 18px;
+}
+ 
+h1 {
+    font-family: "Nunito", serif;
+    font-optical-sizing: auto;
+    font-size: 56px;
+    font-weight: 700;
+    font-style: normal;
+}
+
+h2 {
+    font-family: "Nunito", serif;
+    font-optical-sizing: auto;
+    font-size: 42px;
+    font-weight: 700;
+    font-style: normal;
+}
+
+p {
+    font-family: "Nunito", serif;
+    font-optical-sizing: auto;
+    font-size: 20px;
+    font-weight: 400;
+    font-style: normal;
+}
+
+a {
+    color: #000000;
+}
+
+/* landscape */
+@media (min-aspect-ratio: 1/1) {
+    .BgVideo {
+        height: 100vh;
+        width: auto;
+    }
+}
+
+/* Portrait */
+@media (max-aspect-ratio: 1/1) {
+    .BgVideo {
+        width: 100vw;
+        height: auto;
+        top: 120px;
+    }
+}
+
+
+@media (max-width: 720px) {
+    .Webpage {
+        margin-bottom: 60px;
+    }
+
+    .Bg {
+        top: 80px; 
+    }
+
+    .Titlebar {
+        padding-top: 30px;
+        padding-bottom: 10px;
+        width: 100vw;
+        z-index: 10;
+        position: fixed;
+        top: 0;
+        background-color: #ffffffaf;
+    }
+
+    .Logo {
+        width: 280px;
+    }
+
+    .Navbar {
+        /* display: flex; */
+        /* justify-content: center; */
+        gap: 20px;
+        padding: 10px;
+        display: none;
+    }
+
+    .Navlink {
+        text-decoration: none;
+        font-family: 'Nunito', serif;
+        font-weight: 600;
+        font-size: 18px;
+        color: #1f1f1f;
+        padding: 10px 10px
+    }
+
+    .Navlink:hover {
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .Content {
+        /* padding: 60px; */
+        padding-top: 10px;
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-bottom: 10px;
+        height: auto;
+    }
+
+    .Intro {
+        padding-top: 30vh;
+    }
+
+    .AppLinks {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        gap: 20px;
+        padding: 10px;
+        flex-wrap: wrap;
+    }
+
+    .AppLinkCol {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 200px;
+        text-align: center;
+    }
+
+    .AppLinkImg {
+        height: 160px;
+        width: auto;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .AppLinkBtn {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px 20px;
+    }
+
+    .InstrImg-Desktop {
+        display: none;
+    }
+    
+    .InstrImg-Mobile {
+        display: flex;
+        width: 90%;
+        padding: 5%;
+        padding-top: 1px;
+        padding-bottom: 30px;
+    }
+
+    .InstrVideo {
+        position: relative;
+        width: 100%;
+        max-width: 720px;
+        margin: auto;
+        aspect-ratio: 16 / 9;
+        /* padding-bottom: 30%; */
+        /* height: 0; */
+        overflow: hidden;
+        /* padding-bottom: 60px; */
+    }
+
+    .InstrVideo iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        border: none;
+    }
+
+    .GalleryGrid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, auto);
+        gap: 5px;
+        padding: 10px;
+        max-width: 90vw;
+    }
+    
+    .GalleryItem {
+        display: flex;
+        padding: 5px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
+    }
+    
+    .GalleryItem img {
+        width: 100%;
+        height: auto;
+        max-width: 240px;
+        border-radius: 4px;
+        object-fit: cover;
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        font-family: "Nunito", serif;
+        font-optical-sizing: auto;
+        font-size: 36px;
+        font-weight: 700;
+        font-style: normal;
+    }
+
+    h2 {
+        font-family: "Nunito", serif;
+        font-optical-sizing: auto;
+        font-size: 30px;
+        font-weight: 700;
+        font-style: normal;
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+
+    p {
+        text-align: left;
+        font-family: "Nunito", serif;
+        font-optical-sizing: auto;
+        font-size: 18px;
+        font-weight: 400;
+        font-style: normal;
+    }
+    
+    a {
+        color: #000000;
+    }
+
+}
