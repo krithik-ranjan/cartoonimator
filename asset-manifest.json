@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/cartoonimator/static/css/main.6702211d.css",
-    "main.js": "/cartoonimator/static/js/main.94a73d00.js",
+    "main.js": "/cartoonimator/static/js/main.ef3c6ec0.js",
     "static/media/bg-video.gif": "/cartoonimator/static/media/bg-video.ddd2d78e7e452011d1c4.gif",
     "static/media/homunculus.gif": "/cartoonimator/static/media/homunculus.c6e5589b94a693344701.gif",
     "static/media/spidey.gif": "/cartoonimator/static/media/spidey.7fe961ed21761ac1f91f.gif",
@@ -17,10 +17,10 @@
     "static/media/template.png": "/cartoonimator/static/media/template.acac1ca069e23b28eb0e.png",
     "index.html": "/cartoonimator/index.html",
     "main.6702211d.css.map": "/cartoonimator/static/css/main.6702211d.css.map",
-    "main.94a73d00.js.map": "/cartoonimator/static/js/main.94a73d00.js.map"
+    "main.ef3c6ec0.js.map": "/cartoonimator/static/js/main.ef3c6ec0.js.map"
   },
   "entrypoints": [
     "static/css/main.6702211d.css",
-    "static/js/main.94a73d00.js"
+    "static/js/main.ef3c6ec0.js"
   ]
 }
