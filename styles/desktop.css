@@ -12,16 +12,89 @@
         margin: 10px;
     }
 
-    /* .scene {
+    .scene {
         background-color: #ffffff;
-        min-height: 500px;
+        min-height: 550px;
         width: 1000px;
+        margin: auto;
+        justify-content: center;
+        margin-bottom: 20px;
     }
 
     .scene > .label {
-        width: 400px;
+        margin-left: 275px;
+        padding-top: 10px;
     }
 
+    .loop {
+        margin-right: 275px;
+        width: 200px;
+        padding-top: 5px;
+    }
+
+    .scene-content {
+        width: 1000px;
+        flex-direction: column;
+        row-gap: 12px;
+        padding-top: 10px;
+        padding-bottom: 30px;
+        float: center;
+        text-align: right;
+        align-items: center;
+    }
+
+    .scene-content > .frame-info {
+        display: inline-flex;
+        vertical-align: top;
+        width: 450px;
+        flex-direction: row;
+        justify-content: left;
+        align-items: center;
+        column-gap: 12px;
+    }
+
+    #hello {
+        width: 450px;
+        height: 338px;
+    }
+
+   .keyframe .frame-img {
+        width: 200px;
+        height: 150px;
+    }
+
+    .keyframe > .label {
+        margin-left: 150px;
+        padding-top: 10px;
+    }
+
+    .timestamp {
+        margin-right: 300px;
+        width: 200px;
+        padding-top: 10px;
+    }
+
+    .frame-content {
+        flex-direction: column;
+        row-gap: 12px;
+        padding-top: 10px;
+        padding-bottom: 30px;
+        float: center;
+        align-items: left;
+        margin-left: 150px;
+    }
+
+    .frame-content > .frame-info {
+        display: inline-flex;
+        vertical-align: top;
+        width: 200px;
+        flex-direction: row;
+        justify-content: left;
+        align-items: center;
+        column-gap: 12px;
+    }
+
+    /*
     .loop {
         width: 600px;
         position: relative;
