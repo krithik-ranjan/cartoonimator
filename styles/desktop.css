@@ -1,0 +1,55 @@
+@media (min-width: 960px) {
+    .floorButtons {
+        margin: 0px;
+    }
+
+    #debug {
+        padding: 20px;
+    }
+
+    #playBtn {
+        left: calc(100% - 120px);
+        margin: 10px;
+    }
+
+    /* .scene {
+        background-color: #ffffff;
+        min-height: 500px;
+        width: 1000px;
+    }
+
+    .scene > .label {
+        width: 400px;
+    }
+
+    .loop {
+        width: 600px;
+        position: relative;
+        float: left;
+        text-align: left;
+    }
+
+    .frame-img {
+        width: 400px;
+        height: 300px;
+    }
+
+    .scene-content {
+        width: 400px;
+        flex-direction: column;
+        row-gap: 12px;
+        padding-top: 10px;
+        float: left;
+    }
+
+    .frame-info {
+        display: inline-flex;
+        vertical-align: top;
+        width: 400px;
+        flex-direction: row;
+        justify-content: left;
+        align-items: center;
+        column-gap: 12px;
+    } */
+
+}

@@ -19,28 +19,55 @@ var markerMap = new Map();
 let newHandler;
 
 // Global variable to record current time string
-var currTimeString
+var currTimeString;
+
+// global variables for height and width based off screen size
+let height = 0;
+let width = 0;
 
 function onLoad() {
     video = document.getElementById("video");
     canvas = document.getElementById("canvas");
     context = canvas.getContext("2d");
 
-    canvas.width = window.screen.width;
-    canvas.height = window.screen.width * 0.75;// canvas.width * ((0.25 * window.screen.height) / window.screen.width);
+    if(window.screen.width > 960) {
+        width = 800;
+    } else {
+        width = window.screen.width;
+    }
+    height = width * 0.75;
+
+    // canvas.width = window.screen.width;
+    // canvas.height = canvas.width * 0.75;
+    
+    canvas.width = width;
+    canvas.height = height;
+
+    // canvas.height = window.screen.width * 0.75;// canvas.width * ((0.25 * window.screen.height) / window.screen.width);
     // canvas.width = 720;
     // canvas.height = 540;
-    canvas.style.width = window.screen.width;
-    canvas.style.height = window.screen.width * 0.75;
+
+    // canvas.style.width = window.screen.width;
+    // canvas.style.height = canvas.width * 0.75;
+
+    canvas.style.width = width;
+    canvas.style.height = height;
+
+    // canvas.style.height = window.screen.width * 0.75;
 
     console.log(`Canvas width = ${canvas.width}, ${canvas.height}`);
 
     // Setup for video playback
     playback = document.getElementById("playback");
-    playback.width = window.screen.width;
-    playback.height = window.screen.width * 0.75;
-    playback.style.width = playback.width;
-    playback.style.height = playback.height;
+    // playback.width = window.screen.width;
+    // playback.height = window.screen.width * 0.75;
+    // playback.style.width = playback.width;
+    // playback.style.height = playback.height;
+
+    playback.width = width;
+    playback.height = height;
+    playback.style.width = width;
+    playback.style.height = height;
 
     // Setup for video download 
     videoStream = playback.captureStream(10);
@@ -71,7 +98,7 @@ function onLoad() {
     }
 
     // handler = new CartoonimatorHandler(playback.width, playback.height);
-    newHandler = new Cartoonimator(playback.width, playback.height);
+    newHandler = new Cartoonimator(width, height);
     
     detector = new AR.Detector({
         dictionaryName: 'ARUCO'

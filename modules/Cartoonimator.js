@@ -238,7 +238,7 @@ export const Cartoonimator = class {
         }
 
         return 0;
-        console.log(`[DEBUG] Deleted scene ${id}, current number of scenes: ${this.scenes.length}`);
+        // console.log(`[DEBUG] Deleted scene ${id}, current number of scenes: ${this.scenes.length}`);
     }
 
     deleteKeyframe(id, sceneId) {
@@ -281,10 +281,10 @@ export const Cartoonimator = class {
         return 0;
 
         // Debug prints
-        console.log(`### [DEBUG] ###`);
-        for (i = 0; i < this.scenes.length; i++) {
-            this.scenes[i].printSceneInfo();
-        }
+        // console.log(`### [DEBUG] ###`);
+        // for (i = 0; i < this.scenes.length; i++) {
+        //     this.scenes[i].printSceneInfo();
+        // }
 
         // // Check if the scene to be repeated is the last one, and add it again
         // if (id === this.scenes[this.scenes.length - 1].getId()) {
