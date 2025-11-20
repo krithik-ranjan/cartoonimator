@@ -1,0 +1,91 @@
+@media screen and (min-width: 768px) {
+    .app {
+      padding-left: 15%;
+      padding-right: 15%;
+    }
+
+    .project-title {
+      font-size: 2rem;
+    }
+
+    .project-name-input {
+      font-size: 2rem;
+    }
+
+    .scene-stack {
+      padding-bottom: 160px;
+    }
+
+    .capture-bg-btn {
+      height: 60px;
+      width: auto;
+    }
+
+    .retake-bg-btn {
+      font-size: 1.2rem;
+    }
+
+    .retake-bg-btn-icon {
+      width: 22px;
+      margin-left: 8px;
+    }
+
+    .keyframe-carousel {
+      gap: 15px;
+    }
+
+    .keyframe-card {
+      flex: 0 0 200px;
+      width: 200px;
+      height: 180px;
+    }
+
+    .edit-kf-buttons {
+      font-size: 1.2rem;
+    }
+
+    .kf-btn-icon {
+      width: 22px;
+      margin-left: 8px;
+    }
+
+    .delete-kf-btn {
+      width: 32px;
+    }
+
+    .camera-select {
+      font-size: 1.2rem;
+    }
+
+    .play-view {
+      aspect-ratio: 1.5 / 1;
+    }
+
+    .play-canvas {
+      transform: rotate(0deg) translate(0%);
+      width: 100%;
+    }
+
+    .bottombar {
+      padding-left: 25%;
+      padding-right: 25%;
+      width: 50%;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .bottombar-left, .bottombar-right {
+      gap: 20px
+    }
+
+    .bottom-btn {
+      height: 60px;
+    }
+}
+
+@media screen and (min-width: 920px) {
+  .app {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+}
