@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/cartoonimator/static/css/main.6702211d.css",
-    "main.js": "/cartoonimator/static/js/main.c3e7e29a.js",
+    "main.css": "/cartoonimator/static/css/main.4793aa02.css",
+    "main.js": "/cartoonimator/static/js/main.08b36414.js",
     "static/media/bg-video.gif": "/cartoonimator/static/media/bg-video.ddd2d78e7e452011d1c4.gif",
     "static/media/homunculus.gif": "/cartoonimator/static/media/homunculus.c6e5589b94a693344701.gif",
     "static/media/spidey.gif": "/cartoonimator/static/media/spidey.7fe961ed21761ac1f91f.gif",
@@ -13,13 +13,15 @@
     "static/media/skier.gif": "/cartoonimator/static/media/skier.e9bdff927714c976965d.gif",
     "static/media/fishcar.gif": "/cartoonimator/static/media/fishcar.06ec264dda2b046600f4.gif",
     "static/media/bounce.gif": "/cartoonimator/static/media/bounce.b020fae4d7955aec7674.gif",
+    "static/media/qr-code.svg": "/cartoonimator/static/media/qr-code.3a7737a5c1393fee95979cdd072940ee.svg",
+    "static/media/logo-full.png": "/cartoonimator/static/media/logo-full.965d636951c97533fdfb.png",
     "static/media/template.png": "/cartoonimator/static/media/template.acac1ca069e23b28eb0e.png",
     "index.html": "/cartoonimator/index.html",
-    "main.6702211d.css.map": "/cartoonimator/static/css/main.6702211d.css.map",
-    "main.c3e7e29a.js.map": "/cartoonimator/static/js/main.c3e7e29a.js.map"
+    "main.4793aa02.css.map": "/cartoonimator/static/css/main.4793aa02.css.map",
+    "main.08b36414.js.map": "/cartoonimator/static/js/main.08b36414.js.map"
   },
   "entrypoints": [
-    "static/css/main.6702211d.css",
-    "static/js/main.c3e7e29a.js"
+    "static/css/main.4793aa02.css",
+    "static/js/main.08b36414.js"
   ]
 }
