@@ -5,7 +5,7 @@ import './styles/Webpage.css'
 
 import LogoImg from './assets/logo-full.png'
 import BgVideo from './assets/bg-video.gif'
-import QrCode from './assets/qrcode.png'
+import QrCode from './assets/qr-code.svg'
 import TemplateImg from './assets/template.png'
 import InstrDesktop from './assets/instr-desktop.jpg'
 import InstrMobile from './assets/instr-mobile.png'
@@ -57,7 +57,7 @@ export default function Webpage() {
                 <h1>Bring your drawings<br/>on paper to life!</h1>
                 <div className="AppLinks">
                     <div className='AppLinkCol'>
-                        <a href="https://cartoonimator.glitch.me/app.html">
+                        <a href="https://cartoonimator-9e131.web.app/">
                             <img 
                                 className="AppLinkImg"
                                 src={QrCode}

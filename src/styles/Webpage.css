@@ -11,10 +11,11 @@ body {
     position: absolute;
     top: 0px;
     /* left: 0; */
-    width: 90vw;
+    width: 100%;
     height: 100vh;
     z-index: -1;
     justify-content: center;
+    text-align: center;
 }
 
 .BgVideo {
@@ -203,6 +204,7 @@ a {
     .BgVideo {
         height: 100vh;
         width: auto;
+        align-items: center;
     }
 }
 
@@ -236,7 +238,7 @@ a {
     }
 
     .Logo {
-        width: 280px;
+        width: 360px;
     }
 
     .Navbar {
