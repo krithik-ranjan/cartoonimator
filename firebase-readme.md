@@ -18,15 +18,6 @@ import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBgdl23SK1lQ6T2OhPnPU3KfVlm_q5Zw_g",
-  authDomain: "cartoonimator-9e131.firebaseapp.com",
-  projectId: "cartoonimator-9e131",
-  storageBucket: "cartoonimator-9e131.firebasestorage.app",
-  messagingSenderId: "134568361182",
-  appId: "1:134568361182:web:1edc556d14f13f6be8964f",
-  measurementId: "G-EDJ1N8XXDQ"
-};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
